@@ -30,3 +30,6 @@ override.tf.json
 
 # IDE settings
 .idea
+
+# tfvars file
+*.tfvars
