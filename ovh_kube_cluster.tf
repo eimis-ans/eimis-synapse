@@ -1,15 +1,15 @@
-resource "ovh_cloud_project_kube" "my_kube_cluster" {
-  service_name = "${var.service_name}"
-  name         = "my_kube_cluster"
-  region       = "GRA7"
-  version      = "1.22"
+resource "ovh_cloud_project_kube" "k8s_element_cluster" {
+  service_name = var.service_name
+  name         = var.cluster_name
+  region       = var.cluster_region
+  version      = var.cluster_version
 }
 
 resource "ovh_cloud_project_kube_nodepool" "node_pool" {
-  service_name  = "${var.service_name}"
-  kube_id       = ovh_cloud_project_kube.my_kube_cluster.id
-  name          = "my-pool" //Warning: "_" char is not allowed!
-  flavor_name   = "b2-7"
+  service_name  = var.service_name
+  kube_id       = ovh_cloud_project_kube.k8s_element_cluster.id
+  name          = var.nodepool_name
+  flavor_name   = var.nodepool_flavor
   desired_nodes = 3
   max_nodes     = 3
   min_nodes     = 3
