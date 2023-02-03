@@ -39,6 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: sandbox
 
+    outputs:
+      kubeconfig: ${{ steps.kubeconfig.outputs.KUBECONFIG }}
+
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -77,8 +80,10 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
       # Transmit the kubeconfig file to the job outputs
-      - name: Kubeconfig file
-        run: terraform output kubeconfig >> $GITHUB_OUTPUT
+      - name: Kubeconfig
+        id: kubeconfig
+        run: echo "KUBECONFIG=$(terraform output kubeconfig)" >> $GITHUB_OUTPUT
+
 
   configuration:
     name: 'Configuration of Kubernetes cluster'
@@ -94,11 +99,11 @@ jobs:
     steps:
       # Generate kubeconfig file
       - name: Regenerate kubeconfig file
-        run: echo ${{needs.provisioning.outputs.output1}} > kubeconfig.yml
+        run: echo ${{needs.provisioning.outputs.kubeconfig}} > kubeconfig.yml
 
       # Display generated kubeconfig file
       - name: Display kubeconfig file
-        run: echo ${{needs.provisioning.outputs.output1}} > kubeconfig.yml
+        run: cat kubeconfig.yml
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
