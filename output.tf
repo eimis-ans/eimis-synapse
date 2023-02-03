@@ -4,5 +4,5 @@ output "kubeconfig" {
 }
 
 output "clusterid" {
-  value     = ovh_cloud_project_kube.k8s_element_cluster.id
+  value = ovh_cloud_project_kube.k8s_element_cluster.id
 }
