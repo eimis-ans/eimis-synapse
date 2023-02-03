@@ -53,10 +53,17 @@ permissions:
   contents: read
 
 env:
+  # configure access to S3 where tfstates are stored
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
   AWS_REGION: ${{ vars.S3_REGION }}
+  # configure access to OVH provider
+  OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
+  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
+  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
+  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
+  # variables used by infrastructure components
   SERVICE_NAME: ${{ vars.SERVICE_NAME }}
   CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
   CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
@@ -66,7 +73,7 @@ env:
 
 jobs:
   provisioning:
-    name: 'Terraform'
+    name: 'Provisioning with Terraform'
     runs-on: ubuntu-latest
     environment: sandbox
 
