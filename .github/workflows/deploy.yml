@@ -40,7 +40,7 @@ jobs:
     environment: sandbox
 
     outputs:
-      KUBECONFIG: ${{ steps.kubeconfig.outputs.KUBECONFIG }}
+      output1: ${{ steps.step1.outputs.test }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -80,9 +80,12 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
       # Transmit the kubeconfig file to the job outputs
-      - name: Kubeconfig
-        id: kubeconfig
-        run: echo "KUBECONFIG=$(terraform output -raw clusterid)" >> $GITHUB_ENV
+#      - name: Kubeconfig
+#        id: kubeconfig
+#        run: echo "KUBECONFIG=$(terraform output -raw clusterid)" >> $GITHUB_ENV
+
+      - id: step1
+        run: echo "test=hello" >> $GITHUB_OUTPUT
 
 
   configuration:
@@ -99,7 +102,7 @@ jobs:
     steps:
       # Generate kubeconfig file
       - name: Regenerate kubeconfig file
-        run: echo ${{needs.provisioning.outputs.kubeconfig}} > kubeconfig.yml
+        run: echo ${{needs.provisioning.outputs.output1}} > kubeconfig.yml
 
       # Display generated kubeconfig file
       - name: Display kubeconfig file
