@@ -61,7 +61,7 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check
 
-      # Generates a auto.tfvars file from the environment variables
+      # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
         run: sh scripts/generate_tfvars_file.sh
 
@@ -75,3 +75,31 @@ jobs:
       - name: Terraform Apply
         # if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+
+      # Transmit the kubeconfig file to the job outputs
+      - name: Kubeconfig file
+        run: terraform output kubeconfig >> $GITHUB_OUTPUT
+
+  configuration:
+    name: 'Configuration of Kubernetes cluster'
+    runs-on: ubuntu-latest
+    needs: provisioning
+    environment: sandbox
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # Generate kubeconfig file
+      - name: Regenerate kubeconfig file
+        run: echo ${{needs.provisioning.outputs.output1}} > kubeconfig.yml
+
+      # Display generated kubeconfig file
+      - name: Display kubeconfig file
+        run: echo ${{needs.provisioning.outputs.output1}} > kubeconfig.yml
+
+      # Display kubernetes currently running nodes
+      - name: display k8s nodes
+        run: kubectl get nodes --kubeconfig kubeconfig.yml
