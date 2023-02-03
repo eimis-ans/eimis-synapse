@@ -86,6 +86,12 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check
 
+      # Generates a auto.tfvars file from the environment variables
+      - name: Generate tfvars file
+        run: |
+          envsubst < "auto.tfvars.tmpl" > auto.tfvars
+          cat auto.tfvars
+
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         run: terraform plan -input=false
