@@ -95,8 +95,8 @@ jobs:
       # Generates a auto.tfvars file from the environment variables
       - name: Generate tfvars file
         run: |
-          envsubst < "auto.tfvars.tmpl" > auto.tfvars
-          cat auto.tfvars
+          envsubst < "terraform.tfvars.tmpl" > terraform.tfvars
+          cat terraform.tfvars
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
