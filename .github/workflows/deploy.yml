@@ -42,7 +42,7 @@
 #       with:
 #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-name: 'Terraform'
+name: 'Deployment'
 
 on:
   push:
@@ -59,7 +59,7 @@ env:
   AWS_REGION: ${{ vars.S3_REGION }}
 
 jobs:
-  terraform:
+  provisioning:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: sandbox
