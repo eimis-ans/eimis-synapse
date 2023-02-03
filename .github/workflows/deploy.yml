@@ -40,7 +40,7 @@ jobs:
     environment: sandbox
 
     outputs:
-      kubeconfig: ${{ steps.kubeconfig.outputs.KUBECONFIG }}
+      KUBECONFIG: ${{ steps.kubeconfig.outputs.KUBECONFIG }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
