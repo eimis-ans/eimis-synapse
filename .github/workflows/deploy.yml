@@ -57,6 +57,12 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
   AWS_REGION: ${{ vars.S3_REGION }}
+  SERVICE_NAME: ${{ vars.SERVICE_NAME }}
+  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
+  CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
+  CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
+  NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
+  NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
 
 jobs:
   provisioning:
