@@ -83,7 +83,9 @@ jobs:
       - name: Kubeconfig
         id: kubeconfig
 #        run: echo "KUBECONFIG=$(terraform output -raw clusterid)" >> $GITHUB_ENV
-        run: echo "config='$(terraform output -raw clusterid)'" >> $GITHUB_OUTPUT
+        run: |
+          foo=$(terraform output -raw clusterid)
+          echo "config=${foo}" >> $GITHUB_OUTPUT
 
 
   configuration:
