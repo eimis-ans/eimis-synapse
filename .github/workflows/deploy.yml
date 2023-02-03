@@ -82,7 +82,7 @@ jobs:
       # Transmit the kubeconfig file to the job outputs
       - name: Kubeconfig
         id: kubeconfig
-        run: echo "KUBECONFIG=$(terraform output kubeconfig)" >> $GITHUB_OUTPUT
+        run: echo "KUBECONFIG=$(terraform output -raw kubeconfig)" >> $GITHUB_OUTPUT
 
 
   configuration:
