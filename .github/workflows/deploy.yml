@@ -94,7 +94,7 @@ jobs:
     steps:
       # Generate kubeconfig file
       - name: Generate kubeconfig file
-        run: terraform output -raw kubeconfig > kubeconfig.yml
+        run: terraform output kubeconfig > kubeconfig.yml
 
       # Display generated kubeconfig file
       - name: Display kubeconfig file
