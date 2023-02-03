@@ -1,0 +1,68 @@
+# This workflow is used to destroy infrastructure
+# It installs the latest version of Terraform CLI. On pull request events, this workflow will run
+# `terraform init` and terraform destroy.
+# It can only be manually launched
+#
+# Documentation for `hashicorp/setup-terraform` is located here: https://github.com/hashicorp/setup-terraform
+
+name: 'Destroy'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # configure access to S3 where tfstates are stored
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
+  AWS_REGION: ${{ vars.S3_REGION }}
+  # configure access to OVH provider
+  OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
+  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
+  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
+  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
+  # variables used by infrastructure components
+  SERVICE_NAME: ${{ vars.SERVICE_NAME }}
+  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
+  CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
+  CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
+  NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
+  NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
+
+jobs:
+  destroy:
+    name: 'Destroying infrastructure with Terraform'
+    runs-on: ubuntu-latest
+    environment: sandbox
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+
+      # Generates a auto.tfvars file from the environment variables
+      - name: Generate tfvars file
+        run: sh scripts/generate_tfvars_file.sh
+
+        # On push to "main", build or change infrastructure according to Terraform configuration files
+        # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud".
+        # See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+      - name: Terraform Apply
+        # if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+        run: terraform destroy -auto-approve -input=false
