@@ -33,3 +33,6 @@ override.tf.json
 
 # tfvars file
 *.tfvars
+
+# local env file
+local.env.sh
