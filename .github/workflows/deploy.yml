@@ -55,7 +55,7 @@ permissions:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
-  AWS_S3_ENDPOINT: ${{ var.S3_ENDPOINT }}
+  AWS_S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
   AWS_REGION: ${{ vars.S3_REGION }}
 
 jobs:
