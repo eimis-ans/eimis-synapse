@@ -1,11 +1,11 @@
 terraform {
   backend "s3" {
-    bucket = "terraform-states-sandbox"
-    key    = "tfstate.tf"
-
-    force_path_style            = true
-    skip_region_validation      = true
+    bucket = "terraform-states-hp-sandbox"
+    key    = "terraform.tfstate"
+    region = "gra"
+    #or sbg or any activated high performance storage region
+    endpoint = "s3.gra.perf.cloud.ovh.net"
     skip_credentials_validation = true
-    max_retries                 = 15
+    skip_region_validation = true
   }
 }
