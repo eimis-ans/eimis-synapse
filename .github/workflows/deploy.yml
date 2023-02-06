@@ -103,12 +103,12 @@ jobs:
 
       # Generate kubeconfig file
       - name: Generate kubeconfig file
-        run: terraform output --raw kubeconfig > kubeconfig.yml
+        run: terraform output --raw kubeconfig >  ~/.kube/config
 
       # Display generated kubeconfig file
-      - name: Display kubeconfig file rights
-        run: ls -al
+#      - name: Display kubeconfig file rights
+#        run: ls -al
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
-        run: kubectl get nodes --kubeconfig kubeconfig.yml
+        run: kubectl version
