@@ -101,13 +101,12 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      # Create folder for kubeconfig file
-      - name: Create folder for kubeconfig file
-        run: mkdir ~/.kube/
-
       # Generate kubeconfig file
       - name: Generate kubeconfig file
-        run: terraform output --raw kubeconfig >  ~/.kube/config
+        run: |
+          mkdir ~/.kube/
+          terraform output --raw kubeconfig >  ~/.kube/config
+          cat -e ~/.kube/config
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
