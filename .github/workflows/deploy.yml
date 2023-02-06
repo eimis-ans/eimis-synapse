@@ -109,8 +109,8 @@ jobs:
         run: terraform output --raw kubeconfig > kubeconfig.yml
 
       # Display generated kubeconfig file
-      - name: Display kubeconfig file
-        run: cat kubeconfig.yml
+      - name: Display kubeconfig file rights
+        run: ls -al
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
