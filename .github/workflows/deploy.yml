@@ -106,7 +106,7 @@ jobs:
         run: |
           mkdir ~/.kube/
           terraform output --raw kubeconfig >  ~/.kube/config
-          cat -e ~/.kube/config
+          cat ~/.kube/config
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
