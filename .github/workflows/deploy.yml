@@ -108,9 +108,7 @@ jobs:
 
       # Create kubeconfig file from previous output
       - name: Create kubeconfig file from previous output
-        run: |
-          echo "${{ steps.kubeconfig.outputs.stdout }}" > kubeconfig.yml
-          cat -e kubeconfig.yml
+        run: echo "${{ steps.kubeconfig.outputs.stdout }}" > kubeconfig.yml
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
