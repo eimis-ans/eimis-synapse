@@ -103,12 +103,13 @@ jobs:
 
       # Generate kubeconfig output
       - name: Generate kubeconfig file
+        id: kubeconfig
         run: terraform output --raw kubeconfig
 
       # Generate kubeconfig file
       - name: Generate kubeconfig file
         run: |
-          echo ${{ steps.plan.outputs.stdout }} > kubeconfig.yml
+          echo ${{ steps.kubeconfig.outputs.stdout }} > kubeconfig.yml
           cat -e kubeconfig.yml
 
       # Display kubernetes currently running nodes
