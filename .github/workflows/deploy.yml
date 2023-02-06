@@ -36,11 +36,8 @@ env:
 jobs:
   provisioning:
     name: 'Provisioning with Terraform'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20221119.2
     environment: sandbox
-
-#    outputs:
-#      kubeconfig: ${{ steps.kubeconfig.outputs.config }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
