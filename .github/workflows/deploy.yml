@@ -101,13 +101,16 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      # Generate kubeconfig output
+      - name: Generate kubeconfig file
+        run: terraform output --raw kubeconfig
+
       # Generate kubeconfig file
       - name: Generate kubeconfig file
         run: |
-          mkdir ~/.kube/
-          terraform output --raw kubeconfig >  ~/.kube/config
-          cat -e ~/.kube/config
+          echo ${{ steps.plan.outputs.stdout }} > kubeconfig.yml
+          cat -e kubeconfig.yml
 
       # Display kubernetes currently running nodes
       - name: display k8s nodes
-        run: kubectl version
+        run: kubectl cluster-info --kubeconfig kubeconfig.yml
