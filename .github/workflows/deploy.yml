@@ -36,7 +36,7 @@ env:
 jobs:
   provisioning:
     name: 'Provisioning with Terraform'
-    runs-on: ubuntu-20221119.2
+    runs-on: ubuntu-latest
     environment: sandbox
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
