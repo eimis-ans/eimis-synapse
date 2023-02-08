@@ -15,8 +15,6 @@ echo "KUBECONFIG=${KUBECONFIG}"
 cd $ANSIBLE_ROOT
 
 # Configure ansible
-echo "--- pipx install kubernetes ---"
-pipx install kubernetes --include-deps
 echo "--- ansible-galaxy install collections ---"
 ansible-galaxy collection install -r "requirements.yml"
 

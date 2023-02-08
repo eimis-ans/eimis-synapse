@@ -1,4 +1,8 @@
 ---
+- name: Install kubernetes client with pip
+  ansible.builtin.pip:
+    name: kubernetes
+
 - name: Check kubeconfig by getting cluster information
   kubernetes.core.k8s_cluster_info:
   register: api_status
