@@ -1,0 +1,22 @@
+---
+- name: Create namespace dedicated to matrix
+  kubernetes.core.k8s:
+    name: matrix
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Add ananace-charts helm repo
+  kubernetes.core.helm_repository:
+    name: ananace-charts
+    repo_url: "https://ananace.gitlab.io/charts"
+
+- name: install matrix-synapse helm chart
+  kubernetes.core.helm:
+    name: matrix-synapse
+    chart_ref: ananace-charts/matrix-synapse
+    release_namespace: matrix
+    release_values:
+      serverName: chosenin.space
+      wellknown.enabled: true
+    update_repo_cache: yes

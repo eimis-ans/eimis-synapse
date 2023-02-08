@@ -3,4 +3,4 @@
 - hosts: localhost
   roles:
     - role: check
-#    - role: synapse
+    - role: synapse
