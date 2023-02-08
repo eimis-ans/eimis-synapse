@@ -102,8 +102,7 @@ jobs:
 
       # Generate kubeconfig file
       - name: Generate kubeconfig file
-        id: kubeconfig
-        run: terraform output --raw kubeconfig > kubeconfig.yml
+        run: sh scripts/generate_kubeconfig_file.sh
 
       # Run ansible_configuration.sh script
       - name: ansible_configuration script
