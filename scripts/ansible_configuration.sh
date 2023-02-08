@@ -15,7 +15,9 @@ echo "KUBECONFIG=${KUBECONFIG}"
 cd $ANSIBLE_ROOT
 
 # Configure ansible
-pip3 install kubernetes --user
+echo "--- pip3 install kubernetes ---"
+pipx install kubernetes --user
+echo "--- ansible-galaxy install collections ---"
 ansible-galaxy collection install -r "requirements.yml"
 
 # Run ansible playbook
