@@ -1,0 +1,4 @@
+---
+- name: Check kubeconfig by getting cluster information
+  kubernetes.core.k8s_cluster_info:
+  register: api_status

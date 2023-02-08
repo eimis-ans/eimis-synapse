@@ -36,3 +36,6 @@ override.tf.json
 
 # local env file
 local.env.sh
+
+# Ansible temp files
+ansible/ansible_collections

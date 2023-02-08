@@ -105,6 +105,6 @@ jobs:
         id: kubeconfig
         run: terraform output --raw kubeconfig > kubeconfig.yml
 
-      # Display cluster info just for test purpose
-      - name: display cluster informations
-        run: kubectl cluster-info --kubeconfig kubeconfig.yml
+      # Run ansible_configuration.sh script
+      - name: ansible_configuration script
+        run: sh scripts/ansible_configuration.sh
