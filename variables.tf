@@ -1,3 +1,8 @@
+variable "environment" {
+  type        = string
+  description = "Environment on which the infrastructure will be built"
+}
+
 variable "service_name" {
   type        = string
   description = "the ID of the project on the OVH project web page"

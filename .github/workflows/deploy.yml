@@ -35,43 +35,36 @@ env:
 
 jobs:
   set_environment:
+    name: 'Dynamic detection of environment'
     outputs:
       my_env: ${{ steps.setenv.outputs.my_env }}
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository to the GitHub Actions runner
-#      - name: Checkout
-#        uses: actions/checkout@v3
       - id: setenv
         run: |
           BRANCH=${{ github.ref_name }}
-          WORKSPACE=$(echo $BRANCH | cut -f1 -d'-')
-          echo "get the environment name from the branch name with pattern : environment-feature"
-          echo $WORKSPACE
-          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
+          ENVIRONMENT=$(echo $BRANCH | cut -f1 -d'-')
 
-          case $WORKSPACE in
+          case $ENVIRONMENT in
           main)
-          echo "case production"
           echo "::set-output name=my_env::production"
           ;;
 
           develop)
-          echo "case develop"
           echo "::set-output name=my_env::develop"
           ;;
 
           *)
-          echo "case unknown"
-          echo "::set-output name=my_env::unknown"
-          exit 1
+          echo "other case : environment=${ENVIRONMENT}"
+          echo "::set-output name=my_env::${ENVIRONMENT}"
 
           esac
 
   provisioning:
     name: 'Provisioning with Terraform'
     runs-on: ubuntu-latest
-    environment: sandbox
+    environment:
+      name: ${{ needs.set_environment.outputs.my_env }}
     needs: set_environment
 
     # Use the Bash shell
@@ -80,7 +73,7 @@ jobs:
         shell: bash
 
     steps:
-      - name: Testing job environment
+      - name: Environment used
         run: echo "${{ needs.set_environment.outputs.my_env }}"
 
       # Checkout the repository to the GitHub Actions runner
@@ -93,7 +86,7 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
@@ -119,13 +112,17 @@ jobs:
     name: 'Configuration of Kubernetes cluster'
     runs-on: ubuntu-latest
     needs: provisioning
-    environment: sandbox
+    environment:
+      name: ${{ needs.set_environment.outputs.my_env }}
 
     defaults:
       run:
         shell: bash
 
     steps:
+      - name: Environment used
+        run: echo "${{ needs.set_environment.outputs.my_env }}"
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -136,7 +133,7 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
       # Generate kubeconfig file
       - name: Generate kubeconfig file

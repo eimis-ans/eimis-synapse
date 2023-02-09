@@ -1,3 +1,4 @@
+export ENVIRONMENT="<the environment>"
 # configure access to S3 where tfstates are stored
 export AWS_ACCESS_KEY_ID="<the access key id>"
 export AWS_SECRET_ACCESS_KEY="<the secret access key>"

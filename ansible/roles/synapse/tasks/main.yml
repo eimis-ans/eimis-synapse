@@ -17,6 +17,6 @@
     chart_ref: ananace-charts/matrix-synapse
     release_namespace: matrix
     release_values:
-      serverName: chosenin.space
+      serverName: eimis.incubateur.net
       wellknown.enabled: true
     update_repo_cache: yes
