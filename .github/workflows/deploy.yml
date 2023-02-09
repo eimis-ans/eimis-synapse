@@ -16,10 +16,10 @@ permissions:
 
 env:
   # configure access to S3 where tfstates are stored
-  AWS_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
-  AWS_S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
-  AWS_REGION: ${{ vars.S3_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
   # configure access to OVH provider
   OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
   OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
@@ -47,16 +47,16 @@ jobs:
 
           case $ENVIRONMENT in
           main)
-          echo "::set-output name=my_env::production"
+          echo "my_env=production" >> $GITHUB_OUTPUT
           ;;
 
           develop)
-          echo "::set-output name=my_env::develop"
+          echo "my_env=develop" >> $GITHUB_OUTPUT
           ;;
 
           *)
           echo "other case : environment=${ENVIRONMENT}"
-          echo "::set-output name=my_env::${ENVIRONMENT}"
+          echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
 
           esac
 
