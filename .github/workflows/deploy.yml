@@ -8,7 +8,7 @@ name: 'Deployment'
 
 on:
   push:
-    branches: [ "main" ]
+#    branches: [ "main" ]
   pull_request:
 
 permissions:
@@ -34,6 +34,37 @@ env:
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
 
 jobs:
+  set_environment:
+    outputs:
+      my_env: ${{ steps.setenv.outputs.my_env }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: setenv
+        run: |
+          BRANCH=$(git branch --show-current)
+          WORKSPACE=$(echo $BRANCH | cut -f1 -d'-')
+          echo "on récupère le nom de l'environnement à partir de la nomenclature environnemnt-feature"
+          echo $WORKSPACE
+          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
+          
+          case $WORKSPACE in
+          main)
+          echo "case production"
+          echo "::set-output name=my_env::production"
+          ;;
+          
+          develop)
+          echo "case develop"
+          echo "::set-output name=my_env::develop"
+          ;;
+          
+          *)
+          echo "case unknown"
+          echo "::set-output name=my_env::unknown"
+          exit 1
+          
+          esac
+
   provisioning:
     name: 'Provisioning with Terraform'
     runs-on: ubuntu-latest
