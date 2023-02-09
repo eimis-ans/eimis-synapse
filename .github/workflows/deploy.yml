@@ -39,37 +39,34 @@ jobs:
       my_env: ${{ steps.setenv.outputs.my_env }}
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository to the GitHub Actions runner
+#      - name: Checkout
+#        uses: actions/checkout@v3
       - id: setenv
-        if: github.ref_name == "main"
-        run:  echo "::set-output name=my_env::production"
-      - id: setenv
-        if: github.ref_name == "develop"
-        run:  echo "::set-output name=my_env::develop"
+        run: |
+          BRANCH=${{ github.ref_name }}
+          WORKSPACE=$(echo $BRANCH | cut -f1 -d'-')
+          echo "get the environment name from the branch name with pattern : environment-feature"
+          echo $WORKSPACE
+          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
 
-#        run: |
-#          BRANCH=${{ github.ref_name }}
-#          WORKSPACE=$(echo $BRANCH | cut -f1 -d'-')
-#          echo "on récupère le nom de l'environnement à partir de la nomenclature environnemnt-feature"
-#          echo $WORKSPACE
-#          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
-#
-#          case $WORKSPACE in
-#          main)
-#          echo "case production"
-#          echo "::set-output name=my_env::production"
-#          ;;
-#
-#          develop)
-#          echo "case develop"
-#          echo "::set-output name=my_env::develop"
-#          ;;
-#
-#          *)
-#          echo "case unknown"
-#          echo "::set-output name=my_env::unknown"
-#          exit 1
-#
-#          esac
+          case $WORKSPACE in
+          main)
+          echo "case production"
+          echo "::set-output name=my_env::production"
+          ;;
+
+          develop)
+          echo "case develop"
+          echo "::set-output name=my_env::develop"
+          ;;
+
+          *)
+          echo "case unknown"
+          echo "::set-output name=my_env::unknown"
+          exit 1
+
+          esac
 
   provisioning:
     name: 'Provisioning with Terraform'
