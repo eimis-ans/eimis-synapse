@@ -53,6 +53,10 @@ jobs:
           echo "my_env=develop" >> $GITHUB_OUTPUT
           ;;
 
+          preprod)
+          echo "my_env=preprod" >> $GITHUB_OUTPUT
+          ;;
+          
           *)
           echo "other case : environment=${ENVIRONMENT}"
           echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
