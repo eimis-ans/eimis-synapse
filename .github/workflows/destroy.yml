@@ -15,10 +15,10 @@ permissions:
 
 env:
   # configure access to S3 where tfstates are stored
-  AWS_ACCESS_KEY_ID: ${{ secrets.S3_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
-  AWS_S3_ENDPOINT: ${{ vars.S3_ENDPOINT }}
-  AWS_REGION: ${{ vars.S3_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
   # configure access to OVH provider
   OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
   OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
@@ -65,7 +65,7 @@ jobs:
       name: ${{ needs.set_environment.outputs.my_env }}
     needs: set_environment
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    # Use the Bash shell
     defaults:
       run:
         shell: bash
@@ -75,7 +75,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      # Install the latest version of Terraform CLI
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
@@ -83,7 +83,7 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
-      # Generates a auto.tfvars file from the environment variables
+      # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
         run: sh scripts/generate_tfvars_file.sh
 
