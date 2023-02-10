@@ -111,7 +111,7 @@ jobs:
   configuration:
     name: 'Configuration of Kubernetes cluster'
     runs-on: ubuntu-latest
-    needs: provisioning
+    needs: [provisioning, set_environment]
     environment:
       name: ${{ needs.set_environment.outputs.my_env }}
 
