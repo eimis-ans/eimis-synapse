@@ -33,10 +33,37 @@ env:
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
 
 jobs:
+  set_environment:
+    name: 'Dynamic detection of environment'
+    outputs:
+      my_env: ${{ steps.setenv.outputs.my_env }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: setenv
+        run: |
+          BRANCH=${{ github.ref_name }}
+          ENVIRONMENT=$(echo $BRANCH | cut -f1 -d'-')
+
+          case $ENVIRONMENT in
+          main)
+          echo "my_env=production" >> $GITHUB_OUTPUT
+          ;;
+
+          develop)
+          echo "my_env=develop" >> $GITHUB_OUTPUT
+          ;;
+
+          *)
+          echo "other case : environment=${ENVIRONMENT}"
+          echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+
+          esac
   destroy:
     name: 'Destroying infrastructure with Terraform'
     runs-on: ubuntu-latest
-    environment: sandbox
+    environment:
+      name: ${{ needs.set_environment.outputs.my_env }}
+    needs: set_environment
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -54,7 +81,7 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
       # Generates a auto.tfvars file from the environment variables
       - name: Generate tfvars file
