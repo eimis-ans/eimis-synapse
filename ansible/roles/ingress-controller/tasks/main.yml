@@ -27,6 +27,10 @@
   debug:
    msg: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
 
+- name: "DEBUG domain name"
+  debug:
+    msg: "{{ domain_name }}"
+
 - name: Modify DNS zone to point to the ingress-controller external IP
   synthesio.ovh.domain:
     endpoint: "{{ ovh.endpoint }}"
