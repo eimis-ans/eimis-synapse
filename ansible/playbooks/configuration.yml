@@ -3,4 +3,5 @@
 - hosts: localhost
   roles:
     - role: check
+    - role: ingress-controller
     - role: synapse
