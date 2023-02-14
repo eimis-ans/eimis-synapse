@@ -1,7 +1,9 @@
 ---
-- name: Install kubernetes client with pip
+- name: Install python dependencies with pip
   ansible.builtin.pip:
-    name: kubernetes
+    name:
+      - kubernetes
+      - ovh
 
 - name: Check kubeconfig by getting cluster information
   kubernetes.core.k8s_cluster_info:

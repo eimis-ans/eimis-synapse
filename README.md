@@ -22,7 +22,7 @@ and fill it with all the environment variables values needed.
     ```
 - Generate a terraform.tfvars file based on values previouly set : 
     ```bash
-    sh scripts/generate_tfvars_file.sh
+    sh scripts/generate_var_file.sh
     ```
 - Initialize the Terraform workspace
     ```bash
