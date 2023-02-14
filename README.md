@@ -36,14 +36,15 @@ and fill it with all the environment variables values needed.
     ```bash
     terraform apply
     ```
+  - Result  
+  This will lead to the creation of a kubernetes cluster with:
+    - 1 control plane node
+    - 2 workers nodes  
   
-This will lead to the creation of a kubernetes cluster with:
-- 1 control plane node
-- 2 workers nodes
-the kubeconfig file needed to connect to the cluster can be generated with : 
-```bash
-sh scripts/generate_kubeconfig_file.sh
-```
+  The kubeconfig file needed to connect to the cluster can be generated with : 
+  ```bash
+  sh scripts/generate_kubeconfig_file.sh
+  ```
 
 ## Configuration
 The configuration part will be done with Ansible and is quite independant
