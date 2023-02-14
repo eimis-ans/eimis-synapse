@@ -141,6 +141,10 @@ jobs:
       - name: Generate kubeconfig file
         run: sh scripts/generate_kubeconfig_file.sh
 
+      # Generates group_vars/all file from the environment variables
+      - name: "Generates group_vars/all file from the environment variables"
+        run: sh scripts/generate_var_file.sh
+
       # Run ansible_configuration.sh script
       - name: ansible_configuration script
         run: sh scripts/ansible_configuration.sh
