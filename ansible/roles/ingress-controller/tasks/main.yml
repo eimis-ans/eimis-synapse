@@ -27,18 +27,14 @@
   debug:
    msg: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
 
-- name: "DEBUG environment"
-  debug:
-    msg: "{{ env }}"
-
-#- name: Modify DNS zone to point to the ingress-controller external IP
-#  synthesio.ovh.domain:
-#    endpoint: "{{ ovh.endpoint }}"
-#    application_key: "{{ ovh.application_key }}"
-#    application_secret: "{{ ovh.application_secret }}"
-#    consumer_key: "{{ ovh.consumer_key }}"
-#    domain: "matrix.{{ domain_name }}"
-#    value: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
-#    record_type: "A"
-#    name: "synapse"
-#    record_ttl: 0
+- name: Modify DNS zone to point to the ingress-controller external IP
+  synthesio.ovh.domain:
+    endpoint: "{{ ovh.endpoint }}"
+    application_key: "{{ ovh.application_key }}"
+    application_secret: "{{ ovh.application_secret }}"
+    consumer_key: "{{ ovh.consumer_key }}"
+    domain: "{{ domain_name }}"
+    value: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
+    record_type: "A"
+    name: "matrix"
+    record_ttl: 0

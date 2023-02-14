@@ -11,9 +11,7 @@
     release_namespace: matrix
     create_namespace: true
     release_values:
-      serverName: eimis.incubateur.net
-#      config:
-#        publicBaseurl: http://141.95.163.184:8008
+      serverName: "matrix.{{ domain_name }}"
       ingress:
         className: nginx
       wellknown.enabled: true
