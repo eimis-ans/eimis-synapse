@@ -21,7 +21,7 @@
         tls:
           - hosts :
             - "matrix.{{ domain_name }}"
-            secretName: "matix-{{ env }}-tls"
+            secretName: "matrix-tls-secret"
       wellknown.enabled: true
       extraConfig:
         enable_registration_without_verification: true
