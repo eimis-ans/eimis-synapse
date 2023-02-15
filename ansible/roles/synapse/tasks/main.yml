@@ -12,7 +12,17 @@
     create_namespace: true
     release_values:
       serverName: "matrix.{{ domain_name }}"
+      config:
+        enableRegistration: true
       ingress:
         className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        tls:
+          - hosts :
+            - "matrix.{{ domain_name }}"
+            secretName: "matix-{{ env }}-tls"
       wellknown.enabled: true
+      extraConfig:
+        enable_registration_without_verification: true
     update_repo_cache: yes

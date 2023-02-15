@@ -13,6 +13,7 @@ permissions:
   contents: read
 
 env:
+  ENVIRONMENT: ${{ ENVIRONMENT }}
   # configure access to S3 where tfstates are stored
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,6 +32,7 @@ env:
   NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
   DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
+  ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
 
 jobs:
   set_environment:
