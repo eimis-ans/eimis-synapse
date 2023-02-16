@@ -1,4 +1,3 @@
-export ENVIRONMENT="<the environment>"
 # configure access to S3 where tfstates are stored
 export AWS_ACCESS_KEY_ID="<the access key id>"
 export AWS_SECRET_ACCESS_KEY="<the secret access key>"
@@ -18,3 +17,5 @@ export NODEPOOL_NAME="<Name of the node pool. '_' char is not allowed!>"
 export NODEPOOL_FLAVOR="<flavor set to each node : b2-7, b2-15, R2-30, ...>"
 export DOMAIN_NAME="<domain name : eimis.incubateur.net, eimis.fr, ...>"
 export ISSUER_MAIL="<email address used for letsEncrypt/ACME registration>"
+# variables used by matrix components
+export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.DOMAIN_NAME>"
