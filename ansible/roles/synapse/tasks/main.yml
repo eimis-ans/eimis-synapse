@@ -8,8 +8,7 @@
   kubernetes.core.helm:
     name: matrix-synapse
     chart_ref: ananace-charts/matrix-synapse
-    release_namespace: matrix
-    create_namespace: true
+    release_namespace: default
     release_values:
       serverName: "matrix.{{ domain_name }}"
       config:
@@ -18,6 +17,8 @@
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          external-dns.alpha.kubernetes.io/hostname: "matrix.{{ domain_name }}"
+          external-dns.alpha.kubernetes.io/ttl: "10"
         tls:
           - hosts :
             - "matrix.{{ domain_name }}"
