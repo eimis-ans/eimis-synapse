@@ -10,17 +10,17 @@
     chart_ref: ananace-charts/matrix-synapse
     release_namespace: default
     release_values:
-      serverName: "matrix.{{ domain_name }}"
+      serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
       ingress:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
-          external-dns.alpha.kubernetes.io/hostname: "matrix.{{ domain_name }}"
+          external-dns.alpha.kubernetes.io/hostname: "{{ matrix.server_name }}"
         tls:
           - hosts :
-            - "matrix.{{ domain_name }}"
+            - "{{ matrix.server_name }}"
             secretName: "matrix-tls-secret"
       wellknown.enabled: true
       extraConfig:
