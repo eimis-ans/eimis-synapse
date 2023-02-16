@@ -89,7 +89,7 @@ jobs:
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: sh scripts/generate_tfvars_file.sh
+        run: sh scripts/generate_var_file.sh
 
         # On push to "main", build or change infrastructure according to Terraform configuration files
         # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud".

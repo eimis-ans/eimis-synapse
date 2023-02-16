@@ -1,12 +1,5 @@
 ---
-- name: Create namespace dedicated to matrix
-  kubernetes.core.k8s:
-    name: matrix
-    api_version: v1
-    kind: Namespace
-    state: present
-
-- name: Add ananace-charts helm repo
+- name: Add ananace-charts helm repository
   kubernetes.core.helm_repository:
     name: ananace-charts
     repo_url: "https://ananace.gitlab.io/charts"
@@ -15,8 +8,21 @@
   kubernetes.core.helm:
     name: matrix-synapse
     chart_ref: ananace-charts/matrix-synapse
-    release_namespace: matrix
+    release_namespace: default
     release_values:
-      serverName: eimis.incubateur.net
+      serverName: "matrix.{{ domain_name }}"
+      config:
+        enableRegistration: true
+      ingress:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          external-dns.alpha.kubernetes.io/hostname: "matrix.{{ domain_name }}"
+        tls:
+          - hosts :
+            - "matrix.{{ domain_name }}"
+            secretName: "matrix-tls-secret"
       wellknown.enabled: true
+      extraConfig:
+        enable_registration_without_verification: true
     update_repo_cache: yes

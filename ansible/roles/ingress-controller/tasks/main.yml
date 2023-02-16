@@ -1,0 +1,45 @@
+---
+- name: Add ingress-nginx helm repository
+  kubernetes.core.helm_repository:
+    name: ingress-nginx
+    repo_url: "https://kubernetes.github.io/ingress-nginx"
+
+- name: install ingress-nginx helm chart
+  kubernetes.core.helm:
+    name: ingress-nginx
+    chart_ref: ingress-nginx/ingress-nginx
+    release_namespace: ingress-nginx
+    create_namespace: true
+    update_repo_cache: yes
+
+- name: Get the ingress-controller external IP
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    name: ingress-nginx-controller
+    namespace: ingress-nginx
+  register: ingress_controller_service
+  until: ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip is defined
+  retries: 10
+  delay: 10
+
+- name: "DEBUG ingress-controller external IP"
+  debug:
+   msg: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
+
+#- name: "DEBUG domain name"
+#  debug:
+#    msg: "{{ domain_name }}"
+
+#- name: Modify DNS zone to point to the ingress-controller external IP
+#  synthesio.ovh.domain:
+#    endpoint: "{{ ovh.endpoint }}"
+#    application_key: "{{ ovh.application_key }}"
+#    application_secret: "{{ ovh.application_secret }}"
+#    consumer_key: "{{ ovh.consumer_key }}"
+#    domain: "{{ domain_name }}"
+#    value: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
+#    record_type: "A"
+#    name: "matrix"
+#    record_ttl: 0
+

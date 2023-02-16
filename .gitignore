@@ -35,3 +35,4 @@ local.env.sh
 
 # Ansible temp files
 ansible/ansible_collections
+ansible/group_vars/all.yml

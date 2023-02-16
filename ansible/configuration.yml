@@ -3,4 +3,7 @@
 - hosts: localhost
   roles:
     - role: check
+    - role: ingress-controller
+    - role: cert-manager
+    - role: external-dns
     - role: synapse
