@@ -18,7 +18,6 @@
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
           external-dns.alpha.kubernetes.io/hostname: "matrix.{{ domain_name }}"
-          external-dns.alpha.kubernetes.io/ttl: "10"
         tls:
           - hosts :
             - "matrix.{{ domain_name }}"
