@@ -1,0 +1,36 @@
+---
+#- name: Add external-dns helm repository
+#  kubernetes.core.helm_repository:
+#    name: external-dns
+#    repo_url: "https://kubernetes-sigs.github.io/external-dns/"
+#
+#- name: install external-dns helm chart
+#  kubernetes.core.helm:
+#    name: external-dns
+#    chart_ref: external-dns/external-dns
+#    release_namespace: external-dns
+#    create_namespace: true
+#    update_repo_cache: yes
+#    release_values:
+#      provider: ovh
+#      domainFilters: "matrix.{{ domain_name }}"
+#      logLevel: debug
+#      extraArgs:
+#        - name: OVH_APPLICATION_KEY
+#          value: "{{ ovh.application_key }}"
+#        - name: OVH_APPLICATION_SECRET
+#          value: "{{ ovh.application_secret }}"
+#        - name: OVH_CONSUMER_KEY
+#          value: "{{ ovh.consumer_key }}"
+
+- name: Create namespace dedicated to external-dns
+  kubernetes.core.k8s:
+    name: external-dns
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Configure DNS with external-dns
+  kubernetes.core.k8s:
+    state: present
+    template: 'external-dns.yml.j2'
