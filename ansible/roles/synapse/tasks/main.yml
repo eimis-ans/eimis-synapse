@@ -10,6 +10,9 @@
     chart_ref: ananace-charts/matrix-synapse
     release_namespace: default
     release_values:
+      synapse:
+        strategy:
+          type: Recreate
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
@@ -22,7 +25,8 @@
           - hosts :
             - "{{ matrix.server_name }}"
             secretName: "matrix-tls-secret"
-      wellknown.enabled: true
+      wellknown:
+        enabled: true
       extraConfig:
         enable_registration_without_verification: true
     update_repo_cache: yes
