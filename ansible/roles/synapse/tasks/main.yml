@@ -10,6 +10,9 @@
     chart_ref: ananace-charts/matrix-synapse
     release_namespace: default
     release_values:
+      synapse:
+        strategy:
+          type: Recreate
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
