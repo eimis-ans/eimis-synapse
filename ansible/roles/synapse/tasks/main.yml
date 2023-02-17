@@ -22,7 +22,8 @@
           - hosts :
             - "{{ matrix.server_name }}"
             secretName: "matrix-tls-secret"
-      wellknown.enabled: true
+      wellknown:
+        enabled: true
       extraConfig:
         enable_registration_without_verification: true
     update_repo_cache: yes
