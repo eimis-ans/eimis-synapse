@@ -1,9 +1,11 @@
 ---
 # Installs and configures all the components needed for synapse
 - hosts: localhost
+  vars:
+    absent_or_present: present
   roles:
-    - role: check
-    - role: ingress-controller
-    - role: cert-manager
-    - role: external-dns
-    - role: synapse
+    - check
+    - ingress-controller
+    - cert-manager
+    - external-dns
+    - synapse

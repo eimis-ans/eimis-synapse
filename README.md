@@ -10,7 +10,7 @@ https://gitlab.com/ananace/charts/-/tree/master/charts/matrix-synapse
 (application key, application secret, consumer secret and endpoint)
 - to store Terraform state files : an S3 object storage with the credentials to connect to 
 (access key, secret key, endpoint and region) 
-- a valid domain name to reach the future synapse homeserver
+- to reach the future synapse homeserver : a valid dns zone hosted by OVH
 
 ## Provisioning
 - Create a local.env.sh file copying the script/local.env.template.sh file 

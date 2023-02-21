@@ -1,0 +1,9 @@
+---
+# Destroy some kubernetes components before terraform destroy
+# so that we are sure that nothing's left (like DNS records for exemaple...)
+- hosts: localhost
+  vars:
+    absent_or_present: absent
+  roles:
+    - synapse
+  ignore_errors: True

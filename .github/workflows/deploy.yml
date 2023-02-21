@@ -30,7 +30,7 @@ env:
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
   NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
-  DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
+  DNS_ZONE: ${{ vars.DNS_ZONE }}
   ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
