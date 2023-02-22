@@ -1,0 +1,35 @@
+---
+- name: install element-web helm chart
+  kubernetes.core.helm:
+    name: element-web
+    chart_ref: ananace-charts/element-web
+    release_state: "{{ absent_or_present }}"
+    release_namespace: element-web
+    create_namespace: true
+    release_values:
+      defaultServer:
+        url: "https://{{ matrix.server_name }}"
+        name: "{{ matrix.server_name }}"
+#      synapse:
+#        strategy:
+#          type: Recreate
+#      serverName: "{{ element.server_name }}"
+#      config:
+#        enableRegistration: true
+      ingress:
+        enabled: true
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          external-dns.alpha.kubernetes.io/hostname: "{{ element.server_name }}"
+        hosts:
+          - "{{ element.server_name }}"
+        tls:
+          - hosts :
+              - "{{ element.server_name }}"
+            secretName: "element-tls-secret"
+#      wellknown:
+#        enabled: true
+#      extraConfig:
+#        enable_registration_without_verification: true
+    update_repo_cache: yes

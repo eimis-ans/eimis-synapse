@@ -9,3 +9,4 @@
     - cert-manager
     - external-dns
     - synapse
+    - element-web
