@@ -34,6 +34,7 @@ env:
   ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
+  ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
 
 jobs:
   set_environment:
@@ -59,7 +60,7 @@ jobs:
           preprod)
           echo "my_env=preprod" >> $GITHUB_OUTPUT
           ;;
-          
+
           *)
           echo "other case : environment=${ENVIRONMENT}"
           echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
