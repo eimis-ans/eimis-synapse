@@ -29,5 +29,6 @@
       wellknown:
         enabled: true
       extraConfig:
-        enable_registration_without_verification: true
+        enable_registration: false
+        enable_registration_without_verification: false
     update_repo_cache: yes
