@@ -31,4 +31,10 @@
       extraConfig:
         enable_registration: false
         enable_registration_without_verification: false
+        email:
+          smtp_host: "{{ matrix.smtp_host }}"
+          smtp_port: 25
+          smtp_user: "{{ matrix.smtp_user }}"
+          smtp_pass: "{{ matrix.smtp_pass }}"
+          notif_from: "Your Friendly %(app)s homeserver <noreply@{{ matrix.server_name }}>"
     update_repo_cache: yes
