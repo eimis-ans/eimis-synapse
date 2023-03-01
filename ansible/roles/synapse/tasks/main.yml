@@ -29,7 +29,9 @@
       wellknown:
         enabled: true
       extraConfig:
-        enable_registration: false
+        enable_registration: true
+        registrations_require_3pid:
+          - email
         enable_registration_without_verification: false
         email:
           smtp_host: "{{ matrix.smtp_host }}"
