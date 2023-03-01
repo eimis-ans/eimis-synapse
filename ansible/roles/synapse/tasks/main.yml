@@ -29,5 +29,16 @@
       wellknown:
         enabled: true
       extraConfig:
-        enable_registration_without_verification: true
+        enable_registration: true
+        registrations_require_3pid:
+          - email
+        enable_registration_without_verification: false
+        email:
+          smtp_host: "{{ matrix.smtp_host }}"
+          # FIXME smtp_port set with ansible variable is consider as string and not int
+          # smtp_port: "{{ matrix.smtp_port }}"
+          smtp_port: 587
+          smtp_user: "{{ matrix.smtp_user }}"
+          smtp_pass: "{{ matrix.smtp_pass }}"
+          notif_from: "Your Friendly %(app)s homeserver <noreply@{{ matrix.server_name }}>"
     update_repo_cache: yes
