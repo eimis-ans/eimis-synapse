@@ -35,6 +35,10 @@ env:
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
   ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
+  SMTP_HOST: ${{ vars.SMTP_HOST }}
+  # SMTP_PORT: ${{ vars.SMTP_PORT }}
+  SMTP_USER: ${{ vars.SMTP_USER }}
+  SMTP_PASS: ${{ secrets.SMTP_PASS }}
 
 jobs:
   set_environment:
