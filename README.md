@@ -11,6 +11,7 @@ https://gitlab.com/ananace/charts/-/tree/master/charts/matrix-synapse
 - to store Terraform state files : an S3 object storage with the credentials to connect to
 (access key, secret key, endpoint and region)
 - to reach the future synapse homeserver : a valid dns zone hosted by OVH
+- to send some mails to users : a valid access to a SMTP service
 
 ## Provisioning
 - Create a local.env.sh file copying the script/local.env.template.sh file
