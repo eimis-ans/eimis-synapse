@@ -1,0 +1,29 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: example-kc
+  namespace: keycloak
+  labels:
+    app: sso
+spec:
+  instances: 1
+  hostname:
+    hostname: "{{ keycloak.server_name }}"
+  tlsSecret: matrix-tls-secret
+#  instances: 1
+#  db:
+#    vendor: postgres
+#    host: keycloak-db
+#    usernameSecret:
+#      name: keycloak-db-secret
+#      key: username
+#    passwordSecret:
+#      name: keycloak-db-secret
+#      key: password
+#  http:
+#    tlsSecret: keycloak-tls-secret
+#    httpEnabled: true
+#  hostname:
+#    hostname: "{{ keycloak.server_name }}"
+#    strict: false
+#    strictBackchannel: false

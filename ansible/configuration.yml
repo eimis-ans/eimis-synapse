@@ -10,5 +10,6 @@
     - external-dns
     - operator-lifecycle-manager
     - keycloak-operator
+    - keycloak
     - synapse
     - element-web

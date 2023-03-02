@@ -1,0 +1,9 @@
+---
+- name: Create a postgres db for keycloak from a local file
+  kubernetes.core.k8s:
+    state: present
+    template: 'keycloak-db.yml'
+- name: Create a keycloak instance from a local file
+  kubernetes.core.k8s:
+    state: present
+    template: 'keycloak.yml.j2'
