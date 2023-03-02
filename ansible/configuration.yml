@@ -8,5 +8,6 @@
     - ingress-controller
     - cert-manager
     - external-dns
+    - operator-lifecycle-manager
     - synapse
     - element-web
