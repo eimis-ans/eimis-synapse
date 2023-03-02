@@ -1,0 +1,17 @@
+---
+- name: Create namespace dedicated to keycloak
+  kubernetes.core.k8s:
+    name: keycloak
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: create keycloak operatorGroup
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'kc-operator-group.yml') | from_yaml }}"
+
+- name: create keycloak subscription
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'kc-subscription.yml') | from_yaml }}"

@@ -9,5 +9,6 @@
     - cert-manager
     - external-dns
     - operator-lifecycle-manager
+    - keycloak-operator
     - synapse
     - element-web
