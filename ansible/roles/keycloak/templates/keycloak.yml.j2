@@ -9,21 +9,19 @@ spec:
   instances: 1
   hostname:
     hostname: "{{ keycloak.server_name }}"
-  tlsSecret: matrix-tls-secret
-#  instances: 1
-#  db:
-#    vendor: postgres
-#    host: keycloak-db
-#    usernameSecret:
-#      name: keycloak-db-secret
-#      key: username
-#    passwordSecret:
-#      name: keycloak-db-secret
-#      key: password
-#  http:
-#    tlsSecret: keycloak-tls-secret
-#    httpEnabled: true
-#  hostname:
-#    hostname: "{{ keycloak.server_name }}"
-#    strict: false
-#    strictBackchannel: false
+    strict: false
+    strictBackchannel: false
+  ingress:
+    enabled: false
+  db:
+    vendor: postgres
+    host: keycloak-db
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+  http:
+    tlsSecret: matrix-tls-secret
+    httpEnabled: true

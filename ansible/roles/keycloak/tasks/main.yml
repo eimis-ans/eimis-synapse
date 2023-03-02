@@ -7,3 +7,7 @@
   kubernetes.core.k8s:
     state: present
     template: 'keycloak.yml.j2'
+- name: Create a keycloak specific ingress from a local file
+  kubernetes.core.k8s:
+    state: present
+    template: 'ingress.yml.j2'
