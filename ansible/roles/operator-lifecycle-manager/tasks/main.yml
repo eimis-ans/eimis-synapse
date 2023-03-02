@@ -13,5 +13,14 @@
     mode: 'u+rwx'
   changed_when: False
 
+- name: make the install script compliant with multiple executions
+  ansible.builtin.replace:
+    path: "{{ olm_tmp_folder.path }}/install.sh"
+    after: 'OLM is already installed in \$\{namespace\} namespace'
+    before: 'fi'
+    regexp: 'exit 1'
+    replace: 'exit 0'
+  changed_when: False
+
 - name: Run the operator-lifecycle-manager install scrit
   ansible.builtin.shell: "{{ olm_tmp_folder.path }}/install.sh {{ operator_licecycle_manager.version }}"
