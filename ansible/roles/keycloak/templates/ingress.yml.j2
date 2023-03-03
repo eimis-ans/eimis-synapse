@@ -1,38 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: keycloak
-  name: ingress
-  labels:
-    app: keycloak
-    app.kubernetes.io/managed-by: keycloak-operator
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     external-dns.alpha.kubernetes.io/hostname: "{{ keycloak.server_name }}"
-#  ownerReferences:
-#    - apiVersion: k8s.keycloak.org/v2alpha1
-#      blockOwnerDeletion: true
-#      controller: true
-#      kind: Keycloak
-#      name: example-kc
+  name: keycloak-ingress
+  namespace: keycloak
 spec:
   ingressClassName: nginx
-  defaultBackend:
-    service:
-      name: example-kc-service
-      port:
-        number: 8443
-  tls:
-    - hosts:
-        - "{{ keycloak.server_name }}"
-      secretName: "matrix-tls-secret"
   rules:
     - host: "{{ keycloak.server_name }}"
       http:
         paths:
           - backend:
               service:
-                name: example-kc-service
+                name: keycloak-psc-service
                 port:
                   number: 8443
             pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - "{{ keycloak.server_name }}"
+      secretName: matrix-tls-secret
