@@ -24,3 +24,5 @@
 
 - name: Run the operator-lifecycle-manager install scrit
   ansible.builtin.shell: "{{ olm_tmp_folder.path }}/install.sh {{ operator_licecycle_manager.version }}"
+  register: result
+  changed_when: result.stdout != "OLM is already installed in olm namespace. Exiting..."
