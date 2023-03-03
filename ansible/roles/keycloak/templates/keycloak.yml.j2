@@ -1,0 +1,27 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak-psc
+  namespace: keycloak
+  labels:
+    app: keycloak-psc
+spec:
+  instances: 1
+  hostname:
+    hostname: "{{ keycloak.server_name }}"
+    strict: false
+    strictBackchannel: false
+  ingress:
+    enabled: false
+#  db:
+#    vendor: postgres
+#    host: keycloak-db
+#    usernameSecret:
+#      name: keycloak-db-secret
+#      key: username
+#    passwordSecret:
+#      name: keycloak-db-secret
+#      key: password
+  http:
+    tlsSecret: matrix-tls-secret
+    httpEnabled: true
