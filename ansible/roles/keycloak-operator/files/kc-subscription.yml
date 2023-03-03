@@ -6,6 +6,6 @@ metadata:
 spec:
   channel: candidate
   name: keycloak-operator
-  source: default-catalog
+  source: operatorhubio-catalog
   sourceNamespace: olm
   installPlanApproval: Automatic

@@ -6,6 +6,52 @@
     kind: Namespace
     state: present
 
+- name: Create temporary folder
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: temp
+  register: kc_operator_tmp_folder
+  changed_when: False
+
+- name: Download the CRDs for keycloak-operator
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/{{ keycloak.operator_version }}/kubernetes/keycloaks.k8s.keycloak.org-v1.yml"
+    dest: "{{ kc_operator_tmp_folder.path }}/keycloaks.k8s.keycloak.org-v1.yml"
+    mode: '0664'
+  changed_when: False
+
+- name: Apply the CRDs for keycloak-operator
+  kubernetes.core.k8s:
+    state: present
+    namespace: keycloak
+    src: "{{ kc_operator_tmp_folder.path }}/keycloaks.k8s.keycloak.org-v1.yml"
+
+- name: Download the CRDs for keycloak-operator
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/{{ keycloak.operator_version }}/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml"
+    dest: "{{ kc_operator_tmp_folder.path }}/keycloakrealmimports.k8s.keycloak.org-v1.yml"
+    mode: '0664'
+  changed_when: False
+
+- name: Apply the CRDs for keycloak-operator
+  kubernetes.core.k8s:
+    state: present
+    namespace: keycloak
+    src: "{{ kc_operator_tmp_folder.path }}/keycloakrealmimports.k8s.keycloak.org-v1.yml"
+
+- name: Download the Keycloak Operator deployment
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/{{ keycloak.operator_version }}/kubernetes/kubernetes.yml"
+    dest: "{{ kc_operator_tmp_folder.path }}/kubernetes.yml"
+    mode: '0664'
+  changed_when: False
+
+- name: Apply the Keycloak Operator deployment
+  kubernetes.core.k8s:
+    state: present
+    namespace: keycloak
+    src: "{{ kc_operator_tmp_folder.path }}/kubernetes.yml"
+
 - name: create keycloak operatorGroup
   kubernetes.core.k8s:
     state: present
