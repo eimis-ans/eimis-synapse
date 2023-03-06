@@ -51,13 +51,3 @@
     state: present
     namespace: keycloak
     src: "{{ kc_operator_tmp_folder.path }}/kubernetes.yml"
-
-- name: create keycloak operatorGroup
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('file', 'kc-operator-group.yml') | from_yaml }}"
-
-- name: create keycloak subscription
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('file', 'kc-subscription.yml') | from_yaml }}"
