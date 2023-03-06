@@ -55,8 +55,18 @@ and fill it with all the environment variables values needed.
 
 ## Configuration
 The configuration part will be done with Ansible and is quite independant
-from the provisioning part.
+from the provisioning part.  
 For this you just have to execute :
 ```bash
 sh scripts/ansible_configuration.sh
 ```
+This will lead to the installation of the following components in the cluster :
+- basic components :
+  - an ingress controller
+  - a certificate manager
+  - a component that manage dns zone on OVH
+- components specific to our stack :
+  - an operator to install keycloak
+  - the keycloak stack 
+  - the synapse sstack
+  - the element-web stack
