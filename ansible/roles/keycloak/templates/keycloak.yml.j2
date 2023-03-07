@@ -13,15 +13,15 @@ spec:
     strictBackchannel: false
   ingress:
     enabled: false
-#  db:
-#    vendor: postgres
-#    host: keycloak-db
-#    usernameSecret:
-#      name: keycloak-db-secret
-#      key: username
-#    passwordSecret:
-#      name: keycloak-db-secret
-#      key: password
+  db:
+    vendor: postgres
+    host: {{ keycloak.db_svc_name }}
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
   http:
     tlsSecret: matrix-tls-secret
     httpEnabled: true
