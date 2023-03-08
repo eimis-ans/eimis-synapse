@@ -15,7 +15,7 @@ spec:
     enabled: false
   db:
     vendor: postgres
-    host: {{ keycloak.db_svc_name }}
+    host: keycloak-database-svc
     usernameSecret:
       name: keycloak-db-secret
       key: username

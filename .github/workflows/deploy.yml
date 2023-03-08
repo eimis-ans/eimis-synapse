@@ -43,6 +43,10 @@ env:
   # SMTP_PORT: ${{ vars.SMTP_PORT }}
   SMTP_USER: ${{ vars.SMTP_USER }}
   SMTP_PASS: ${{ secrets.SMTP_PASS }}
+  # variables used by matrix keycloak
+  KECLOAK_DB_INSTANCE_NAME: ${{ vars.KECLOAK_DB_INSTANCE_NAME }}
+  KEYCLOAK_DB_USER: ${{ vars.KEYCLOAK_DB_USER }}
+  KEYCLOAK_DB_PASSWORD: ${{ secrets.KEYCLOAK_DB_PASSWORD }}
 
 jobs:
   set_environment:

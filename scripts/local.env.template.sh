@@ -24,3 +24,7 @@ export SMTP_HOST="<configuration to send mail : host of the SMTP server>"
 export SMTP_PORT="<configuration to send mail : port of the SMTP server>"
 export SMTP_USER="<configuration to send mail : user to connect to the SMTP server>"
 export SMTP_PASS="<configuration to send mail : password of connect to the SMTP server>"
+# variables used by matrix keycloak
+export KECLOAK_DB_INSTANCE_NAME="<database name of the postgresql database linked to keycloak>"
+export KEYCLOAK_DB_USER="<username to access the postgresql database linked to keycloak>"
+export KEYCLOAK_DB_PASSWORD="<username to access the postgresql database linked to keycloak>"
