@@ -1,13 +1,17 @@
 ---
-- name: Create a postgres db for keycloak from a local file
+- name: Create a postgres database for keycloak
   kubernetes.core.k8s:
     state: present
     template: 'keycloak-db.yml.j2'
-- name: Create a keycloak instance from a local file
+- name: Create a keycloak instance
   kubernetes.core.k8s:
     state: present
     template: 'keycloak.yml.j2'
-- name: Create a keycloak specific ingress from a local file
+- name: Create a keycloak specific ingress
   kubernetes.core.k8s:
     state: present
     template: 'ingress.yml.j2'
+- name: Import the psc realm into keycloak
+  kubernetes.core.k8s:
+    state: present
+    template: 'keycloak-realm.yml'

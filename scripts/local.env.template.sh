@@ -28,3 +28,5 @@ export SMTP_PASS="<configuration to send mail : password of connect to the SMTP 
 export KECLOAK_DB_INSTANCE_NAME="<database name of the postgresql database linked to keycloak>"
 export KEYCLOAK_DB_USER="<username to access the postgresql database linked to keycloak>"
 export KEYCLOAK_DB_PASSWORD="<username to access the postgresql database linked to keycloak>"
+export KEYCLOAK_CLIENT_ID="<client ID used by keycloak to identify synapse client>"
+export KEYCLOAK_CLIENT_SECRET="<secret used in conjunction with client ID to identify synapse client>"

@@ -41,4 +41,16 @@
           smtp_user: "{{ matrix.smtp_user }}"
           smtp_pass: "{{ matrix.smtp_pass }}"
           notif_from: "Your Friendly %(app)s homeserver <noreply@{{ matrix.server_name }}>"
+        oidc_providers:
+          - idp_id: keycloak
+            idp_name: "Keycloak IdP"
+            issuer: "https://{{ keycloak.server_name }}/realms/psc-realm"
+            client_id: "{{ keycloak.client_id }}"
+            client_secret: "{{ keycloak.client_secret }}"
+            scopes: ["openid", "profile"]
+#            user_mapping_provider:
+#              config:
+#                localpart_template: "\{\{ user.preferred_username \}\}"
+#                display_name_template: "{{ user.name }}"
+            backchannel_logout_enabled: true # Optional
     update_repo_cache: yes
