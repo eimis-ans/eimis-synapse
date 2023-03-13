@@ -29,7 +29,6 @@
       wellknown:
         enabled: true
       extraConfig:
-        enable_registration: true
         registrations_require_3pid:
           - email
         enable_registration_without_verification: false
