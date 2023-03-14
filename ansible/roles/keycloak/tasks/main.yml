@@ -3,14 +3,14 @@
   kubernetes.core.k8s:
     state: present
     template: 'keycloak-db.yml.j2'
-- name: Create a keycloak instance
-  kubernetes.core.k8s:
-    state: present
-    template: 'keycloak.yml.j2'
 - name: Create a keycloak specific ingress
   kubernetes.core.k8s:
     state: present
     template: 'ingress.yml.j2'
+- name: Create a keycloak instance
+  kubernetes.core.k8s:
+    state: present
+    template: 'keycloak.yml.j2'
 - name: Import the psc realm into keycloak
   kubernetes.core.k8s:
     state: present
