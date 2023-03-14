@@ -29,9 +29,10 @@
       wellknown:
         enabled: true
       extraConfig:
+        allow_public_rooms_over_federation: true
+        enable_registration_without_verification: false
         registrations_require_3pid:
           - email
-        enable_registration_without_verification: false
         email:
           smtp_host: "{{ matrix.smtp_host }}"
           # FIXME smtp_port set with ansible variable is consider as string and not int
