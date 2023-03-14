@@ -10,7 +10,7 @@ cert_manager:
 operator_licecycle_manager:
   version: "v0.23.1"
 keycloak:
-  server_name: keycloak.${DNS_ZONE}
+  server_name: idp.${DNS_ZONE}
   operator_version : 21.0.1
   db_instance_name: ${KECLOAK_DB_INSTANCE_NAME}
   db_user: ${KEYCLOAK_DB_USER}
