@@ -15,3 +15,9 @@
   kubernetes.core.k8s:
     state: present
     template: 'keycloak-realm.yml'
+- name: Wait for the keycloak app to be ready and retrieve the information of the created ingress
+  shell: kubectl get pod -n keycloak keycloak-psc-0 -o jsonpath="{.status.phase}"
+  register: pod_info
+  until: pod_info.stdout.find("Running") != -1
+  retries: 30
+  delay: 2
