@@ -30,7 +30,6 @@
             secretName: "element-tls-secret"
 #      wellknown:
 #        enabled: true
-      extraConfig:
-        enable_registration: false
-        enable_registration_without_verification: false
+#      extraConfig:
+#        enable_registration_without_verification: true
     update_repo_cache: yes

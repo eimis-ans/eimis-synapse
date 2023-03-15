@@ -29,28 +29,5 @@
       wellknown:
         enabled: true
       extraConfig:
-        allow_public_rooms_over_federation: true
-        enable_registration_without_verification: false
-        registrations_require_3pid:
-          - email
-        email:
-          smtp_host: "{{ matrix.smtp_host }}"
-          # FIXME smtp_port set with ansible variable is consider as string and not int
-          # smtp_port: "{{ matrix.smtp_port }}"
-          smtp_port: 587
-          smtp_user: "{{ matrix.smtp_user }}"
-          smtp_pass: "{{ matrix.smtp_pass }}"
-          notif_from: "Your Friendly %(app)s homeserver <noreply@{{ matrix.server_name }}>"
-        oidc_providers:
-          - idp_id: keycloak
-            idp_name: "Keycloak IdP"
-            issuer: "https://{{ keycloak.server_name }}/realms/psc-realm"
-            client_id: "{{ keycloak.client_id }}"
-            client_secret: "{{ keycloak.client_secret }}"
-            scopes: ["openid", "profile"]
-            user_mapping_provider:
-              config:
-                localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-                display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
-            backchannel_logout_enabled: true # Optional
+        enable_registration_without_verification: true
     update_repo_cache: yes

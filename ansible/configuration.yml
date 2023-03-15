@@ -8,7 +8,5 @@
     - ingress-controller
     - cert-manager
     - external-dns
-    - keycloak-operator
-    - keycloak
     - synapse
     - element-web
