@@ -7,22 +7,7 @@ ovh:
 dns_zone: ${DNS_ZONE}
 cert_manager:
   issuer_mail: ${ISSUER_MAIL}
-operator_licecycle_manager:
-  version: "v0.23.1"
-keycloak:
-  server_name: idp.${DNS_ZONE}
-  operator_version : 21.0.1
-  db_instance_name: ${KECLOAK_DB_INSTANCE_NAME}
-  db_user: ${KEYCLOAK_DB_USER}
-  db_password: ${KEYCLOAK_DB_PASSWORD}
-  client_id: ${KEYCLOAK_CLIENT_ID}
-  client_secret: ${KEYCLOAK_CLIENT_SECRET}
 matrix:
   server_name: ${SERVER_SUBDOMAIN_NAME}.${DNS_ZONE}
-  smtp_host: ${SMTP_HOST}
-# FIXME smtp_port set with ansible variable is consider as string and not int
-#  smtp_port: ${SMTP_PORT}
-  smtp_user: ${SMTP_USER}
-  smtp_pass: ${SMTP_PASS}
 element:
   server_name: ${ELEMENT_SUBDOMAIN_NAME}.${DNS_ZONE}
