@@ -1,6 +1,0 @@
----
-# Installs and configures all the components needed for synapse
-- hosts: localhost
-  roles:
-    - role: check
-    - role: synapse

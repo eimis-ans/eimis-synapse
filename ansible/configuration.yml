@@ -1,0 +1,14 @@
+---
+# Installs and configures all the components needed for synapse
+- hosts: localhost
+  vars:
+    absent_or_present: present
+  roles:
+    - check
+    - ingress-controller
+    - cert-manager
+    - external-dns
+    - keycloak-operator
+    - keycloak
+    - synapse
+    - element-web

@@ -31,6 +31,10 @@ env:
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
   NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
+  DNS_ZONE: ${{ vars.DNS_ZONE }}
+  ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
+  # variables used by matrix components
+  SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
 
 jobs:
   set_environment:
@@ -53,6 +57,10 @@ jobs:
           echo "my_env=develop" >> $GITHUB_OUTPUT
           ;;
 
+          preprod)
+          echo "my_env=preprod" >> $GITHUB_OUTPUT
+          ;;
+          
           *)
           echo "other case : environment=${ENVIRONMENT}"
           echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
@@ -83,9 +91,17 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
+      # Generate kubeconfig file
+      - name: Generate kubeconfig file
+        run: sh scripts/generate_kubeconfig_file.sh
+
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: sh scripts/generate_tfvars_file.sh
+        run: sh scripts/generate_var_file.sh
+
+      # Run ansible_destroy.sh script
+      - name: ansible_configuration script
+        run: sh scripts/ansible_destroy.sh
 
         # On push to "main", build or change infrastructure according to Terraform configuration files
         # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud".

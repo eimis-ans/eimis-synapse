@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# this script is intended to run all the configuration stage (after the provisioning stage)
-# - configure kubectl
-# - configure ansible
-# - run ansible playbook
+# this script is intended to destroy some chart/pods on kubernetes
+# so that the element they created (DNS records for example) are also destroyed
 
 # Configure kubectl
 export WORKING_DIRECTORY=$(pwd)
@@ -19,5 +17,5 @@ echo "--- ansible-galaxy install collections ---"
 ansible-galaxy collection install -r "requirements.yml"
 
 # Run ansible playbook
-echo "--- playbook configuration ---"
-ansible-playbook configuration.yml
+echo "--- playbook destroy ---"
+ansible-playbook destroy-k8s.yml
