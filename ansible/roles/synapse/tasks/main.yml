@@ -53,4 +53,15 @@
                 localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
                 display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
             backchannel_logout_enabled: true # Optional
+          - idp_id: psc
+            idp_name: "Pro Santé Connect"
+            issuer: "https://{{ prosante_connect.server_name }}/auth/realms/esante-wallet"
+            client_id: "{{ prosante_connect.client_id }}"
+            client_secret: "{{ prosante_connect.client_secret }}"
+            scopes: ["openid", "profile"]
+            user_mapping_provider:
+              config:
+                localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
+                display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+            backchannel_logout_enabled: true # Optional
     update_repo_cache: yes
