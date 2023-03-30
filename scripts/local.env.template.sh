@@ -30,3 +30,12 @@ export KEYCLOAK_DB_USER="<username to access the postgresql database linked to k
 export KEYCLOAK_DB_PASSWORD="<username to access the postgresql database linked to keycloak>"
 export KEYCLOAK_CLIENT_ID="<client ID used by keycloak to identify synapse client>"
 export KEYCLOAK_CLIENT_SECRET="<secret used in conjunction with client ID to identify synapse client>"
+# variables used to connect to Pro Santé Connect.
+# see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+export PROSANTE_CONNECT_ISSUER="<Used to validate tokens and to discover the Pros Santé Connect's endpoints (required but unused)>"
+export PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT="<Authorization endpoint used to connect to Pro Santé Connect>"
+export PROSANTE_CONNECT_TOKEN_ENDPOINT="<Token endpoint used to retrieve token from Pro Santé Connect>"
+export PROSANTE_CONNECT_USERINFO_ENDPOINT="<Userinfo endpoint used to retrieve info on user from Pro Santé Connect>"
+export PROSANTE_CONNECT_JKWS_URI="<URI where to fetch the JWKS from Pro Santé Connect>"
+export PROSANTE_CONNECT_CLIENT_ID="<Client ID used to identify the client against Pro Santé Connect>"
+export PROSANTE_CONNECT_CLIENT_SECRET="<Client secret associated with client ID used to identify the client against Pro Santé Connect>"

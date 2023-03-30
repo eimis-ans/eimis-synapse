@@ -55,10 +55,17 @@
             backchannel_logout_enabled: true # Optional
           - idp_id: psc
             idp_name: "Pro Santé Connect"
-            issuer: "https://{{ prosante_connect.server_name }}/auth/realms/esante-wallet"
+            idp_icon: "mxc://matrix.develop.eimis.incubateur.net/fmgwqNHTZIllxFNZRKzKgfAp"
+#           idp_icon: "mxc://matrix.develop.eimis.incubateur.net/xGkgMIkroVUMqJOsMvRHdpls" => grand icône rectangulaire qui ne passe pas
+            discover: false
+            issuer: "{{ prosante_connect.issuer }}"
+            authorization_endpoint: "{{ prosante_connect.authorization_endpoint }}"
+            token_endpoint: "{{ prosante_connect.token_endpoint }}"
+            userinfo_endpoint: "{{ prosante_connect.userinfo_endpoint }}"
+            jwks_uri: "{{ prosante_connect.jwks_uri }}"
             client_id: "{{ prosante_connect.client_id }}"
             client_secret: "{{ prosante_connect.client_secret }}"
-            scopes: ["openid", "profile"]
+            scopes: ["openid", "scope_all"]
             user_mapping_provider:
               config:
                 localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
