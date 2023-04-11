@@ -17,6 +17,14 @@ keycloak:
   db_password: ${KEYCLOAK_DB_PASSWORD}
   client_id: ${KEYCLOAK_CLIENT_ID}
   client_secret: ${KEYCLOAK_CLIENT_SECRET}
+prosante_connect:
+  issuer: ${PROSANTE_CONNECT_ISSUER}
+  authorization_endpoint: ${PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT}
+  token_endpoint: ${PROSANTE_CONNECT_TOKEN_ENDPOINT}
+  userinfo_endpoint: ${PROSANTE_CONNECT_USERINFO_ENDPOINT}
+  jwks_uri: ${PROSANTE_CONNECT_JKWS_URI}
+  client_id: ${PROSANTE_CONNECT_CLIENT_ID}
+  client_secret: ${PROSANTE_CONNECT_CLIENT_SECRET}
 matrix:
   server_name: ${SERVER_SUBDOMAIN_NAME}.${DNS_ZONE}
   smtp_host: ${SMTP_HOST}
