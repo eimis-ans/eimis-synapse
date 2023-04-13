@@ -71,3 +71,22 @@
                 display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
             backchannel_logout_enabled: true # Optional
     update_repo_cache: yes
+
+- name: wait for the matrix-synapse replicaset to be ready
+  shell: "kubectl get deployments.apps matrix-synapse -o jsonpath=\"{$.status.conditions}\" |jq '.[] | select(.reason | test(\"NewReplicaSetAvailable\")).message'"
+  register: rs_message
+  until: rs_message.stdout.find("successfully") != -1
+  retries: 30
+  delay: 2
+#
+#- name: "DEBUG rs_message"
+#  debug:
+#    msg: "{{ rs_message }}"
+#
+#- name: retrieve the matrix-synapse replicaset ref
+#  shell: "echo \"{{ rs_message.stdout }}\" | cut -d'\"' -f 2"
+#  register: pod_ref
+#
+#- name: "DEBUG pod_ref"
+#  debug:
+#    msg: "{{ pod_ref }}"
