@@ -1,0 +1,9 @@
+{
+  "identifier": {
+    "type": "m.id.user",
+    "user": "{{ matrix.first_eimis_username }}"
+  },
+  "initial_device_display_name": "Jungle Phone",
+  "password": "{{ matrix.first_eimis_password }}",
+  "type": "m.login.password"
+}
