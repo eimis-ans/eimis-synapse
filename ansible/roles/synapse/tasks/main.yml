@@ -51,15 +51,3 @@
   until: rs_message.stdout.find("successfully") != -1
   retries: 30
   delay: 4
-#
-#- name: "DEBUG rs_message"
-#  debug:
-#    msg: "{{ rs_message }}"
-#
-#- name: retrieve the matrix-synapse replicaset ref
-#  shell: "echo \"{{ rs_message.stdout }}\" | cut -d'\"' -f 2"
-#  register: pod_ref
-#
-#- name: "DEBUG pod_ref"
-#  debug:
-#    msg: "{{ pod_ref }}"
