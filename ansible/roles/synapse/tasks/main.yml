@@ -14,6 +14,8 @@
       synapse:
         strategy:
           type: Recreate
+        extraCommands:
+          - "cp /etc/matrix-synapse/conf.d/* /synapse/config/conf.d/"
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
