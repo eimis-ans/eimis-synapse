@@ -61,29 +61,37 @@
         mime_type: image/png
   register: mxc
 
-- name: PSC connect button image - Create temporary file
-  ansible.builtin.tempfile:
-    state: directory
-    suffix: temp
-  register: config_matrix_folder
-  changed_when: False
+- name: PSC connect button image - create extraconfig configmap
+  kubernetes.core.k8s:
+    state: present
+    template: 'cm-extraconfig.yml'
 
-- name: PSC connect button image - get matrix homeserver.yaml config from configmap data
-  shell: "kubectl get configmaps matrix-synapse -o jsonpath=\"{$.data.homeserver\\.yaml}\" > {{ config_matrix_folder.path }}/homeserver.yaml"
+- name: PSC connect button image - mount extraconfig configmap on matrix-synapse pod
+  shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-patch.yml') }}' "
 
-- name: PSC connect button image - modify matrix homeserver.yaml config
-  shell: "yq -Y '.oidc_providers[1].idp_icon = \"{{ mxc.json.content_uri }}\"' {{ config_matrix_folder.path }}/homeserver.yaml"
-  register: homeserver
-
-- name: PSC connect button image - set homeserver_patch var
-  set_fact:
-    homeserver_patch: |
-      {
-        data:
-          {
-            "homeserver.yaml": "{{ homeserver.stdout }}"
-          }
-      }        
+#- name: PSC connect button image - Create temporary file
+#  ansible.builtin.tempfile:
+#    state: directory
+#    suffix: temp
+#  register: config_matrix_folder
+#  changed_when: False
+#
+#- name: PSC connect button image - get matrix homeserver.yaml config from configmap data
+#  shell: "kubectl get configmaps matrix-synapse -o jsonpath=\"{$.data.homeserver\\.yaml}\" > {{ config_matrix_folder.path }}/homeserver.yaml"
+#
+#- name: PSC connect button image - modify matrix homeserver.yaml config
+#  shell: "yq -Y '.oidc_providers[1].idp_icon = \"{{ mxc.json.content_uri }}\"' {{ config_matrix_folder.path }}/homeserver.yaml"
+#  register: homeserver
+#
+#- name: PSC connect button image - set homeserver_patch var
+#  set_fact:
+#    homeserver_patch: |
+#      {
+#        data:
+#          {
+#            "homeserver.yaml": "{{ homeserver.stdout }}"
+#          }
+#      }
 
 #- name: PSC connect button image - update matrix configmap with modified values
 #  shell: "kubectl patch configmaps matrix-synapse -p '{{ homeserver_patch }}' "

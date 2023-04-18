@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-synapse-extraconfig
+  namespace: default
+data:
+  extraconfig.yaml: |
+    oidc_providers:
+      - idp_id: keycloak
+        idp_name: "Keycloak IdP"
+        issuer: "https://{{ keycloak.server_name }}/realms/psc-realm"
+        client_id: "{{ keycloak.client_id }}"
+        client_secret: "{{ keycloak.client_secret }}"
+        scopes: ["openid", "profile"]
+        user_mapping_provider:
+          config:
+            localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
+            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+        backchannel_logout_enabled: true # Optional
+      - idp_id: psc
+        idp_name: "Pro Santé Connect"
+        idp_icon: "mxc://matrix.develop.eimis.incubateur.net/fmgwqNHTZIllxFNZRKzKgfAp"
+        discover: false
+        issuer: "{{ prosante_connect.issuer }}"
+        authorization_endpoint: "{{ prosante_connect.authorization_endpoint }}"
+        token_endpoint: "{{ prosante_connect.token_endpoint }}"
+        userinfo_endpoint: "{{ prosante_connect.userinfo_endpoint }}"
+        jwks_uri: "{{ prosante_connect.jwks_uri }}"
+        client_id: "{{ prosante_connect.client_id }}"
+        client_secret: "{{ prosante_connect.client_secret }}"
+        scopes: ["openid", "scope_all"]
+        user_mapping_provider:
+          config:
+            localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
+            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+        backchannel_logout_enabled: true # Optional
+
+
+
+
+
