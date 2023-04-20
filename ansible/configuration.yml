@@ -11,4 +11,5 @@
     - keycloak-operator
     - keycloak
     - synapse
+    - synapse-post-install
     - element-web

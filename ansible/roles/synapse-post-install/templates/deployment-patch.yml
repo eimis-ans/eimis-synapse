@@ -1,0 +1,15 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: synapse
+          volumeMounts:
+            - name: extraconfig
+              mountPath: /etc/matrix-synapse/conf.d/
+      volumes:
+        - configMap:
+            name: matrix-synapse-extraconfig
+          name: extraconfig
+          items:
+            - key: "extraconfig.yaml"
+              path: "extraconfig.yaml"
