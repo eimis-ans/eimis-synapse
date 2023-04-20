@@ -20,7 +20,7 @@ data:
         backchannel_logout_enabled: true # Optional
       - idp_id: psc
         idp_name: "Pro Santé Connect"
-        idp_icon: "mxc://matrix.develop.eimis.incubateur.net/fmgwqNHTZIllxFNZRKzKgfAp"
+        idp_icon: "{{ mxc.stdout }}"
         discover: false
         issuer: "{{ prosante_connect.issuer }}"
         authorization_endpoint: "{{ prosante_connect.authorization_endpoint }}"

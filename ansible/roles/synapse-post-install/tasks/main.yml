@@ -48,17 +48,8 @@
   when: login_intent.status!=200
 
 - name: PSC connect button image - upload files to synapse and retrieve the MXC uri
-  ansible.builtin.uri:
-    url: "https://{{ matrix.server_name }}/_matrix/media/v3/upload?filename=psc_picto.png"
-    method: POST
-    headers:
-      Authorization: "Bearer {{ access_token }}"
-    body_format: form-multipart
-    body:
-      file1:
-        content: "{{ lookup('file', 'ProSanteConnect_PICTO_COULEURS.png') }}"
-        filename: psc_picto.png
-        mime_type: image/png
+  shell: "curl --data-binary @roles/synapse-post-install/files/ProSanteConnect_PICTO_COULEURS.png 'https://{{ matrix.server_name }}/_matrix/media/v3/upload?filename=psc_picto.png'   -X 'POST'   -H 'Authorization:
+    Bearer {{ access_token }}'   -H 'Content-Type: image/png'   --compressed | jq -r '.content_uri'"
   register: mxc
 
 - name: PSC connect button image - create extraconfig configmap
