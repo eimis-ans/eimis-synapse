@@ -27,6 +27,7 @@
     body: "{{ lookup('template', 'login.json') }}"
     body_format: json
   register: login_intent
+  ignore_errors: true
 
 - name: first user creation - set access-token var
   set_fact:
