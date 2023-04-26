@@ -45,6 +45,8 @@ env:
   SMTP_PASS: ${{ secrets.SMTP_PASS }}
   FIRST_EIMIS_USERNAME: ${{ secrets.FIRST_EIMIS_USERNAME }}
   FIRST_EIMIS_PASSWORD: ${{ secrets.FIRST_EIMIS_PASSWORD }}
+  DUMMY_USERNAME: ${{ secrets.DUMMY_USERNAME }}
+  DUMMY_PASSWORD: ${{ secrets.DUMMY_PASSWORD }}
   # variables used by matrix keycloak
   KECLOAK_DB_INSTANCE_NAME: ${{ vars.KECLOAK_DB_INSTANCE_NAME }}
   KEYCLOAK_DB_USER: ${{ vars.KEYCLOAK_DB_USER }}

@@ -1,0 +1,9 @@
+{
+  "identifier": {
+    "type": "m.id.user",
+    "user": "{{ matrix.dummy_username }}"
+  },
+  "initial_device_display_name": "Backend server",
+  "password": "{{ matrix.dummy_password }}",
+  "type": "m.login.password"
+}

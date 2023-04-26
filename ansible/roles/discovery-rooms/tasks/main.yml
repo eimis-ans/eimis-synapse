@@ -1,0 +1,16 @@
+---
+- name: Log in as dummy user to get a token
+  ansible.builtin.import_tasks:
+    file: dummy-user.yml
+
+- name: (re)create the discovery room
+  ansible.builtin.import_tasks:
+    file: discovery-room.yml
+
+#- name: Join discovery room, for all dummy users
+#
+#- name: Verify the state of the discovery_room
+#
+#- name: Verify the users in the discovery_room
+#
+#- name: Get discovery_room id

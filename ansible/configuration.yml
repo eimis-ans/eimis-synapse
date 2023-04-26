@@ -12,4 +12,5 @@
     - keycloak
     - synapse
     - synapse-post-install
+    - discovery-rooms
     - element-web
