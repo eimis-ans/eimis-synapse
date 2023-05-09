@@ -1,0 +1,15 @@
+{
+  "name": "Discovery Room",
+  "power_level_content_override": {
+    "events_default": 50,
+    "invite": 50,
+    "kick": 50,
+    "state_default": 100,
+    "users_default": 0
+  },
+  "preset": "public_chat",
+  "room_alias_name": "discoveryroom",
+  "room_version": "9",
+  "visibility": "private",
+  "join_rules": "public"
+}

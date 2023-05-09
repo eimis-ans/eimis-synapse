@@ -31,7 +31,7 @@
 
 - name: first user creation - set access-token var
   set_fact:
-    access_token: "{{ login_intent.json.access_token }}"
+    admin_access_token: "{{ login_intent.json.access_token }}"
   when: login_intent.status==200
 
 - name: first user creation - register user with synapse API and get access-token, only executed if login failed
@@ -43,14 +43,14 @@
   register: register_intent
   when: login_intent.status!=200
 
-- name: first user creation - set access-token var
+- name: first user creation - set admin_access_token var
   set_fact:
-    access_token: "{{ register_intent.json.access_token }}"
+    admin_access_token: "{{ register_intent.json.access_token }}"
   when: login_intent.status!=200
 
 - name: PSC connect button image - upload files to synapse and retrieve the MXC uri
   shell: "curl --data-binary @roles/synapse-post-install/files/ProSanteConnect_PICTO_COULEURS.png 'https://{{ matrix.server_name }}/_matrix/media/v3/upload?filename=psc_picto.png'   -X 'POST'   -H 'Authorization:
-    Bearer {{ access_token }}'   -H 'Content-Type: image/png'   --compressed | jq -r '.content_uri'"
+    Bearer {{ admin_access_token }}'   -H 'Content-Type: image/png'   --compressed | jq -r '.content_uri'"
   register: mxc
 
 - name: PSC connect button image - create extraconfig configmap

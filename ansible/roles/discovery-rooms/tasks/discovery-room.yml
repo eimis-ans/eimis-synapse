@@ -1,0 +1,44 @@
+---
+- name: Get the room id of the room with the alias discoveryroom
+  uri:
+    url: "http://{{ matrix.server_name }}/_matrix/client/v3/directory/room/%23discoveryroom%3A{{matrix.server_name}}?roomAlias=%23discoveryroom%3A{{matrix.server_name}}"
+    method: GET
+    status_code: 200, 404   # allow 404 when no alias exists
+    body_format: json
+    use_proxy: false
+    return_content: yes
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+  register: discovery_room
+
+- name: Delete room alias on old discoveryroom
+  uri:
+    url: "http://{{ matrix.server_name }}/_matrix/client/v3/directory/room/%23discoveryroom%3A{{matrix.server_name}}?roomAlias=%23discoveryroom%3A{{matrix.server_name}}"
+    method: DELETE
+    status_code: 200, 404   # allow 404 when no alias exists
+    body_format: json
+    use_proxy: false
+    return_content: yes
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+  ignore_errors: yes
+
+- name: Create new discovery room unencrypted v9 with alias
+  uri:
+    url: "http://{{ matrix.server_name }}/_matrix/client/v3/createRoom"
+    method: POST
+    body: "{{ lookup('template', 'room.json') }}"
+    status_code: 200, 201
+    body_format: json
+    use_proxy: false
+    return_content: yes
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ dummy_access_token }}"
+  register: discovery_room
+
+- name: Print the discovery_room room id
+  ansible.builtin.debug:
+    var: discovery_room.json.room_id

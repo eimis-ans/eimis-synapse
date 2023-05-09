@@ -26,6 +26,9 @@ export SMTP_USER="<configuration to send mail : user to connect to the SMTP serv
 export SMTP_PASS="<configuration to send mail : password of connect to the SMTP server>"
 export FIRST_EIMIS_USERNAME="<username of the first eimis user created when bootstraping>"
 export FIRST_EIMIS_PASSWORD="<password of the first eimis user created when bootstraping>"
+export DUMMY_USERNAME="<dummy user used with the discovery room mecanism>"
+export DUMMY_PASSWORD="<password for the dummy user>"
+export FEDERATION_SERVERS_LIST="list of comma separated URI of synapse servers included in federation. Ex : ['preprod.eimis.incubateur.net','matrix.pandalab.fr']"
 # variables used by matrix keycloak
 export KECLOAK_DB_INSTANCE_NAME="<database name of the postgresql database linked to keycloak>"
 export KEYCLOAK_DB_USER="<username to access the postgresql database linked to keycloak>"

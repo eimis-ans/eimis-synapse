@@ -1,0 +1,49 @@
+---
+- name: dummy user creation - retrieve registration_shared_secret
+  shell: "kubectl get secrets matrix-synapse -o jsonpath=\"{$.data.config\\.yaml}\" | base64 -d | yq -r \".registration_shared_secret\""
+  register: registration_shared_secret
+
+- name: dummy user creation - get a nonce
+  ansible.builtin.uri:
+    url: "https://{{ matrix.server_name }}/_synapse/admin/v1/register"
+  register: nonce
+
+- name: dummy user creation - generate hmac
+  ansible.builtin.shell: |
+    nonce='{{ nonce.json.nonce }}'
+    username='{{ matrix.dummy_username }}'
+    password='{{ matrix.dummy_password }}'
+    admin='notadmin'
+    secret='{{ registration_shared_secret.stdout }}'
+    printf '%s\0%s\0%s\0%s' "$nonce" "$username" "$password" "$admin" |
+    openssl sha1 -hmac "$secret" |
+    awk '{print $2}'
+  register: hmac
+
+- name: dummy user creation - try to login and get access-token
+  ansible.builtin.uri:
+    url: "https://{{ matrix.server_name }}/_matrix/client/v3/login"
+    method: POST
+    body: "{{ lookup('template', 'login.json') }}"
+    body_format: json
+  register: login_intent
+  ignore_errors: true
+
+- name: dummy user creation - set access-token var
+  set_fact:
+    dummy_access_token: "{{ login_intent.json.access_token }}"
+  when: login_intent.status==200
+
+- name: dummy user creation - register user with synapse API and get access-token, only executed if login failed
+  ansible.builtin.uri:
+    url: "https://{{ matrix.server_name }}/_synapse/admin/v1/register"
+    method: POST
+    body: "{{ lookup('template', 'register.json') }}"
+    body_format: json
+  register: register_intent
+  when: login_intent.status!=200
+
+- name: dummy user creation - set dummy_access_token var
+  set_fact:
+    dummy_access_token: "{{ register_intent.json.access_token }}"
+  when: login_intent.status!=200
