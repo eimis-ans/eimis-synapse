@@ -7,6 +7,10 @@
   ansible.builtin.import_tasks:
     file: discovery-room.yml
 
+- name: add all users to discovery room
+  ansible.builtin.import_tasks:
+    file: join-discovery-room.yml
+
 - name: Dummy user joins external discovery rooms listed in matrix.discovery_room.servers_list
   uri:
     url: "http://{{ matrix.server_name }}/_matrix/client/r0/join/%23discoveryroom:{{ item }}"
@@ -41,5 +45,3 @@
     use_proxy: false
     headers:
       Authorization: "Bearer {{ admin_access_token }}"
-
-#- name: Get discovery_room id
