@@ -50,4 +50,4 @@
   register: rs_message
   until: rs_message.stdout.find("successfully") != -1
   retries: 30
-  delay: 4
+  delay: 5
