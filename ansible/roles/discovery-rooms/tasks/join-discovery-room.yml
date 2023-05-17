@@ -1,0 +1,57 @@
+---
+- name: get all users in home server (can be up to 100k)
+  ansible.builtin.uri:
+    url: "http://{{ matrix.server_name }}/_synapse/admin/v2/users?from=0&limit=1000000&guests=false"
+    method: GET
+    status_code: 200
+    body_format: json
+    use_proxy: false
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+  register: all_users
+
+- name: get all users in discovery room
+  ansible.builtin.uri:
+    url: "http://{{ matrix.server_name }}/_synapse/admin/v1/rooms/{{ discovery_room_id }}/members"
+    method: GET
+    status_code: 200
+    body_format: json
+    use_proxy: false
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+  register: discovery_room_members
+
+- name: add in discovery room all users not already present, one by one
+  ansible.builtin.uri:
+    url: "http://{{ matrix.server_name }}/_synapse/admin/v1/join/{{ discovery_room_id }}"
+    method: POST
+    body: "{{ lookup('template', 'user.json') }}"
+    status_code: 200, 201
+    body_format: json
+    use_proxy: false
+    return_content: yes
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+  loop: "{{ all_users.json.users }}"
+  when: item.name not in discovery_room_members.json.members
+
+- name: Verify the state of the discovery_room
+  uri:
+    url: "http://{{ matrix.server_name }}/_synapse/admin/v1/rooms/{{ discovery_room_id }}"
+    method: GET
+    status_code: 200
+    body_format: json
+    use_proxy: false
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+
+- name: Verify the users in the discovery_room
+  uri:
+    url: "http://{{ matrix.server_name }}/_synapse/admin/v1/rooms/{{ discovery_room_id }}/members"
+    method: GET
+    status_code: 200
+    body_format: json
+    use_proxy: false
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"

@@ -1,4 +1,8 @@
 ---
+#
+# Role used to install a basic Matrix synapse server
+# The configuration of the server will be completed later in synapse-extra-config role
+#
 - name: Add ananace-charts helm repository
   kubernetes.core.helm_repository:
     name: ananace-charts
@@ -50,4 +54,4 @@
   register: rs_message
   until: rs_message.stdout.find("successfully") != -1
   retries: 30
-  delay: 4
+  delay: 5

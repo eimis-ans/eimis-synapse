@@ -11,6 +11,8 @@
     - keycloak-operator
     - keycloak
     - synapse
-    - synapse-post-install
+    - first-admin
+    - psc-button
     - discovery-rooms
+    - synapse-extra-config
     - element-web

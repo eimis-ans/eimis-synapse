@@ -1,0 +1,13 @@
+---
+#
+# Role used to complete the configuration af the matrix synapse server with :
+#  - the mxc uri of the ProSanté Connect button image
+#  - the room ids of discovery rooms to hide from users
+#
+- name: create extraconfig configmap
+  kubernetes.core.k8s:
+    state: present
+    template: 'cm-extraconfig.yml'
+
+- name: mount extraconfig configmap on matrix-synapse pod
+  shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-patch.yml') }}' "
