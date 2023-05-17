@@ -21,7 +21,7 @@
       Authorization: "Bearer {{ admin_access_token }}"
   register: discovery_room_members
 
-- name: add user one by one
+- name: add in discovery room all users not already present, one by one
   ansible.builtin.uri:
     url: "http://{{ matrix.server_name }}/_synapse/admin/v1/join/{{ discovery_room.json.room_id }}"
     method: POST
