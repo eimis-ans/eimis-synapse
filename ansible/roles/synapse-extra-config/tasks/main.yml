@@ -28,3 +28,4 @@
     name: matrix-synapse
     namespace: default
     replicas: 1
+    wait_timeout: 120
