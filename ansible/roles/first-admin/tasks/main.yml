@@ -1,4 +1,8 @@
 ---
+#
+# Role used to create the first admin user
+# the admin_access_token is registered and user in later roles
+#
 - name: first user creation - retrieve registration_shared_secret
   shell: "kubectl get secrets matrix-synapse -o jsonpath=\"{$.data.config\\.yaml}\" | base64 -d | yq -r \".registration_shared_secret\""
   register: registration_shared_secret
@@ -47,16 +51,3 @@
   set_fact:
     admin_access_token: "{{ register_intent.json.access_token }}"
   when: login_intent.status!=200
-
-- name: PSC connect button image - upload files to synapse and retrieve the MXC uri
-  shell: "curl --data-binary @roles/synapse-post-install/files/ProSanteConnect_PICTO_COULEURS.png 'https://{{ matrix.server_name }}/_matrix/media/v3/upload?filename=psc_picto.png'   -X 'POST'   -H 'Authorization:
-    Bearer {{ admin_access_token }}'   -H 'Content-Type: image/png'   --compressed | jq -r '.content_uri'"
-  register: mxc
-
-- name: PSC connect button image - create extraconfig configmap
-  kubernetes.core.k8s:
-    state: present
-    template: 'cm-extraconfig.yml'
-
-- name: PSC connect button image - mount extraconfig configmap on matrix-synapse pod
-  shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-patch.yml') }}' "
