@@ -1,5 +1,5 @@
 ---
-- name: Get the room id of the previous room with the alias discoveryroom
+- name: Get the room id of the room with the alias discoveryroom
   uri:
     url: "http://{{ matrix.server_name }}/_matrix/client/v3/directory/room/%23discoveryroom%3A{{matrix.server_name}}?roomAlias=%23discoveryroom%3A{{matrix.server_name}}"
     method: GET
@@ -14,23 +14,9 @@
 
 - name: Set the previous_discovery_room_id variable
   set_fact:
-    previous_discovery_room_id: "{{ previous_discovery_room.json.room_id }}"
+    discovery_room_id: "{{ previous_discovery_room.json.room_id }}"
 
-- name: Delete previous room and move all users to somewhere
-  uri:
-    url: "http://{{ matrix.server_name }}/_synapse/admin/v1/rooms/{{ previous_discovery_room_id }}"
-    method: DELETE
-    body: "{{ lookup('template', 'old_room.json') }}"
-    status_code: 200, 404   # allow 404 when no alias exists
-    body_format: json
-    use_proxy: false
-    return_content: yes
-    follow_redirects: all
-    headers:
-      Authorization: "Bearer {{ admin_access_token }}"
-  ignore_errors: yes
-
-- name: Create new discovery room unencrypted v9 with alias
+- name: Create discovery room unencrypted v9 with alias if not already existing
   uri:
     url: "http://{{ matrix.server_name }}/_matrix/client/v3/createRoom"
     method: POST
@@ -43,7 +29,9 @@
     headers:
       Authorization: "Bearer {{ dummy_access_token }}"
   register: discovery_room
+  when: previous_discovery_room.status==404
 
 - name: Set the discovery_room_id variable
   set_fact:
     discovery_room_id: "{{ discovery_room.json.room_id }}"
+  when: previous_discovery_room.status==404
