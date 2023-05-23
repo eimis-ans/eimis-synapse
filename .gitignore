@@ -30,9 +30,13 @@ override.tf.json
 # IDE settings
 .idea
 
-# local env file
-local.env.sh
+# configuration files
+*.env.sh
+kubeconfig*
+
 
 # Ansible temp files
 ansible/ansible_collections
 ansible/group_vars/all.yml
+
+#
