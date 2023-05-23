@@ -14,14 +14,14 @@ https://gitlab.com/ananace/charts/-/tree/master/charts/matrix-synapse
 - to send some mails to users : a valid access to a SMTP service
 
 ## Provisioning
-- Create a local.env.sh file copying the script/local.env.template.sh file
+- Create in the local folder a local.env.sh file copying the script/local.env.template.sh file
 and fill it with all the environment variables values needed.
 
     Then source this file :
     ```bash
-    source local.env.sh
+    source local/local.env.sh
     ```
-- Generate a terraform.tfvars file based on values previouly set :
+- Generate a terraform.tfvars file based on values previously set :
     ```bash
     sh scripts/generate_var_file.sh
     ```
@@ -40,7 +40,7 @@ and fill it with all the environment variables values needed.
   - Result
   This will lead to the creation of a kubernetes cluster with:
     - 1 control plane node
-    - 2 workers nodes
+    - 3 worker nodes
 
   The kubeconfig file needed to connect to the cluster can be generated with :
   ```bash
@@ -68,5 +68,5 @@ This will lead to the installation of the following components in the cluster :
 - components specific to our stack :
   - an operator to install keycloak
   - the keycloak stack 
-  - the synapse sstack
+  - the synapse stack and its customization
   - the element-web stack
