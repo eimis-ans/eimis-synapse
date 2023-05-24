@@ -79,9 +79,11 @@ jobs:
           *)
           for environment_perso in ${{ vars.PERSONAL_ENVIRONMENT_LIST }}; do
             if [[ $environment_perso == *"${ENVIRONMENT}"* ]]; then
+              echo "${environment_perso} found"
               echo "my_env=${environment_perso}" >> $GITHUB_OUTPUT
               break
             else
+              echo "${environment_perso} not selected"
               echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
             fi
           done
