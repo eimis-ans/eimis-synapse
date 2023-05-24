@@ -15,6 +15,7 @@
 - name: Set the previous_discovery_room_id variable
   set_fact:
     discovery_room_id: "{{ previous_discovery_room.json.room_id }}"
+  when: previous_discovery_room.status==200
 
 - name: Create discovery room unencrypted v9 with alias if not already existing
   uri:
