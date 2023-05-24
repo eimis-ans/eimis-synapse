@@ -77,7 +77,7 @@ jobs:
           ;;
 
           *)
-          environment_list_array = ( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
+          environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
           for environment_perso in "${environment_list_array[@]}"; do
             if [[ $environment_perso == *"${ENVIRONMENT}"* ]]; then
               echo "${environment_perso} found"
