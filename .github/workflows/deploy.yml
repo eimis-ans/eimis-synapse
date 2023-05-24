@@ -76,9 +76,17 @@ jobs:
           ;;
 
           *)
-          echo "other case : environment=${ENVIRONMENT}"
-          echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+          for environment_perso in ${{ PERSONAL_ENVIRONMENT_LIST }}; do
+            if [[ $environment_perso == *"${ENVIRONMENT}"* ]]; then
+              echo "my_env=${environment_perso}" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+            fi
+          done
 
+          echo "other case : environment=${ENVIRONMENT}"
+          
           esac
 
   provisioning:
