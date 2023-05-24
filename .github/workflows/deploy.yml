@@ -12,6 +12,7 @@ on:
     branches:
       - develop
       - preprod
+      - '**-deployed'
 
 permissions:
   contents: read
