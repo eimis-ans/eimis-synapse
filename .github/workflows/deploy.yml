@@ -189,8 +189,8 @@ jobs:
 
       # Generates group_vars/all file from the environment variables
       - name: "Generates group_vars/all file from the environment variables"
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Run ansible_configuration.sh script
       - name: ansible_configuration script
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/ansible_configuration.sh
+        run: sh scripts/ansible_configuration.sh
