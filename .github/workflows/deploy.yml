@@ -96,11 +96,11 @@ jobs:
             if [[ ${BRANCH} =~ $environment_perso ]];
             then
               echo "${environment_perso} found"
-              echo "my_env=${environment_perso}" >> $GITHUB_OUTPUT
+              echo "my_env=${environment_perso}" > $GITHUB_OUTPUT
               break
             else
               echo "${environment_perso} not selected."
-              echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+              echo "my_env=${ENVIRONMENT}" > $GITHUB_OUTPUT
             fi
           done
 
