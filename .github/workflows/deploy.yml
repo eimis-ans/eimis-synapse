@@ -104,7 +104,7 @@ jobs:
             fi
           done
 
-          echo "other case : ${GITHUB_OUTPUT}"
+          echo "other case : ${{ steps.set_environment.outputs.my_env }}"
           
           esac
 
