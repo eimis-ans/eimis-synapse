@@ -104,7 +104,7 @@ jobs:
             fi
           done
 
-          echo "other case : environment=${ENVIRONMENT}"
+          echo "other case : ${GITHUB_OUTPUT}"
           
           esac
 
