@@ -138,11 +138,11 @@ jobs:
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Run ansible_destroy.sh script
       - name: ansible_configuration script
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/ansible_destroy.sh
+        run: sh scripts/ansible_destroy.sh
 
         # On push to "main", build or change infrastructure according to Terraform configuration files
         # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud".
