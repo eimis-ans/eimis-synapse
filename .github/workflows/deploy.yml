@@ -93,7 +93,8 @@ jobs:
           *)
           environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
           for environment_perso in "${environment_list_array[@]}"; do
-            if [[ $environment_perso == *"${BRANCH}"* ]]; then
+            if [[ ${BRANCH} =~ $environment_perso ]];
+            then
               echo "${environment_perso} found"
               echo "my_env=${environment_perso}" >> $GITHUB_OUTPUT
               break
