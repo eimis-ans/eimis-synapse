@@ -8,4 +8,32 @@
     - element-web
     - synapse
     - keycloak
+  tasks:
+    - name: Wait for 60 seconds so that external-dns has correctly unregistered the different ingresses
+      ansible.builtin.wait_for:
+        timeout: 60
+      when: absent_or_present=="absent"
+    - name: delete remaining secret - signingkey
+      kubernetes.core.k8s:
+        state: "{{ absent_or_present }}"
+        api_version: v1
+        kind: Secret
+        namespace: default
+        name: matrix-synapse-signingkey
+    - name: delete remaining cm - matrix-synapse-scripts
+      kubernetes.core.k8s:
+        state: "{{ absent_or_present }}"
+        api_version: v1
+        kind: ConfigMap
+        namespace: default
+        name: matrix-synapse-scripts
+    - name: delete namespaces
+      kubernetes.core.k8s:
+        state: "{{ absent_or_present }}"
+        api_version: v1
+        kind: Namespace
+        name: "{{ item }}"
+      loop:
+        - keycloak
+        - element-web
   ignore_errors: True

@@ -8,7 +8,7 @@
     name: ananace-charts
     repo_url: "https://ananace.gitlab.io/charts"
 
-- name: install matrix-synapse helm chart
+- name: matrix-synapse helm chart
   kubernetes.core.helm:
     name: matrix-synapse
     chart_ref: ananace-charts/matrix-synapse
@@ -55,3 +55,14 @@
   until: rs_message.stdout.find("successfully") != -1
   retries: 30
   delay: 5
+  when: absent_or_present=="present"
+
+- name: Wait for the synapse instance to be up and running
+  ansible.builtin.uri:
+    url: "https://{{ matrix.server_name }}/_matrix/static/"
+    method: GET
+  register: synapse_ping
+  until: synapse_ping.status==200
+  retries: 30
+  delay: 5
+  when: absent_or_present=="present"
