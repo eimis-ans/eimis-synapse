@@ -5,5 +5,7 @@
   vars:
     absent_or_present: absent
   roles:
+    - element-web
     - synapse
+    - keycloak
   ignore_errors: True
