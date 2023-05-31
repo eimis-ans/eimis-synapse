@@ -93,17 +93,18 @@ jobs:
           *)
           environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
           for environment_perso in "${environment_list_array[@]}"; do
-            if [[ $environment_perso == *"${ENVIRONMENT}"* ]]; then
+            if [[ ${BRANCH} =~ $environment_perso ]];
+            then
               echo "${environment_perso} found"
-              echo "my_env=${environment_perso}" >> $GITHUB_OUTPUT
+              echo "my_env=${environment_perso}" > $GITHUB_OUTPUT
               break
             else
-              echo "${environment_perso} not selected"
-              echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+              echo "${environment_perso} not selected."
+              echo "my_env=${ENVIRONMENT}" > $GITHUB_OUTPUT
             fi
           done
 
-          echo "other case : environment=${ENVIRONMENT}"
+          echo "other case : " && cat "$GITHUB_OUTPUT"
           
           esac
 
@@ -188,7 +189,7 @@ jobs:
 
       # Generates group_vars/all file from the environment variables
       - name: "Generates group_vars/all file from the environment variables"
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Run ansible_configuration.sh script
       - name: ansible_configuration script

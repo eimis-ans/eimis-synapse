@@ -1,3 +1,5 @@
+# Used only for local execution and not with CI
+export ENVIRONMENT="<the name of the environment you want to build from the local machine>"
 # configure access to S3 where tfstates are stored
 export AWS_ACCESS_KEY_ID="<the access key id>"
 export AWS_SECRET_ACCESS_KEY="<the secret access key>"

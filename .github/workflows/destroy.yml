@@ -35,6 +35,31 @@ env:
   ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
+  ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
+  SMTP_HOST: ${{ vars.SMTP_HOST }}
+  # SMTP_PORT: ${{ vars.SMTP_PORT }}
+  SMTP_USER: ${{ vars.SMTP_USER }}
+  SMTP_PASS: ${{ secrets.SMTP_PASS }}
+  FIRST_EIMIS_USERNAME: ${{ secrets.FIRST_EIMIS_USERNAME }}
+  FIRST_EIMIS_PASSWORD: ${{ secrets.FIRST_EIMIS_PASSWORD }}
+  DUMMY_USERNAME: ${{ secrets.DUMMY_USERNAME }}
+  DUMMY_PASSWORD: ${{ secrets.DUMMY_PASSWORD }}
+  FEDERATION_SERVERS_LIST: ${{ vars.FEDERATION_SERVERS_LIST }}
+  # variables used by matrix keycloak
+  KECLOAK_DB_INSTANCE_NAME: ${{ vars.KECLOAK_DB_INSTANCE_NAME }}
+  KEYCLOAK_DB_USER: ${{ vars.KEYCLOAK_DB_USER }}
+  KEYCLOAK_DB_PASSWORD: ${{ secrets.KEYCLOAK_DB_PASSWORD }}
+  KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
+  KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
+  # variables used to connect to Pro Santé Connect.
+  # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+  PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
+  PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT: ${{ vars.PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT }}
+  PROSANTE_CONNECT_TOKEN_ENDPOINT: ${{ vars.PROSANTE_CONNECT_TOKEN_ENDPOINT }}
+  PROSANTE_CONNECT_USERINFO_ENDPOINT: ${{ vars.PROSANTE_CONNECT_USERINFO_ENDPOINT }}
+  PROSANTE_CONNECT_JKWS_URI: ${{ vars.PROSANTE_CONNECT_JKWS_URI }}
+  PROSANTE_CONNECT_CLIENT_ID: ${{ secrets.PROSANTE_CONNECT_CLIENT_ID }}
+  PROSANTE_CONNECT_CLIENT_SECRET: ${{ secrets.PROSANTE_CONNECT_CLIENT_SECRET }}
 
 jobs:
   set_environment:
@@ -62,10 +87,23 @@ jobs:
           ;;
           
           *)
-          echo "other case : environment=${ENVIRONMENT}"
-          echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+          environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
+          for environment_perso in "${environment_list_array[@]}"; do
+            if [[ ${BRANCH} =~ $environment_perso ]];
+            then
+              echo "${environment_perso} found"
+              echo "my_env=${environment_perso}" > $GITHUB_OUTPUT
+              break
+            else
+              echo "${environment_perso} not selected."
+              echo "my_env=${ENVIRONMENT}" > $GITHUB_OUTPUT
+            fi
+          done
+
+          echo "other case : " && cat "$GITHUB_OUTPUT"
 
           esac
+
   destroy:
     name: 'Destroying infrastructure with Terraform'
     runs-on: ubuntu-latest
@@ -79,6 +117,9 @@ jobs:
         shell: bash
 
     steps:
+      - name: Environment used
+        run: echo "${{ needs.set_environment.outputs.my_env }}"
+
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
@@ -97,7 +138,7 @@ jobs:
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Run ansible_destroy.sh script
       - name: ansible_configuration script

@@ -9,4 +9,4 @@
 - name: Configure DNS with external-dns
   kubernetes.core.k8s:
     state: present
-    template: 'external-dns.yml.j2'
+    template: 'external-dns.yml'
