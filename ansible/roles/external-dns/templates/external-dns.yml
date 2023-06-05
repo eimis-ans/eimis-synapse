@@ -62,6 +62,7 @@ spec:
             - --source=ingress
             - "--domain-filter={{ dns_zone }}"
             - --provider=ovh
+            - "--txt-owner-id={{ external_dns.registry_id }}"
             - --log-level=trace
           env:
             - name: OVH_APPLICATION_KEY
