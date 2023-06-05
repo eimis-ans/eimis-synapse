@@ -19,7 +19,7 @@
         hosts:
           - "{{ element.server_name }}"
         tls:
-          - hosts :
+          - hosts:
               - "{{ element.server_name }}"
             secretName: "element-tls-secret"
       extraConfig:

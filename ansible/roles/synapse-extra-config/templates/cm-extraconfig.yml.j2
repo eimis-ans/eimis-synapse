@@ -6,11 +6,11 @@ metadata:
   namespace: default
 data:
   extraconfig.yaml: |
-{% if discovery_room_id is defined %}
+    # {% if discovery_room_id is defined %}
     # Those rooms will be hidden from users
     exclude_rooms_from_sync:
     - "{{ discovery_room_id }}"
-{% endif %}
+    # {% endif %}
     oidc_providers:
       - idp_id: keycloak
         idp_name: "Keycloak IdP"

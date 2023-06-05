@@ -25,5 +25,4 @@
 
 - name: "DEBUG ingress-controller external IP"
   debug:
-   msg: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"
-
+    msg: "{{ ingress_controller_service.resources[0].status.loadBalancer.ingress[0].ip }}"

@@ -15,7 +15,7 @@
   uri:
     url: "http://{{ matrix.server_name }}/_matrix/client/r0/join/%23discoveryroom:{{ item }}"
     method: POST
-    body: ''
+    body: ""
     status_code: 200, 201
     body_format: json
     use_proxy: false

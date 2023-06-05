@@ -18,4 +18,4 @@
 - name: Create a Issuer from a local file
   kubernetes.core.k8s:
     state: present
-    template: 'issuer.yml'
+    template: "issuer.yml"

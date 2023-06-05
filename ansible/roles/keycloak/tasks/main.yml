@@ -2,12 +2,12 @@
 - name: Postgres database for Keycloak
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
-    template: 'keycloak-db.yml.j2'
+    template: "keycloak-db.yml.j2"
 
 - name: Keycloak specific ingress
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
-    template: 'ingress.yml'
+    template: "ingress.yml"
 
 - name: Wait for the keycloak secrets to be ready and retrieve the information of the created secret
   shell: kubectl get secrets -n keycloak keycloak-tls-secret -o jsonpath="{$.data}"
@@ -20,7 +20,7 @@
 - name: Keycloak instance
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
-    template: 'keycloak.yml.j2'
+    template: "keycloak.yml.j2"
 
 - name: Wait for the keycloak instance to be up and running
   ansible.builtin.uri:
@@ -35,5 +35,5 @@
 - name: Import the psc realm into Keycloak
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
-    template: 'keycloak-realm.yml'
+    template: "keycloak-realm.yml"
   when: absent_or_present=="present"
