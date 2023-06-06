@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: msteams-bridge
+  name: msteams-bridge
+  namespace: msteams
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msteams-bridge
+  template:
+    metadata:
+      labels:
+        app: msteams-bridge
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: msteams-pvc
+        - name: msteams-cm
+          configMap:
+            name: msteams-configmap
+            items:
+              - key: "config.yaml"
+                path: "config.yaml"
+      initContainers:
+        - name: data-container-init
+          image: busybox
+          command:
+            - cp
+            - "/cm/config.yaml"
+            - "/data/config.yaml"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: msteams-cm
+              mountPath: /cm
+        - name: mx-puppet-teams-init
+          image: neilsb/mx-puppet-teams
+          ports:
+            - containerPort: 8432
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      containers:
+        - image: neilsb/mx-puppet-teams
+          name: mx-puppet-teams
+          ports:
+            - containerPort: 8432
+          volumeMounts:
+            - name: data
+              mountPath: /data

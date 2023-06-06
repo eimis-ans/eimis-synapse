@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: "{{ msteams.server_name }}"
+    nginx.ingress.kubernetes.io/backend-protocol:  "HTTPS"
+  name: msteams-ingress
+  namespace: msteams
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "{{ msteams.server_name }}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: msteams-svc
+                port:
+                  number: 8432
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - "{{ msteams.server_name }}"
+      secretName: msteams-tls-secret

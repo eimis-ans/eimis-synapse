@@ -43,3 +43,8 @@ matrix:
     servers_list: ${FEDERATION_SERVERS_LIST}
 element:
   server_name: ${ELEMENT_SUBDOMAIN_NAME}.${ENVIRONMENT}.${DNS_ZONE}
+msteams:
+  server_name: ${TEAMS_BRIDGE_SUBDOMAIN_NAME}.${ENVIRONMENT}.${DNS_ZONE}
+  oauth:
+    client_id: ${TEAMS_OAUTH_CLIENT_ID}
+    client_secret: ${TEAMS_OAUTH_CLIENT_SECRET}

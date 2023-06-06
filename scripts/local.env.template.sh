@@ -20,8 +20,8 @@ export NODEPOOL_FLAVOR="<flavor set to each node : b2-7, b2-15, R2-30, ...>"
 export DNS_ZONE="<domain name : eimis.incubateur.net, eimis.fr, ...>"
 export ISSUER_MAIL="<email address used for letsEncrypt/ACME registration>"
 # variables used by matrix components
-export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.DNS_ZONE>"
-export ELEMENT_SUBDOMAIN_NAME="<the front-end url will be : ELEMENT_SUBDOMAIN_NAME.DNS_ZONE>"
+export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
+export ELEMENT_SUBDOMAIN_NAME="<the front-end url will be : ELEMENT_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export SMTP_HOST="<configuration to send mail : host of the SMTP server>"
 export SMTP_PORT="<configuration to send mail : port of the SMTP server>"
 export SMTP_USER="<configuration to send mail : user to connect to the SMTP server>"
@@ -46,3 +46,7 @@ export PROSANTE_CONNECT_USERINFO_ENDPOINT="<Userinfo endpoint used to retrieve i
 export PROSANTE_CONNECT_JKWS_URI="<URI where to fetch the JWKS from Pro Santé Connect>"
 export PROSANTE_CONNECT_CLIENT_ID="<Client ID used to identify the client against Pro Santé Connect>"
 export PROSANTE_CONNECT_CLIENT_SECRET="<Client secret associated with client ID used to identify the client against Pro Santé Connect>"
+# variables used by the MS Teams bridge
+export TEAMS_BRIDGE_SUBDOMAIN_NAME="<the MS Teams bridge serverName will be : TEAMS_BRIDGE_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
+export TEAMS_OAUTH_CLIENT_ID="<Application (client) ID coming from the azure portal app registration>"
+export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure portal app registration>"

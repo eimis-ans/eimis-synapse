@@ -8,7 +8,7 @@
 - name: create extraconfig configmap
   kubernetes.core.k8s:
     state: present
-    template: 'cm-extraconfig.yml'
+    template: 'cm-extraconfig.yml.j2'
 
 - name: mount extraconfig configmap on matrix-synapse pod
   shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-patch.yml') }}' "
