@@ -42,6 +42,7 @@
 - name: get name of the pod deployed for the bridge
   shell: "kubectl get pods -n msteams -l app=msteams-bridge -o jsonpath=\"{.items[0].metadata.name}\""
   register: pod_name
+  when: absent_or_present=="present"
 
 - name: Create temporary folder
   ansible.builtin.tempfile:
@@ -57,6 +58,7 @@
     remote_path: /data/msteams-registration.yaml
     local_path: "{{ teams_registration_tmp_folder.path }}/msteams-registration.yaml"
     state: from_pod
+  when: absent_or_present=="present"
 
 - name: Create configmap with copied file
   shell: "kubectl create configmap msteams-registration-configmap --from-file={{ teams_registration_tmp_folder.path }}/msteams-registration.yaml "

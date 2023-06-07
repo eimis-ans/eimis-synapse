@@ -31,7 +31,7 @@ data:
       redirectPath: /msteams/oauth
       # This is the base URL Azure will use for push webhooks, and where users will be directed to login
       #  serverBaseUri: https://matrix.matabiau.eimis.incubateur.net/
-      serverBaseUri: https://localhost/
+      serverBaseUri: https://{{ msteams.server_name }}/
 
     # Teams related settings
     teams:
