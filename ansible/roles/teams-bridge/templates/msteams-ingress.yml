@@ -17,7 +17,7 @@ spec:
               service:
                 name: msteams-svc
                 port:
-                  number: 8432
+                  number: 80
             pathType: ImplementationSpecific
   tls:
     - hosts:
