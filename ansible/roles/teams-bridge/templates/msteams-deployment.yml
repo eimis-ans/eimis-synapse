@@ -16,7 +16,7 @@ spec:
         app: msteams-bridge
     spec:
       volumes:
-        - name: data
+        - name: data-vol
           persistentVolumeClaim:
             claimName: msteams-pvc
         - name: msteams-cm
@@ -25,30 +25,14 @@ spec:
             items:
               - key: "config.yaml"
                 path: "config.yaml"
-      initContainers:
-        - name: data-container-init
-          image: busybox
-          command:
-            - cp
-            - "/cm/config.yaml"
-            - "/data/config.yaml"
-          volumeMounts:
-            - name: data
-              mountPath: /data
-            - name: msteams-cm
-              mountPath: /cm
-        - name: mx-puppet-teams-init
-          image: neilsb/mx-puppet-teams
-          ports:
-            - containerPort: 8432
-          volumeMounts:
-            - name: data
-              mountPath: /data
       containers:
         - image: neilsb/mx-puppet-teams
           name: mx-puppet-teams
           ports:
             - containerPort: 8432
           volumeMounts:
-            - name: data
-              mountPath: /data
+            - mountPath: /data
+              name: data-vol
+            - mountPath: /data/config.yaml
+              subPath: config.yaml
+              name: msteams-cm
