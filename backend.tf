@@ -5,5 +5,5 @@ terraform {
     skip_credentials_validation = true
     skip_region_validation      = true
   }
-  required_version = ">= 1.4.6" 
+  required_version = ">= 1.4.6"
 }
