@@ -26,7 +26,7 @@ data:
       clientId: "{{ msteams.oauth.client_id }}"
       clientSecret: "{{ msteams.oauth.client_secret }}"
       # Azure Auth Endpoint
-      #endPoint: https://login.windows.net/common/oauth2/v2.0
+      endPoint: https://login.microsoftonline.com/common/oauth2
       # Path where to listen for OAuth redirect callbacks.
       redirectPath: /msteams/oauth
       # This is the base URL Azure will use for push webhooks, and where users will be directed to login

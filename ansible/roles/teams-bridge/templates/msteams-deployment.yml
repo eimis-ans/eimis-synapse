@@ -26,7 +26,7 @@ spec:
               - key: "config.yaml"
                 path: "config.yaml"
       containers:
-        - image: neilsb/mx-puppet-teams
+        - image: eimisans/mx-puppet-teams
           name: mx-puppet-teams
           ports:
             - containerPort: 8432
