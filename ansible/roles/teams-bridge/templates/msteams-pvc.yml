@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 10Mi
-  storageClassName: csi-cinder-high-speed
+  storageClassName: csi-cinder-classic
