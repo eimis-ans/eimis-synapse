@@ -8,6 +8,7 @@
     - element-web
     - synapse
     - keycloak
+    - teams-bridge
   tasks:
     - name: Wait for 60 seconds so that external-dns has correctly unregistered the different ingresses
       ansible.builtin.wait_for:

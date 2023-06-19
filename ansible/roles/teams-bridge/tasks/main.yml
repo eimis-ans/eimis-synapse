@@ -1,0 +1,72 @@
+---
+- name: Create namespace dedicated to msteams bridge
+  kubernetes.core.k8s:
+    name: msteams
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Bridge configmap
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: 'msteams-configmap.yml'
+
+- name: Bridge persistent volume
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: 'msteams-pvc.yml'
+
+- name: Bridge app deployment
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: 'msteams-deployment.yml'
+
+- name: Bridge service
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: 'msteams-service.yml'
+
+- name: Bridge ingress
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: 'msteams-ingress.yml'
+
+- name: wait for the msteams replicaset to be ready
+  shell: "kubectl get deployments.apps -n msteams msteams-bridge -o jsonpath=\"{$.status.conditions}\" |jq '.[] | select(.reason | test(\"NewReplicaSetAvailable\")).message'"
+  register: rs_message
+  until: rs_message.stdout.find("successfully") != -1
+  retries: 30
+  delay: 5
+  when: absent_or_present=="present"
+
+- name: get name of the pod deployed for the bridge
+  shell: "kubectl get pods -n msteams -l app=msteams-bridge -o jsonpath=\"{.items[0].metadata.name}\""
+  register: pod_name
+  when: absent_or_present=="present"
+
+- name: Create temporary folder
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: temp
+  register: teams_registration_tmp_folder
+  changed_when: False
+
+- name : Copy msteams-registration.yaml file content from bridge pod to local tmp folder
+  kubernetes.core.k8s_cp:
+    namespace: msteams
+    pod: "{{ pod_name.stdout }}"
+    remote_path: /data/msteams-registration.yaml
+    local_path: "{{ teams_registration_tmp_folder.path }}/msteams-registration.yaml"
+    state: from_pod
+  when: absent_or_present=="present"
+
+- name: Copy vars of msteams-registration.yaml into the msteams_bridge_vars variable
+  ansible.builtin.include_vars:
+    file: "{{ teams_registration_tmp_folder.path }}/msteams-registration.yaml"
+    name: msteams_bridge_vars
+  when: absent_or_present=="present"
+
+- name: Create or update msteams-registration-configmap with msteams_bridge_vars values
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: 'msteams-registration.yml'
