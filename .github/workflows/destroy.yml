@@ -5,7 +5,7 @@
 #
 # Documentation for `hashicorp/setup-terraform` is located here: https://github.com/hashicorp/setup-terraform
 
-name: 'Destroy'
+name: "Destroy"
 
 on:
   workflow_dispatch:
@@ -63,7 +63,7 @@ env:
 
 jobs:
   set_environment:
-    name: 'Dynamic detection of environment'
+    name: "Dynamic detection of environment"
     outputs:
       my_env: ${{ steps.setenv.outputs.my_env }}
     runs-on: ubuntu-latest
@@ -85,7 +85,7 @@ jobs:
           preprod)
           echo "my_env=preprod" >> $GITHUB_OUTPUT
           ;;
-          
+
           *)
           environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
           for environment_perso in "${environment_list_array[@]}"; do
@@ -105,7 +105,7 @@ jobs:
           esac
 
   destroy:
-    name: 'Destroying infrastructure with Terraform'
+    name: "Destroying infrastructure with Terraform"
     runs-on: ubuntu-latest
     environment:
       name: ${{ needs.set_environment.outputs.my_env }}
