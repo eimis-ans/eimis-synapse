@@ -12,6 +12,7 @@ on:
     branches:
       - develop
       - preprod
+      - '**-deployed'
 
 permissions:
   contents: read
@@ -63,6 +64,10 @@ env:
   PROSANTE_CONNECT_JKWS_URI: ${{ vars.PROSANTE_CONNECT_JKWS_URI }}
   PROSANTE_CONNECT_CLIENT_ID: ${{ secrets.PROSANTE_CONNECT_CLIENT_ID }}
   PROSANTE_CONNECT_CLIENT_SECRET: ${{ secrets.PROSANTE_CONNECT_CLIENT_SECRET }}
+  # variables used by the MS Teams bridge
+  TEAMS_BRIDGE_SUBDOMAIN_NAME: ${{ vars.TEAMS_BRIDGE_SUBDOMAIN_NAME }}
+  TEAMS_OAUTH_CLIENT_ID: ${{ secrets.TEAMS_OAUTH_CLIENT_ID }}
+  TEAMS_OAUTH_CLIENT_SECRET: ${{ secrets.TEAMS_OAUTH_CLIENT_SECRET }}
 
 jobs:
   set_environment:
@@ -90,9 +95,21 @@ jobs:
           ;;
 
           *)
-          echo "other case : environment=${ENVIRONMENT}"
-          echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+          environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
+          for environment_perso in "${environment_list_array[@]}"; do
+            if [[ ${BRANCH} =~ $environment_perso ]];
+            then
+              echo "${environment_perso} found"
+              echo "my_env=${environment_perso}" > $GITHUB_OUTPUT
+              break
+            else
+              echo "${environment_perso} not selected."
+              echo "my_env=${ENVIRONMENT}" > $GITHUB_OUTPUT
+            fi
+          done
 
+          echo "other case : " && cat "$GITHUB_OUTPUT"
+          
           esac
 
   provisioning:
@@ -176,7 +193,7 @@ jobs:
 
       # Generates group_vars/all file from the environment variables
       - name: "Generates group_vars/all file from the environment variables"
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Run ansible_configuration.sh script
       - name: ansible_configuration script

@@ -9,25 +9,30 @@ https://gitlab.com/ananace/charts/-/tree/master/charts/matrix-synapse
 - an account in OVH hosting provider and its credentials
 (application key, application secret, consumer secret and endpoint)
 - to store Terraform state files : an S3 object storage with the credentials to connect to
-(access key, secret key, endpoint and region)
+(access key, secret key, endpoint and region) and a bucket named terraform-states-hp-myenv for example.
 - to reach the future synapse homeserver : a valid dns zone hosted by OVH
 - to send some mails to users : a valid access to a SMTP service
 
+On the computer running this code : 
+- the [terraform CLI](https://developer.hashicorp.com/terraform/downloads?product_intent=terraform)
+- the [ansible tool](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible)
+- the [kubectl tool](https://kubernetes.io/fr/docs/tasks/tools/install-kubectl/)
+
 ## Provisioning
-- Create a local.env.sh file copying the script/local.env.template.sh file
+- Create in the local folder a local.env.sh file copying the script/local.env.template.sh file
 and fill it with all the environment variables values needed.
 
     Then source this file :
     ```bash
-    source local.env.sh
+    source local/local.env.sh
     ```
-- Generate a terraform.tfvars file based on values previouly set :
+- Generate a terraform.tfvars file based on values previously set :
     ```bash
     sh scripts/generate_var_file.sh
     ```
-- Initialize the Terraform workspace
+- Initialize the Terraform workspace specifying the name of the S3 bucket
     ```bash
-    terraform init
+    terraform init -backend-config="bucket=terraform-states-hp-myenv"
     ```
 - Create the Terraform execution plan to validate that everything is ok
     ```bash
@@ -37,19 +42,12 @@ and fill it with all the environment variables values needed.
     ```bash
     terraform apply
     ```
-  - Result
-  This will lead to the creation of a kubernetes cluster with:
-    - 1 control plane node
-    - 2 workers nodes
+  This will lead to the creation of a kubernetes cluster with 1 control plane node and several worker nodes
 
-  The kubeconfig file needed to connect to the cluster can be generated with :
+- Generate the kubeconfig file needed to connect to the cluster and register it as KUBECONFIG variable:
   ```bash
   sh scripts/generate_kubeconfig_file.sh
-  ```
-
-  Don't forget to export KUBECONFIG variable in order to execute kubectl commands :
-  ```bash
-  export KUBECONFIG="/path/to/your/kubeconfig.yml"
+  export KUBECONFIG="$(pwd)/local/kubeconfig.yml"
   ```
   For more info : https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
 
@@ -68,5 +66,5 @@ This will lead to the installation of the following components in the cluster :
 - components specific to our stack :
   - an operator to install keycloak
   - the keycloak stack 
-  - the synapse sstack
+  - the synapse stack and its customization
   - the element-web stack
