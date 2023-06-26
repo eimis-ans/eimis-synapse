@@ -11,4 +11,9 @@
     - keycloak-operator
     - keycloak
     - synapse
+    - first-admin
+    - psc-button
+    - teams-bridge
+    - discovery-rooms
+    - synapse-extra-config
     - element-web

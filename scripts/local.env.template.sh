@@ -1,3 +1,5 @@
+# Used only for local execution and not with CI
+export ENVIRONMENT="<the name of the environment you want to build from the local machine>"
 # configure access to S3 where tfstates are stored
 export AWS_ACCESS_KEY_ID="<the access key id>"
 export AWS_SECRET_ACCESS_KEY="<the secret access key>"
@@ -18,15 +20,33 @@ export NODEPOOL_FLAVOR="<flavor set to each node : b2-7, b2-15, R2-30, ...>"
 export DNS_ZONE="<domain name : eimis.incubateur.net, eimis.fr, ...>"
 export ISSUER_MAIL="<email address used for letsEncrypt/ACME registration>"
 # variables used by matrix components
-export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.DNS_ZONE>"
-export ELEMENT_SUBDOMAIN_NAME="<the front-end url will be : ELEMENT_SUBDOMAIN_NAME.DNS_ZONE>"
+export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
+export ELEMENT_SUBDOMAIN_NAME="<the front-end url will be : ELEMENT_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export SMTP_HOST="<configuration to send mail : host of the SMTP server>"
 export SMTP_PORT="<configuration to send mail : port of the SMTP server>"
 export SMTP_USER="<configuration to send mail : user to connect to the SMTP server>"
 export SMTP_PASS="<configuration to send mail : password of connect to the SMTP server>"
+export FIRST_EIMIS_USERNAME="<username of the first eimis user created when bootstraping>"
+export FIRST_EIMIS_PASSWORD="<password of the first eimis user created when bootstraping>"
+export DUMMY_USERNAME="<dummy user used with the discovery room mecanism>"
+export DUMMY_PASSWORD="<password for the dummy user>"
+export FEDERATION_SERVERS_LIST="list of comma separated URI of synapse servers included in federation. Ex : ['preprod.eimis.incubateur.net','matrix.pandalab.fr']"
 # variables used by matrix keycloak
 export KECLOAK_DB_INSTANCE_NAME="<database name of the postgresql database linked to keycloak>"
 export KEYCLOAK_DB_USER="<username to access the postgresql database linked to keycloak>"
 export KEYCLOAK_DB_PASSWORD="<username to access the postgresql database linked to keycloak>"
 export KEYCLOAK_CLIENT_ID="<client ID used by keycloak to identify synapse client>"
 export KEYCLOAK_CLIENT_SECRET="<secret used in conjunction with client ID to identify synapse client>"
+# variables used to connect to Pro Santé Connect.
+# see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+export PROSANTE_CONNECT_ISSUER="<Used to validate tokens and to discover the Pros Santé Connect's endpoints (required but unused)>"
+export PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT="<Authorization endpoint used to connect to Pro Santé Connect>"
+export PROSANTE_CONNECT_TOKEN_ENDPOINT="<Token endpoint used to retrieve token from Pro Santé Connect>"
+export PROSANTE_CONNECT_USERINFO_ENDPOINT="<Userinfo endpoint used to retrieve info on user from Pro Santé Connect>"
+export PROSANTE_CONNECT_JKWS_URI="<URI where to fetch the JWKS from Pro Santé Connect>"
+export PROSANTE_CONNECT_CLIENT_ID="<Client ID used to identify the client against Pro Santé Connect>"
+export PROSANTE_CONNECT_CLIENT_SECRET="<Client secret associated with client ID used to identify the client against Pro Santé Connect>"
+# variables used by the MS Teams bridge
+export TEAMS_BRIDGE_SUBDOMAIN_NAME="<the MS Teams bridge serverName will be : TEAMS_BRIDGE_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
+export TEAMS_OAUTH_CLIENT_ID="<Application (client) ID coming from the azure portal app registration>"
+export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure portal app registration>"

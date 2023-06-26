@@ -30,9 +30,11 @@ override.tf.json
 # IDE settings
 .idea
 
-# local env file
-local.env.sh
+# ignore files located in local folder
+local
 
 # Ansible temp files
 ansible/ansible_collections
 ansible/group_vars/all.yml
+
+#

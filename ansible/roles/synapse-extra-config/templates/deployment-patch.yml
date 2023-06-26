@@ -1,0 +1,23 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: synapse
+          volumeMounts:
+            - name: extraconfig
+              mountPath: /etc/matrix-synapse/conf.d/
+            - name: msteams-registration
+              mountPath: /data/
+      volumes:
+        - configMap:
+            name: matrix-synapse-extraconfig
+          name: extraconfig
+          items:
+            - key: "extraconfig.yaml"
+              path: "extraconfig.yaml"
+        - configMap:
+            name: msteams-registration-configmap
+          name: msteams-registration
+          items:
+            - key: "msteams-registration.yaml"
+              path: "msteams-registration.yaml"

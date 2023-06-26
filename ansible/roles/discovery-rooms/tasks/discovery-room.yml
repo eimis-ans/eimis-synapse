@@ -1,0 +1,38 @@
+---
+- name: Get the room id of the room with the alias discoveryroom
+  uri:
+    url: "http://{{ matrix.server_name }}/_matrix/client/v3/directory/room/%23discoveryroom%3A{{matrix.server_name}}?roomAlias=%23discoveryroom%3A{{matrix.server_name}}"
+    method: GET
+    status_code: 200, 404   # allow 404 when no alias exists
+    body_format: json
+    use_proxy: false
+    return_content: yes
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ admin_access_token }}"
+  register: previous_discovery_room
+
+- name: Set the previous_discovery_room_id variable
+  set_fact:
+    discovery_room_id: "{{ previous_discovery_room.json.room_id }}"
+  when: previous_discovery_room.status==200
+
+- name: Create discovery room unencrypted v9 with alias if not already existing
+  uri:
+    url: "http://{{ matrix.server_name }}/_matrix/client/v3/createRoom"
+    method: POST
+    body: "{{ lookup('template', 'discovery_room.json') }}"
+    status_code: 200, 201
+    body_format: json
+    use_proxy: false
+    return_content: yes
+    follow_redirects: all
+    headers:
+      Authorization: "Bearer {{ dummy_access_token }}"
+  register: discovery_room
+  when: previous_discovery_room.status==404
+
+- name: Set the discovery_room_id variable
+  set_fact:
+    discovery_room_id: "{{ discovery_room.json.room_id }}"
+  when: previous_discovery_room.status==404

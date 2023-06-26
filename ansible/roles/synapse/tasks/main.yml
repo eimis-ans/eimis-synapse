@@ -1,10 +1,14 @@
 ---
+#
+# Role used to install a basic Matrix synapse server
+# The configuration of the server will be completed later in synapse-extra-config role
+#
 - name: Add ananace-charts helm repository
   kubernetes.core.helm_repository:
     name: ananace-charts
     repo_url: "https://ananace.gitlab.io/charts"
 
-- name: install matrix-synapse helm chart
+- name: matrix-synapse helm chart
   kubernetes.core.helm:
     name: matrix-synapse
     chart_ref: ananace-charts/matrix-synapse
@@ -14,6 +18,8 @@
       synapse:
         strategy:
           type: Recreate
+        extraCommands:
+          - "cp /etc/matrix-synapse/conf.d/* /synapse/config/conf.d/"
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
@@ -41,16 +47,22 @@
           smtp_user: "{{ matrix.smtp_user }}"
           smtp_pass: "{{ matrix.smtp_pass }}"
           notif_from: "Your Friendly %(app)s homeserver <noreply@{{ matrix.server_name }}>"
-        oidc_providers:
-          - idp_id: keycloak
-            idp_name: "Keycloak IdP"
-            issuer: "https://{{ keycloak.server_name }}/realms/psc-realm"
-            client_id: "{{ keycloak.client_id }}"
-            client_secret: "{{ keycloak.client_secret }}"
-            scopes: ["openid", "profile"]
-            user_mapping_provider:
-              config:
-                localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-                display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
-            backchannel_logout_enabled: true # Optional
     update_repo_cache: yes
+
+- name: wait for the matrix-synapse replicaset to be ready
+  shell: "kubectl get deployments.apps matrix-synapse -o jsonpath=\"{$.status.conditions}\" |jq '.[] | select(.reason | test(\"NewReplicaSetAvailable\")).message'"
+  register: rs_message
+  until: rs_message.stdout.find("successfully") != -1
+  retries: 30
+  delay: 5
+  when: absent_or_present=="present"
+
+- name: Wait for the synapse instance to be up and running
+  ansible.builtin.uri:
+    url: "https://{{ matrix.server_name }}/_matrix/static/"
+    method: GET
+  register: synapse_ping
+  until: synapse_ping.status==200
+  retries: 30
+  delay: 5
+  when: absent_or_present=="present"

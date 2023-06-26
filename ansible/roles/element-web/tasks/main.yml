@@ -10,12 +10,6 @@
       defaultServer:
         url: "https://{{ matrix.server_name }}"
         name: "{{ matrix.server_name }}"
-#      synapse:
-#        strategy:
-#          type: Recreate
-#      serverName: "{{ element.server_name }}"
-#      config:
-#        enableRegistration: true
       ingress:
         enabled: true
         className: nginx
@@ -28,8 +22,6 @@
           - hosts :
               - "{{ element.server_name }}"
             secretName: "element-tls-secret"
-#      wellknown:
-#        enabled: true
       extraConfig:
         enable_registration: false
         enable_registration_without_verification: false

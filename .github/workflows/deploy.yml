@@ -44,12 +44,30 @@ env:
   # SMTP_PORT: ${{ vars.SMTP_PORT }}
   SMTP_USER: ${{ vars.SMTP_USER }}
   SMTP_PASS: ${{ secrets.SMTP_PASS }}
+  FIRST_EIMIS_USERNAME: ${{ secrets.FIRST_EIMIS_USERNAME }}
+  FIRST_EIMIS_PASSWORD: ${{ secrets.FIRST_EIMIS_PASSWORD }}
+  DUMMY_USERNAME: ${{ secrets.DUMMY_USERNAME }}
+  DUMMY_PASSWORD: ${{ secrets.DUMMY_PASSWORD }}
+  FEDERATION_SERVERS_LIST: ${{ vars.FEDERATION_SERVERS_LIST }}
   # variables used by matrix keycloak
   KECLOAK_DB_INSTANCE_NAME: ${{ vars.KECLOAK_DB_INSTANCE_NAME }}
   KEYCLOAK_DB_USER: ${{ vars.KEYCLOAK_DB_USER }}
   KEYCLOAK_DB_PASSWORD: ${{ secrets.KEYCLOAK_DB_PASSWORD }}
   KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
   KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
+  # variables used to connect to Pro Santé Connect.
+  # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+  PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
+  PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT: ${{ vars.PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT }}
+  PROSANTE_CONNECT_TOKEN_ENDPOINT: ${{ vars.PROSANTE_CONNECT_TOKEN_ENDPOINT }}
+  PROSANTE_CONNECT_USERINFO_ENDPOINT: ${{ vars.PROSANTE_CONNECT_USERINFO_ENDPOINT }}
+  PROSANTE_CONNECT_JKWS_URI: ${{ vars.PROSANTE_CONNECT_JKWS_URI }}
+  PROSANTE_CONNECT_CLIENT_ID: ${{ secrets.PROSANTE_CONNECT_CLIENT_ID }}
+  PROSANTE_CONNECT_CLIENT_SECRET: ${{ secrets.PROSANTE_CONNECT_CLIENT_SECRET }}
+  # variables used by the MS Teams bridge
+  TEAMS_BRIDGE_SUBDOMAIN_NAME: ${{ vars.TEAMS_BRIDGE_SUBDOMAIN_NAME }}
+  TEAMS_OAUTH_CLIENT_ID: ${{ secrets.TEAMS_OAUTH_CLIENT_ID }}
+  TEAMS_OAUTH_CLIENT_SECRET: ${{ secrets.TEAMS_OAUTH_CLIENT_SECRET }}
 
 jobs:
   set_environment:
@@ -79,17 +97,18 @@ jobs:
           *)
           environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
           for environment_perso in "${environment_list_array[@]}"; do
-            if [[ $environment_perso == *"${ENVIRONMENT}"* ]]; then
+            if [[ ${BRANCH} =~ $environment_perso ]];
+            then
               echo "${environment_perso} found"
-              echo "my_env=${environment_perso}" >> $GITHUB_OUTPUT
+              echo "my_env=${environment_perso}" > $GITHUB_OUTPUT
               break
             else
-              echo "${environment_perso} not selected"
-              echo "my_env=${ENVIRONMENT}" >> $GITHUB_OUTPUT
+              echo "${environment_perso} not selected."
+              echo "my_env=${ENVIRONMENT}" > $GITHUB_OUTPUT
             fi
           done
 
-          echo "other case : environment=${ENVIRONMENT}"
+          echo "other case : " && cat "$GITHUB_OUTPUT"
           
           esac
 
@@ -174,7 +193,7 @@ jobs:
 
       # Generates group_vars/all file from the environment variables
       - name: "Generates group_vars/all file from the environment variables"
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Run ansible_configuration.sh script
       - name: ansible_configuration script

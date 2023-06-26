@@ -1,0 +1,7 @@
+{
+  "nonce": "{{ nonce.json.nonce }}",
+  "username": "{{ matrix.dummy_username }}",
+  "password": "{{ matrix.dummy_password }}",
+  "admin": false,
+  "mac": "{{ hmac.stdout }}"
+}
