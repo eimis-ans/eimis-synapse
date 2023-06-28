@@ -4,7 +4,7 @@ data "openstack_networking_network_v2" "ext_net" {
 }
 
 resource "openstack_networking_network_v2" "private_network" {
-  name           = "${terraform.workspace}-private-network"
+  name           = "${var.env_name}-private-network"
   region         = var.cluster_region
   admin_state_up = "true"
 }
@@ -12,7 +12,7 @@ resource "openstack_networking_network_v2" "private_network" {
 resource "openstack_networking_subnet_v2" "subnet" {
   network_id      = openstack_networking_network_v2.private_network.id
   region          = var.cluster_region
-  name            = "${terraform.workspace}-subnet"
+  name            = "${var.env_name}-subnet"
   cidr            = "192.168.12.0/24"
   enable_dhcp     = true
   no_gateway      = false
@@ -31,7 +31,7 @@ resource "openstack_networking_subnet_v2" "subnet" {
 
 resource "openstack_networking_router_v2" "router" {
   region              = var.cluster_region
-  name                = "${terraform.workspace}-router"
+  name                = "${var.env_name}-router"
   admin_state_up      = true
   external_network_id = data.openstack_networking_network_v2.ext_net.id
 }
