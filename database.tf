@@ -19,21 +19,12 @@ resource "ovh_cloud_project_database" "pg_database" {
 
   dynamic "nodes" {
     for_each = toset(local.nodes_set)
-    #    count = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
     content {
       region     = var.global_region
       network_id = openstack_networking_network_v2.private_network.id
       subnet_id  = openstack_networking_subnet_v2.subnet.id
     }
   }
-
-
-  #  nodes {
-  #    count      = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
-  #    region     = var.global_region
-  #    network_id = openstack_networking_network_v2.private_network.id
-  #    subnet_id  = openstack_networking_subnet_v2.subnet.id
-  #  }
 }
 
 

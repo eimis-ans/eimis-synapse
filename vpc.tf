@@ -13,7 +13,7 @@ resource "openstack_networking_subnet_v2" "subnet" {
   network_id      = openstack_networking_network_v2.private_network.id
   region          = var.cluster_region
   name            = "${var.env_name}-subnet"
-  cidr            = "192.168.12.0/24"
+  cidr            = "${var.vlan_cidr}.0/24"
   enable_dhcp     = true
   no_gateway      = false
   dns_nameservers = ["1.1.1.1", "1.0.0.1"]
@@ -24,8 +24,8 @@ resource "openstack_networking_subnet_v2" "subnet" {
   }
 
   allocation_pool {
-    start = "192.168.12.100"
-    end   = "192.168.12.254"
+    start = "${var.vlan_cidr}.100"
+    end   = "${var.vlan_cidr}.254"
   }
 }
 

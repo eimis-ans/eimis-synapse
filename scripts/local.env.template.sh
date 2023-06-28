@@ -31,6 +31,7 @@ export OPENSTACK_TENANT="<OVH OpenStack tenant>"
 export OPENSTACK_USER="<OVH OpenStack username>"
 export OPENSTACK_PASSWORD="<OVH OpenStack password for username>"
 export VLAN_ID="<VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap>"
+export VLAN_CIDR="<Range of IP for the private network>"
 # variables used by matrix components
 export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export ELEMENT_SUBDOMAIN_NAME="<the front-end url will be : ELEMENT_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"

@@ -7,11 +7,6 @@ variable "service_name" {
   type        = string
   description = "the ID of the project on the OVH project web page"
 }
-#
-#variable "cluster_name" {
-#  type        = string
-#  description = "name of the kubernetes cluster"
-#}
 
 variable "cluster_region" {
   type        = string
@@ -22,11 +17,6 @@ variable "cluster_version" {
   type        = string
   description = "kubernetes version of the cluster"
 }
-
-#variable "nodepool_name" {
-#  type        = string
-#  description = "Name of the node pool. Warning: '_' char is not allowed!"
-#}
 
 variable "nodepool_flavor" {
   type        = string
@@ -98,5 +88,10 @@ variable "openstack_pwd" {
 
 variable "vlan_id" {
   description = "VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap"
+  type        = string
+}
+
+variable "vlan_cidr" {
+  description = "Range of IP for the private network"
   type        = string
 }
