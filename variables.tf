@@ -27,3 +27,18 @@ variable "nodepool_flavor" {
   type        = string
   description = "flavor set to each node : b2-7, b2-15, R2-30, ..."
 }
+
+variable "desired_nodes" {
+  type        = number
+  description = "desired number of nodes"
+}
+
+variable "max_nodes" {
+  type        = number
+  description = "maximum number of nodes"
+}
+
+variable "min_nodes" {
+  type        = number
+  description = "minimum number of nodes"
+}
