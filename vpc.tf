@@ -20,7 +20,7 @@ resource "openstack_networking_subnet_v2" "subnet" {
 
   value_specs = {
     "provider:network_type"    = "vrack"
-    "provider:segmentation_id" = var.vlan_id[terraform.workspace]
+    "provider:segmentation_id" = var.vlan_id
   }
 
   allocation_pool {
