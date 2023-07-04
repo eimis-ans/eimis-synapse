@@ -53,8 +53,8 @@ env:
   DATABASE_PLAN: ${{ vars.DATABASE_PLAN }}
   DATABASE_FLAVOR: ${{ vars.DATABASE_FLAVOR }}
   DATABASE_DISK_SIZE: ${{ vars.DATABASE_DISK_SIZE }}
-  VLAN_ID: {{ vars.VLAN_ID }}
-  VLAN_CIDR: {{ vars.VLAN_CIDR }}
+  VLAN_ID: ${{ vars.VLAN_ID }}
+  VLAN_CIDR: ${{ vars.VLAN_CIDR }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
   ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
