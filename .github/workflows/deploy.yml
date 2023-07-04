@@ -48,6 +48,7 @@ env:
   MIN_NODES_NUM: ${{ vars.MIN_NODES_NUM }}
   DNS_ZONE: ${{ vars.DNS_ZONE }}
   ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
+  GLOBALE_REGION: ${{ vars.GLOBALE_REGION }}
   DATABASE_VERSION: ${{ vars.DATABASE_VERSION }}
   DATABASE_PLAN: ${{ vars.DATABASE_PLAN }}
   DATABASE_FLAVOR: ${{ vars.DATABASE_FLAVOR }}
@@ -160,7 +161,7 @@ jobs:
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
