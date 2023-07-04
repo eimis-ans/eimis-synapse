@@ -17,14 +17,14 @@ resource "ovh_cloud_project_database" "pg_database" {
   flavor       = var.database_flavor
   disk_size    = var.database_disk
 
-#  dynamic "nodes" {
-#    for_each = toset(local.nodes_set)
-#    content {
-#      region = var.global_region
-#      #      network_id = openstack_networking_network_v2.private_network.id
-#      #      subnet_id  = openstack_networking_subnet_v2.subnet.id
-#    }
-#  }
+  #  dynamic "nodes" {
+  #    for_each = toset(local.nodes_set)
+  #    content {
+  #      region = var.global_region
+  #      #      network_id = openstack_networking_network_v2.private_network.id
+  #      #      subnet_id  = openstack_networking_subnet_v2.subnet.id
+  #    }
+  #  }
   nodes {
     region = var.global_region
   }

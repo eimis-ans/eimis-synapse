@@ -1,5 +1,5 @@
 # This workflow is used to destroy infrastructure
-# It installs the latest version of Terraform CLI. On pull request events, this workflow will run
+# It installs the latest version of Terraform CLI. On workflow_dispatch events, this workflow will run
 # `terraform init` and terraform destroy.
 # It can only be manually launched
 #
@@ -14,20 +14,30 @@ permissions:
   contents: read
 
 env:
+  #### Openstack vars from openrc file
+  OS_AUTH_URL: "https://auth.cloud.ovh.net/v3"
+  OS_IDENTITY_API_VERSION: 3
+  OS_USER_DOMAIN_NAME: "Default"
+  OS_PROJECT_DOMAIN_NAME: "Default"
+  OS_TENANT_ID: ${{ vars.OS_TENANT_ID }}
+  OS_TENANT_NAME: ${{ vars.OS_TENANT_NAME }}
+  OS_USERNAME: ${{ secrets.OS_USERNAME }}
+  OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+  OS_REGION_NAME: ${{ vars.OS_REGION_NAME }}
+  #### OVH API vars from OVHcloud manager
+  OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
+  OVH_BASEURL: ${{ vars.OVH_BASEURL }}
+  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
+  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
+  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
+  OVH_CLOUD_PROJECT_SERVICE: ${{ vars.OS_TENANT_ID }}
   # configure access to S3 where tfstates are stored
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
   AWS_REGION: ${{ vars.AWS_REGION }}
-  # configure access to OVH provider
-  OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
-  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
-  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
-  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
   # variables used by infrastructure components
-  OVH_CLOUD_PROJECT_SERVICE: ${{ vars.OVH_CLOUD_PROJECT_SERVICE }}
   CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
-  OS_REGION_NAME: ${{ vars.OS_REGION_NAME }}
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
   NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
