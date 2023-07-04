@@ -86,10 +86,10 @@ variable "keycloak_db_user" {
 #  type        = string
 #}
 
-variable "vlan_id" {
-  description = "VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap"
-  type        = string
-}
+#variable "vlan_id" {
+#  description = "VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap"
+#  type        = string
+#}
 
 variable "vlan_cidr" {
   description = "Range of IP for the private network"

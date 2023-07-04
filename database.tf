@@ -1,12 +1,12 @@
-locals {
-  #  nodes_count      = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
-  nodes_iterator = {
-    essential  = ["1"],
-    business   = ["1", "2"],
-    entreprise = ["1", "2", "3"]
-  }
-  nodes_set = lookup(local.nodes_iterator, var.database_plan)
-}
+#locals {
+#  #  nodes_count      = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
+#  nodes_iterator = {
+#    essential  = ["1"],
+#    business   = ["1", "2"],
+#    entreprise = ["1", "2", "3"]
+#  }
+#  nodes_set = lookup(local.nodes_iterator, var.database_plan)
+#}
 
 resource "ovh_cloud_project_database" "pg_database" {
   service_name = var.service_name
