@@ -41,12 +41,17 @@ env:
   AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   # variables used by infrastructure components
-  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
-  NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
+  DESIRED_NODES_NUM: ${{ vars.DESIRED_NODES_NUM }}
+  MAX_NODES_NUM: ${{ vars.MAX_NODES_NUM }}
+  MIN_NODES_NUM: ${{ vars.MIN_NODES_NUM }}
   DNS_ZONE: ${{ vars.DNS_ZONE }}
   ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
+  DATABASE_VERSION: ${{ vars.DATABASE_VERSION }}
+  DATABASE_PLAN: ${{ vars.DATABASE_PLAN }}
+  DATABASE_FLAVOR: ${{ vars.DATABASE_FLAVOR }}
+  DATABASE_DISK_SIZE: ${{ vars.DATABASE_DISK_SIZE }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
   ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
