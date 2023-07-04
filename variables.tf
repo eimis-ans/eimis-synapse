@@ -73,18 +73,18 @@ variable "keycloak_db_user" {
   type        = string
 }
 
-variable "openstack_tenant" {
-  description = "OVH OpenStack tenant"
-  type        = string
-}
-variable "openstack_user" {
-  description = "OVH OpenStack username"
-  type        = string
-}
-variable "openstack_pwd" {
-  description = "OVH OpenStack password for username"
-  type        = string
-}
+#variable "openstack_tenant" {
+#  description = "OVH OpenStack tenant"
+#  type        = string
+#}
+#variable "openstack_user" {
+#  description = "OVH OpenStack username"
+#  type        = string
+#}
+#variable "openstack_pwd" {
+#  description = "OVH OpenStack password for username"
+#  type        = string
+#}
 
 variable "vlan_id" {
   description = "VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap"

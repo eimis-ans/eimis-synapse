@@ -1,21 +1,46 @@
 # Used only for local execution and not with CI
 export ENVIRONMENT="<the name of the environment you want to build from the local machine>"
+
+#################################################
+# Template file coming from https://github.com/ovh/public-cloud-examples/blob/main/basics/ovhrc.template
+#### Openstack vars from openrc file
+export OS_AUTH_URL=https://auth.cloud.ovh.net/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_USER_DOMAIN_NAME=${OS_USER_DOMAIN_NAME:-"Default"}
+export OS_PROJECT_DOMAIN_NAME=${OS_PROJECT_DOMAIN_NAME:-"Default"}
+export OS_TENANT_ID="<OVH OpenStack tenant ID that is also the ID of the project on the OVH project web page>"
+export OS_TENANT_NAME="<OVH OpenStack tenant>"
+export OS_USERNAME="<OVH OpenStack username>"
+export OS_PASSWORD="<OVH OpenStack password for username>"
+export OS_REGION_NAME="<OVH Openstack region that is also for the cluster (from https://www.ovhcloud.com/en/public-cloud/regions-availability/): GRA1, GRA7 ...>"
+if [ -z "$OS_REGION_NAME" ]; then unset OS_REGION_NAME; fi
+
+#### OVH API vars from OVHcloud manager
+export OVH_ENDPOINT="<the ovh endpoint>"
+export OVH_BASEURL="<the ovh baseurl for the API>"
+export OVH_APPLICATION_KEY="<the AK value>"
+export OVH_APPLICATION_SECRET="<the AS value>"
+export OVH_CONSUMER_KEY="<the CS value>"
+export OVH_CLOUD_PROJECT_SERVICE="$OS_TENANT_ID"
+
+### OVHcloud API endpoints
+#   OVH_ENDPOINT 	: 	OVH_BASEURL
+#   ovh-eu		:	https://eu.api.ovh.com/1.0
+#   ovh-us		:	https://api.us.ovhcloud.com/1.0
+#   ovh-ca		:	https://ca.api.ovh.com/1.0
+#   kimsufi-eu		:	https://eu.api.kimsufi.com/1.0
+#   kimsufi-ca		:	https://ca.api.kimsufi.com/1.0
+#   soyoustart-eu	:	https://eu.api.soyoustart.com/1.0
+#   soyoustart-ca	:	https://ca.api.soyoustart.com/1.0
+#################################################
+
 # configure access to S3 where tfstates are stored
 export AWS_ACCESS_KEY_ID="<the access key id>"
 export AWS_SECRET_ACCESS_KEY="<the secret access key>"
 export AWS_S3_ENDPOINT="<the OVH s3 endpoint URL>"
 export AWS_REGION="<the OVH s3 region>"
-# configure access to OVH provider
-export OVH_ENDPOINT="<the ovh endpoint>"
-export OVH_APPLICATION_KEY="<the AK value>"
-export OVH_APPLICATION_SECRET="<the AS value>"
-export OVH_CONSUMER_KEY="<the CS value>"
 # variables used by infrastructure components
-export SERVICE_NAME="<the ID of the project on the OVH project web page>"
-#export CLUSTER_NAME="<name of the kubernetes cluster>"
-export CLUSTER_REGION="<OVH region for the cluster (from https://www.ovhcloud.com/en/public-cloud/regions-availability/): GRA1, GRA7 ...>"
 export CLUSTER_VERSION="<kubernetes version of the cluster: 1.23, 1.24, ...>"
-#export NODEPOOL_NAME="<Name of the node pool. '_' char is not allowed!>"
 export NODEPOOL_FLAVOR="<flavor set to each node : b2-7, b2-15, R2-30, ...>"
 export DESIRED_NODES_NUM="<Desired number of kubernetes nodes>"
 export MAX_NODES_NUM="<Maximum number of kubernetes nodes>"
@@ -27,9 +52,6 @@ export DATABASE_VERSION="<Version of postgresql>"
 export DATABASE_PLAN="<OVH plan for database : essential = 1 nodes, business = 2 nodes, enterprise = 3 nodes>"
 export DATABASE_FLAVOR="<OVH flavor of the VM on which the database is installed : db1-4, db1-7, db1-15, db1-30, ...>"
 export DATABASE_DISK_SIZE="<Size of the disk for the database VM>"
-export OPENSTACK_TENANT="<OVH OpenStack tenant>"
-export OPENSTACK_USER="<OVH OpenStack username>"
-export OPENSTACK_PASSWORD="<OVH OpenStack password for username>"
 export VLAN_ID="<VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap>"
 export VLAN_CIDR="<Range of IP for the private network>"
 # variables used by matrix components

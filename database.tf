@@ -10,20 +10,23 @@ locals {
 
 resource "ovh_cloud_project_database" "pg_database" {
   service_name = var.service_name
-  description  = "PostGreSQL database for EIMIS"
+  description  = "PostGreSQL database for ${var.env_name}"
   engine       = "postgresql"
   version      = var.database_version
   plan         = var.database_plan
   flavor       = var.database_flavor
   disk_size    = var.database_disk
 
-  dynamic "nodes" {
-    for_each = toset(local.nodes_set)
-    content {
-      region     = var.global_region
-      network_id = openstack_networking_network_v2.private_network.id
-      subnet_id  = openstack_networking_subnet_v2.subnet.id
-    }
+#  dynamic "nodes" {
+#    for_each = toset(local.nodes_set)
+#    content {
+#      region = var.global_region
+#      #      network_id = openstack_networking_network_v2.private_network.id
+#      #      subnet_id  = openstack_networking_subnet_v2.subnet.id
+#    }
+#  }
+  nodes {
+    region = var.global_region
   }
 }
 
@@ -39,7 +42,7 @@ resource "ovh_cloud_project_database_ip_restriction" "ip_restriction" {
   engine       = "postgresql"
   cluster_id   = ovh_cloud_project_database.pg_database.id
   service_name = ovh_cloud_project_database.pg_database.service_name
-  ip           = "192.168.12.0/24"
+  ip           = "${var.vlan_cidr}.0/24"
 }
 
 resource "ovh_cloud_project_database_postgresql_user" "keycloak" {
