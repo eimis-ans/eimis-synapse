@@ -1,12 +1,12 @@
-#locals {
-#  #  nodes_count      = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
-#  nodes_iterator = {
-#    essential  = ["1"],
-#    business   = ["1", "2"],
-#    entreprise = ["1", "2", "3"]
-#  }
-#  nodes_set = lookup(local.nodes_iterator, var.database_plan)
-#}
+locals {
+  #  nodes_count      = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
+  nodes_iterator = {
+    essential  = ["1"],
+    business   = ["1", "2"],
+    entreprise = ["1", "2", "3"]
+  }
+  nodes_set = lookup(local.nodes_iterator, var.database_plan)
+}
 
 resource "ovh_cloud_project_database" "pg_database" {
   service_name = var.service_name
@@ -17,16 +17,13 @@ resource "ovh_cloud_project_database" "pg_database" {
   flavor       = var.database_flavor
   disk_size    = var.database_disk
 
-  #  dynamic "nodes" {
-  #    for_each = toset(local.nodes_set)
-  #    content {
-  #      region = var.global_region
-  #      #      network_id = openstack_networking_network_v2.private_network.id
-  #      #      subnet_id  = openstack_networking_subnet_v2.subnet.id
-  #    }
-  #  }
-  nodes {
-    region = var.global_region
+  dynamic "nodes" {
+    for_each = toset(local.nodes_set)
+    content {
+      region = var.global_region
+      #      network_id = openstack_networking_network_v2.private_network.id
+      #      subnet_id  = openstack_networking_subnet_v2.subnet.id
+    }
   }
 }
 
@@ -49,7 +46,6 @@ resource "ovh_cloud_project_database_postgresql_user" "keycloak" {
   service_name = ovh_cloud_project_database.pg_database.service_name
   cluster_id   = ovh_cloud_project_database.pg_database.id
   name         = var.keycloak_db_user
-  # 'postgres' is a reserved user, detailed message taken from API https://eu.api.ovh.com/console/#/cloud/project/%7BserviceName%7D/database/postgresql/%7BclusterId%7D/user~POST
   roles = [
     "replication"
   ]
