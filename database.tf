@@ -21,8 +21,8 @@ resource "ovh_cloud_project_database" "pg_database" {
     for_each = toset(local.nodes_set)
     content {
       region = var.global_region
-      #      network_id = openstack_networking_network_v2.private_network.id
-      #      subnet_id  = openstack_networking_subnet_v2.subnet.id
+      network_id = openstack_networking_network_v2.private_network.id
+      subnet_id  = openstack_networking_subnet_v2.subnet.id
     }
   }
 }
