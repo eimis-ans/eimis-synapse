@@ -8,7 +8,7 @@ variable "service_name" {
   description = "the ID of the project on the OVH project web page"
 }
 
-variable "cluster_region" {
+variable "os_region_name" {
   type        = string
   description = "OVH region for the cluster (from https://www.ovhcloud.com/en/public-cloud/regions-availability/): GRA1, GRA7 ..."
 }

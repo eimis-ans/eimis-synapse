@@ -1,7 +1,7 @@
 resource "ovh_cloud_project_kube" "k8s_element_cluster" {
   service_name = var.service_name
   name         = "synapse_${var.env_name}_cluster"
-  region       = var.cluster_region
+  region       = var.os_region_name
   version      = var.cluster_version
 }
 
