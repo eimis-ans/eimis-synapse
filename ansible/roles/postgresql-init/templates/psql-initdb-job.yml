@@ -4,13 +4,7 @@ metadata:
   name: psql-initdb-job
   namespace: default
 spec:
-#  selector:
-#    matchLabels:
-#      app: psql-init-db
   template:
-#    metadata:
-#      labels:
-#        app: psql-init-db
     spec:
       containers:
         - name: psql
