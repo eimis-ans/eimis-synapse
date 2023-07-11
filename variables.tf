@@ -63,21 +63,6 @@ variable "database_disk" {
   type        = string
 }
 
-variable "keycloak_db_name" {
-  description = "database name for keycloak"
-  type        = string
-}
-
-variable "keycloak_db_user" {
-  description = "username for keycloak database"
-  type        = string
-}
-
-variable "synapse_db_name" {
-  description = "database name for synapse"
-  type        = string
-}
-
 variable "synapse_db_user" {
   description = "username for synapse database"
   type        = string
