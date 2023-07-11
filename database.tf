@@ -27,13 +27,13 @@ resource "ovh_cloud_project_database" "pg_database" {
   }
 }
 
-
-resource "ovh_cloud_project_database_database" "keycloak" {
-  service_name = ovh_cloud_project_database.pg_database.service_name
-  engine       = ovh_cloud_project_database.pg_database.engine
-  cluster_id   = ovh_cloud_project_database.pg_database.id
-  name         = var.keycloak_db_name
-}
+#
+#resource "ovh_cloud_project_database_database" "keycloak" {
+#  service_name = ovh_cloud_project_database.pg_database.service_name
+#  engine       = ovh_cloud_project_database.pg_database.engine
+#  cluster_id   = ovh_cloud_project_database.pg_database.id
+#  name         = var.keycloak_db_name
+#}
 
 resource "ovh_cloud_project_database_ip_restriction" "ip_restriction" {
   engine       = "postgresql"
@@ -54,12 +54,12 @@ resource "ovh_cloud_project_database_postgresql_user" "keycloak" {
   password_reset = "password-reset-on-18-01-2022"
 }
 
-resource "ovh_cloud_project_database_database" "synapse" {
-  service_name = ovh_cloud_project_database.pg_database.service_name
-  engine       = ovh_cloud_project_database.pg_database.engine
-  cluster_id   = ovh_cloud_project_database.pg_database.id
-  name         = var.synapse_db_name
-}
+#resource "ovh_cloud_project_database_database" "synapse" {
+#  service_name = ovh_cloud_project_database.pg_database.service_name
+#  engine       = ovh_cloud_project_database.pg_database.engine
+#  cluster_id   = ovh_cloud_project_database.pg_database.id
+#  name         = var.synapse_db_name
+#}
 
 resource "ovh_cloud_project_database_postgresql_user" "synapse" {
   service_name = ovh_cloud_project_database.pg_database.service_name
@@ -70,6 +70,13 @@ resource "ovh_cloud_project_database_postgresql_user" "synapse" {
   ]
   # Arbitrary string to change to trigger a password update.
   # Use 'terraform refresh' after 'terraform apply' to update the output with the new password.
+  password_reset = "password-reset-on-18-01-2022"
+}
+
+resource "ovh_cloud_project_database_postgresql_user" "avnadmin" {
+  service_name   = ovh_cloud_project_database.pg_database.service_name
+  cluster_id     = ovh_cloud_project_database.pg_database.id
+  name           = "avnadmin"
   password_reset = "password-reset-on-18-01-2022"
 }
 

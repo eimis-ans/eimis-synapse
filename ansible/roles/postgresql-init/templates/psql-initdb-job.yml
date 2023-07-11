@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: psql-initdb-job
+  namespace: default
+spec:
+#  selector:
+#    matchLabels:
+#      app: psql-init-db
+  template:
+#    metadata:
+#      labels:
+#        app: psql-init-db
+    spec:
+      containers:
+        - name: psql
+          image: governmentpaas/psql
+          command: ["sh", "-c"]
+          args:
+            - "sh /scripts/initdb.sh"
+          volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+          env:
+            - name: PGUSER
+              value: "avnadmin"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: avnadmin-db-password
+            - name: PGHOST
+              value: "{{ matrix.db_host }}"
+            - name: PGPORT
+              value: "{{ matrix.db_port }}"
+      restartPolicy: Never
+      volumes:
+        - name: script-volume
+          configMap:
+            name: psql-init-db
+            items:
+              - key: initdb.sh
+                path: initdb.sh
+  backoffLimit: 2

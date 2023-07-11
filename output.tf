@@ -17,6 +17,11 @@ output "synapse_db_password" {
   sensitive = true
 }
 
+output "avnadmin_db_password" {
+  value     = ovh_cloud_project_database_postgresql_user.avnadmin.password
+  sensitive = true
+}
+
 output "synapse_db_host" {
   value     = ovh_cloud_project_database.pg_database.endpoints.0.domain
   sensitive = true
