@@ -62,7 +62,5 @@ This will lead to the installation of the following components in the cluster :
   - a certificate manager
   - a component that manage dns zone on OVH
 - components specific to our stack :
-  - an operator to install keycloak
-  - the keycloak stack 
   - the synapse stack and its customization
   - the element-web stack
