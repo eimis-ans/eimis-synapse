@@ -3,6 +3,16 @@
 # Role used to install a basic Matrix synapse server
 # The configuration of the server will be completed later in synapse-extra-config role
 #
+- name: Postgres database secret for Synapse
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "postgres-secret.yml"
+
+- name: Postgres client secret for Synapse
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "postgres-secret.yml"
+
 - name: Add ananace-charts helm repository
   kubernetes.core.helm_repository:
     name: ananace-charts
@@ -23,6 +33,31 @@
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
+      postgresql:
+        enabled: false
+      externalPostgresql:
+        host: "{{ matrix.db_host }}"
+        port: "{{ matrix.db_port }}"
+        database: "{{ matrix.db_instance_name }}"
+        username: "{{ matrix.db_user }}"
+#        password: synapse
+        ## The name of an existing secret with postgresql credentials
+        existingSecret: postgres-secrets
+        ## Password key to be retrieved from existing secret
+        existingSecretPasswordKey: postgres-password
+
+
+#        database:
+#          name: psycopg2
+#          txn_limit: 10000
+#          args:
+#            user: "{{ matrix.db_user }}"
+#            password: "{{ matrix.db_password }}"
+#            database: "{{ matrix.db_instance_name }}"
+#            host: "{{ matrix.db_host }}"
+#            port: "{{ matrix.db_port }}"
+#            cp_min: 5
+#            cp_max: 10
       ingress:
         className: nginx
         annotations:

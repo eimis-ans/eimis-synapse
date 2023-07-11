@@ -53,6 +53,8 @@ env:
   DATABASE_PLAN: ${{ vars.DATABASE_PLAN }}
   DATABASE_FLAVOR: ${{ vars.DATABASE_FLAVOR }}
   DATABASE_DISK_SIZE: ${{ vars.DATABASE_DISK_SIZE }}
+  SYNAPSE_DB_INSTANCE_NAME: ${{ vars.SYNAPSE_DB_INSTANCE_NAME }}
+  SYNAPSE_DB_USER: ${{ vars.SYNAPSE_DB_USER }}
   VLAN_ID: ${{ vars.VLAN_ID }}
   VLAN_CIDR: ${{ vars.VLAN_CIDR }}
   # variables used by matrix components
@@ -163,7 +165,7 @@ jobs:
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_provisioning_var_files.sh
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
@@ -203,13 +205,9 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
-      # Generate kubeconfig file
-      - name: Generate kubeconfig file
-        run: sh scripts/generate_kubeconfig_file.sh
-
-      # Generates group_vars/all file from the environment variables
-      - name: "Generates group_vars/all file from the environment variables"
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
+      # Generates kubeconfig file and group_vars/all files from the environment variables
+      - name: "Generates kubeconfig file and group_vars/all files from the environment variables"
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_configuration_var_files.sh
 
       # Run ansible_configuration.sh script
       - name: ansible_configuration script

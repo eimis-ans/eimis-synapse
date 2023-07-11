@@ -73,6 +73,16 @@ variable "keycloak_db_user" {
   type        = string
 }
 
+variable "synapse_db_name" {
+  description = "database name for synapse"
+  type        = string
+}
+
+variable "synapse_db_user" {
+  description = "username for synapse database"
+  type        = string
+}
+
 #variable "openstack_tenant" {
 #  description = "OVH OpenStack tenant"
 #  type        = string

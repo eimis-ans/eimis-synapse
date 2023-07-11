@@ -1,8 +1,14 @@
 resource "ovh_cloud_project_kube" "k8s_element_cluster" {
-  service_name = var.service_name
-  name         = "synapse_${var.env_name}_cluster"
-  region       = var.os_region_name
-  version      = var.cluster_version
+  service_name       = var.service_name
+  name               = "synapse_${var.env_name}_cluster"
+  region             = var.os_region_name
+  version            = var.cluster_version
+  private_network_id = openstack_networking_network_v2.private_network.id
+
+  private_network_configuration {
+    default_vrack_gateway              = "${var.vlan_cidr}.1"
+    private_network_routing_as_default = true
+  }
 }
 
 resource "ovh_cloud_project_kube_nodepool" "node_pool" {
