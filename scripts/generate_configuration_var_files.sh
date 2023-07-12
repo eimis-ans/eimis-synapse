@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# this script is intended generate the files and vars needed to let the configuration step work with Ansible :
+# this script is intended to generate the files and vars needed to let the configuration step work with Ansible :
 # - kubeconfig file from the output of terraform
 # - connexion to database from the output of terraform
 # - group_vars/all.yml needed by Ansible
