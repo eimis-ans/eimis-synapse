@@ -10,6 +10,7 @@
     - external-dns
     - keycloak-operator
     - keycloak
+    - postgresql-init
     - synapse
     - first-admin
     - psc-button

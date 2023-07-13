@@ -1,5 +1,5 @@
 # Synapse on Kubernetes
-Make an Synapse/Matrix server work on a managed kubernetes server hosted by OVH
+Make a Synapse/Matrix server work on a managed kubernetes cluster hosted by OVH
 
 The Matrix-synapse stack is based on the work done by [Alexander Olofsson](https://gitlab.com/ananace) :
 https://gitlab.com/ananace/charts/-/tree/master/charts/matrix-synapse
@@ -8,7 +8,7 @@ https://gitlab.com/ananace/charts/-/tree/master/charts/matrix-synapse
 
 - an account in OVH hosting provider and its credentials
 (application key, application secret, consumer secret and endpoint)
-- to store Terraform state files : an S3 object storage with the credentials to connect to
+- to store Terraform state files : a S3 object storage with the credentials to connect to
 (access key, secret key, endpoint and region) and a bucket named terraform-states-hp-myenv for example.
 - to reach the future synapse homeserver : a valid dns zone hosted by OVH
 - to send some mails to users : a valid access to a SMTP service
@@ -26,9 +26,9 @@ and fill it with all the environment variables values needed.
     ```bash
     source local/local.env.sh
     ```
-- Generate a terraform.tfvars file based on values previously set :
+- Generate the var file for provisioning stage (terraform.tfvars) based on values previously set :
     ```bash
-    sh scripts/generate_var_file.sh
+    sh scripts/generate_provisioning_var_files.sh
     ```
 - Initialize the Terraform workspace specifying the name of the S3 bucket
     ```bash
@@ -44,20 +44,18 @@ and fill it with all the environment variables values needed.
     ```
   This will lead to the creation of a kubernetes cluster with 1 control plane node and several worker nodes
 
-- Generate the kubeconfig file needed to connect to the cluster and register it as KUBECONFIG variable:
-  ```bash
-  sh scripts/generate_kubeconfig_file.sh
-  export KUBECONFIG="$(pwd)/local/kubeconfig.yml"
-  ```
-  For more info : https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
-
 ## Configuration
 The configuration part will be done with Ansible and is quite independant
 from the provisioning part.  
-For this you just have to execute :
-```bash
-sh scripts/ansible_configuration.sh
-```
+- Generate the files (kubeconfig.yml, ansible/group_vars/all.yml) and vars needed :
+  ```bash
+  sh scripts/generate_configuration_var_files.sh
+  ```
+  For more info on kubeconfig file see https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
+- And then  execute :
+  ```bash
+  sh scripts/ansible_configuration.sh
+  ```
 This will lead to the installation of the following components in the cluster :
 - basic components :
   - an ingress controller

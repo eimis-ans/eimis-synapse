@@ -23,6 +23,15 @@
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: true
+      postgresql:
+        enabled: false
+      externalPostgresql:
+        host: "{{ matrix.db_host }}"
+        port: "{{ matrix.db_port }}"
+        database: "{{ matrix.db_instance_name }}"
+        username: "{{ matrix.db_user }}"
+        existingSecret: postgres-secrets
+        existingSecretPasswordKey: synapse-db-password
       ingress:
         className: nginx
         annotations:
