@@ -52,7 +52,6 @@ export DATABASE_VERSION="<Version of postgresql>"
 export DATABASE_PLAN="<OVH plan for database : essential = 1 nodes, business = 2 nodes, enterprise = 3 nodes>"
 export DATABASE_FLAVOR="<OVH flavor of the VM on which the database is installed : db1-4, db1-7, db1-15, db1-30, ...>"
 export DATABASE_DISK_SIZE="<Size of the disk for the database VM>"
-export VLAN_ID="<VLAN ID to avoid overlap between environment. By default it is max(VLAN IDs on the project) + 1, so they would surely overlap>"
 export VLAN_CIDR="<Range of IP for the private network>"
 # variables used by matrix components
 export SERVER_SUBDOMAIN_NAME="<the matrix serverName will be : SERVER_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"

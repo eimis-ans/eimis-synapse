@@ -43,11 +43,6 @@ resource "openstack_networking_subnet_v2" "subnet" {
   no_gateway      = false
   dns_nameservers = ["1.1.1.1", "1.0.0.1"]
 
-  #  value_specs = {
-  #    "provider:network_type"    = "vrack"
-  #    "provider:segmentation_id" = var.vlan_id
-  #  }
-
   allocation_pool {
     start = "${var.vlan_cidr}.100"
     end   = "${var.vlan_cidr}.254"
