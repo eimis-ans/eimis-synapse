@@ -7,4 +7,4 @@ metadata:
 data:
   initdb.sh: |
     #!/bin/bash
-    psql  defaultdb --command="CREATE DATABASE synapse WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C' OWNER "{{ matrix.db_user }}";"
+    psql  defaultdb --command="CREATE DATABASE {{ matrix.db_instance_name }} WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C' OWNER "{{ matrix.db_user }}";"
