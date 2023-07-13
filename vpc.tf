@@ -1,32 +1,7 @@
-#data "ovh_order_cart" "mycart" {
-#  ovh_subsidiary = "fr"
-#  description    = "my vrack order cart"
-#}
-#
-#data "ovh_order_cart_product_plan" "vrack" {
-#  cart_id        = data.ovh_order_cart.mycart.id
-#  price_capacity = "renew"
-#  product        = "vrack"
-#  plan_code      = "vrack"
-#}
-
 data "openstack_networking_network_v2" "ext_net" {
   name   = "Ext-Net"
   region = var.os_region_name
 }
-
-#resource "ovh_vrack" "vrack" {
-#  ovh_subsidiary = data.ovh_order_cart.mycart.ovh_subsidiary
-#  name           = "${var.env_name} vrack"
-#  description    = "${var.env_name} vrack"
-#
-#  plan {
-#    duration     = data.ovh_order_cart_product_plan.vrack.selected_price.0.duration
-#    plan_code    = data.ovh_order_cart_product_plan.vrack.plan_code
-#    pricing_mode = data.ovh_order_cart_product_plan.vrack.selected_price.0.pricing_mode
-#  }
-#  payment_mean = ""
-#}
 
 resource "openstack_networking_network_v2" "private_network" {
   name           = "${var.env_name}-private-network"
