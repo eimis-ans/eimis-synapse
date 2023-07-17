@@ -8,6 +8,7 @@
   kubernetes.core.helm:
     name: ingress-nginx
     chart_ref: ingress-nginx/ingress-nginx
+    chart_version: "{{ ingress_controller.version }}"
     release_namespace: ingress-nginx
     create_namespace: true
     update_repo_cache: yes

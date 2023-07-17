@@ -5,7 +5,10 @@ ovh:
   application_secret: ${OVH_APPLICATION_SECRET}
   consumer_key: ${OVH_CONSUMER_KEY}
 dns_zone: ${DNS_ZONE}
+ingress_controller:
+  version: "4.7.1"
 cert_manager:
+  version: "1.11.0"
   issuer_mail: ${ISSUER_MAIL}
 external_dns:
   version: "v0.13.5"
