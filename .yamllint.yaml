@@ -1,0 +1,14 @@
+extends: default
+rules:
+  truthy: disable
+  document-start: disable
+  line-length:
+    max: 200
+    level: warning
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  braces:
+    forbid: false
+    min-spaces-inside: 0
+    max-spaces-inside: 1

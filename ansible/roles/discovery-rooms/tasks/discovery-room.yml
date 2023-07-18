@@ -3,7 +3,7 @@
   uri:
     url: "http://{{ matrix.server_name }}/_matrix/client/v3/directory/room/%23discoveryroom%3A{{matrix.server_name}}?roomAlias=%23discoveryroom%3A{{matrix.server_name}}"
     method: GET
-    status_code: 200, 404   # allow 404 when no alias exists
+    status_code: 200, 404  # allow 404 when no alias exists
     body_format: json
     use_proxy: false
     return_content: yes

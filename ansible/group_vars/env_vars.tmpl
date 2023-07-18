@@ -5,21 +5,16 @@ ovh:
   application_secret: ${OVH_APPLICATION_SECRET}
   consumer_key: ${OVH_CONSUMER_KEY}
 dns_zone: ${DNS_ZONE}
+ingress_controller:
+  version: "4.7.1"
 cert_manager:
+  version: "1.11.0"
   issuer_mail: ${ISSUER_MAIL}
 external_dns:
   version: "v0.13.5"
   registry_id: ${ENVIRONMENT}
 operator_licecycle_manager:
   version: "v0.23.1"
-keycloak:
-  server_name: idp.${ENVIRONMENT}.${DNS_ZONE}
-  operator_version : 21.0.1
-  db_instance_name: ${KECLOAK_DB_INSTANCE_NAME}
-  db_user: ${KEYCLOAK_DB_USER}
-  db_password: ${KEYCLOAK_DB_PASSWORD}
-  client_id: ${KEYCLOAK_CLIENT_ID}
-  client_secret: ${KEYCLOAK_CLIENT_SECRET}
 prosante_connect:
   issuer: ${PROSANTE_CONNECT_ISSUER}
   authorization_endpoint: ${PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT}
@@ -35,6 +30,12 @@ matrix:
 #  smtp_port: ${SMTP_PORT}
   smtp_user: ${SMTP_USER}
   smtp_pass: ${SMTP_PASS}
+  db_host: ${SYNAPSE_DB_HOST}
+  db_port: ${SYNAPSE_DB_PORT}
+  db_instance_name: ${SYNAPSE_DB_INSTANCE_NAME}
+  db_user: ${SYNAPSE_DB_USER}
+  db_password: ${SYNAPSE_DB_PASSWORD}
+  avnadmin_password: ${AVNADMIN_DB_PASSWORD}
   first_eimis_username: ${FIRST_EIMIS_USERNAME}
   first_eimis_password: ${FIRST_EIMIS_PASSWORD}
   dummy_username: ${DUMMY_USERNAME}
