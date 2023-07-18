@@ -15,14 +15,6 @@ external_dns:
   registry_id: ${ENVIRONMENT}
 operator_licecycle_manager:
   version: "v0.23.1"
-keycloak:
-  server_name: idp.${ENVIRONMENT}.${DNS_ZONE}
-  operator_version : 21.0.1
-  db_instance_name: ${KECLOAK_DB_INSTANCE_NAME}
-  db_user: ${KEYCLOAK_DB_USER}
-  db_password: ${KEYCLOAK_DB_PASSWORD}
-  client_id: ${KEYCLOAK_CLIENT_ID}
-  client_secret: ${KEYCLOAK_CLIENT_SECRET}
 prosante_connect:
   issuer: ${PROSANTE_CONNECT_ISSUER}
   authorization_endpoint: ${PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT}

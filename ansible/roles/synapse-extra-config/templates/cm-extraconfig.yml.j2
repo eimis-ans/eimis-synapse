@@ -12,17 +12,6 @@ data:
     - "{{ discovery_room_id }}"
 {% endif %}
     oidc_providers:
-      - idp_id: keycloak
-        idp_name: "Keycloak IdP"
-        issuer: "https://{{ keycloak.server_name }}/realms/psc-realm"
-        client_id: "{{ keycloak.client_id }}"
-        client_secret: "{{ keycloak.client_secret }}"
-        scopes: ["openid", "profile"]
-        user_mapping_provider:
-          config:
-            localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
-        backchannel_logout_enabled: true # Optional
       - idp_id: psc
         idp_name: "Pro Santé Connect"
         idp_icon: "{{ mxc.stdout }}"
