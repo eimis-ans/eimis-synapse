@@ -66,7 +66,8 @@ export FIRST_EIMIS_USERNAME="<username of the first eimis user created when boot
 export FIRST_EIMIS_PASSWORD="<password of the first eimis user created when bootstraping>"
 export DUMMY_USERNAME="<dummy user used with the discovery room mecanism>"
 export DUMMY_PASSWORD="<password for the dummy user>"
-export FEDERATION_SERVERS_LIST="list of comma separated URI of synapse servers included in federation. Ex : ['preprod.eimis.incubateur.net','matrix.pandalab.fr']"
+export FEDERATION_SERVERS_LIST="<list of comma separated URI of synapse servers included in federation. Ex : ['preprod.eimis.incubateur.net','matrix.pandalab.fr']>"
+export SYNAPSE_AUTO_REGISTRATION="<if set to true, users can auto register. If set to false, they can only be registered by admin>"
 # variables used to connect to Pro Santé Connect.
 # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
 export PROSANTE_CONNECT_ISSUER="<Used to validate tokens and to discover the Pros Santé Connect's endpoints (required but unused)>"

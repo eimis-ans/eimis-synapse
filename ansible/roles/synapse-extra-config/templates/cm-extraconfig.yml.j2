@@ -29,5 +29,7 @@ data:
             localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
             display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
         backchannel_logout_enabled: true # Optional
+    auto_join_rooms: ["#discoveryroom:{{ matrix.server_name }}"]
+    autocreate_auto_join_rooms: true
     app_service_config_files:
       - /data/msteams-registration.yaml
