@@ -70,6 +70,7 @@ export FEDERATION_SERVERS_LIST="<list of comma separated URI of synapse servers 
 export SYNAPSE_AUTO_REGISTRATION="<if set to true, users can auto register. If set to false, they can only be registered by admin>"
 # variables used to connect to Pro Santé Connect.
 # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+export PROSANTE_CONNECT_ENABLED="<true to login with PSC>"
 export PROSANTE_CONNECT_ISSUER="<Used to validate tokens and to discover the Pros Santé Connect's endpoints (required but unused)>"
 export PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT="<Authorization endpoint used to connect to Pro Santé Connect>"
 export PROSANTE_CONNECT_TOKEN_ENDPOINT="<Token endpoint used to retrieve token from Pro Santé Connect>"

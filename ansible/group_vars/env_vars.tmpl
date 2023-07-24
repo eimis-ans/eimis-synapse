@@ -16,6 +16,7 @@ external_dns:
 operator_licecycle_manager:
   version: "v0.23.1"
 prosante_connect:
+  enabled: ${PROSANTE_CONNECT_ENABLED}
   issuer: ${PROSANTE_CONNECT_ISSUER}
   authorization_endpoint: ${PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT}
   token_endpoint: ${PROSANTE_CONNECT_TOKEN_ENDPOINT}
