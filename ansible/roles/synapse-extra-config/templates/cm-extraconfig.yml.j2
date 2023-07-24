@@ -33,5 +33,7 @@ data:
 {% endif %}
     auto_join_rooms: ["#discoveryroom:{{ matrix.server_name }}"]
     autocreate_auto_join_rooms: true
+{% if msteams.enabled %}  
     app_service_config_files:
       - /data/msteams-registration.yaml
+{% endif %}
