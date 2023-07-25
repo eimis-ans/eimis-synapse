@@ -79,6 +79,7 @@ export PROSANTE_CONNECT_JKWS_URI="<URI where to fetch the JWKS from Pro Santé C
 export PROSANTE_CONNECT_CLIENT_ID="<Client ID used to identify the client against Pro Santé Connect>"
 export PROSANTE_CONNECT_CLIENT_SECRET="<Client secret associated with client ID used to identify the client against Pro Santé Connect>"
 # variables used by the MS Teams bridge
+export TEAMS_BRIDGE_ENABLED="<true or false>"
 export TEAMS_BRIDGE_SUBDOMAIN_NAME="<the MS Teams bridge serverName will be : TEAMS_BRIDGE_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export TEAMS_OAUTH_CLIENT_ID="<Application (client) ID coming from the azure portal app registration>"
 export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure portal app registration>"

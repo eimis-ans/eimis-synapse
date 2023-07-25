@@ -1,10 +1,14 @@
 ---
-- name: Create namespace dedicated to msteams bridge
+- name: should the bridge be present or not?
+  set_fact:
+    absent_or_present: "{{ 'absent' if absent_or_present == 'absent' or not msteams.enabled else 'present' }}"
+
+- name: Create or delete namespace dedicated to msteams bridge
   kubernetes.core.k8s:
     name: msteams
     api_version: v1
     kind: Namespace
-    state: present
+    state: "{{ absent_or_present }}"
 
 - name: Bridge configmap
   kubernetes.core.k8s:
@@ -70,3 +74,4 @@
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
     template: "msteams-registration.yml"
+  when: absent_or_present=="present"
