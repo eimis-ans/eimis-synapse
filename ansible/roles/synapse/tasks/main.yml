@@ -55,7 +55,7 @@
           smtp_port: 587
           smtp_user: "{{ matrix.smtp_user }}"
           smtp_pass: "{{ matrix.smtp_pass }}"
-          notif_from: "Your Friendly %(app)s homeserver <noreply@{{ matrix.server_name }}>"
+          notif_from: "{{ matrix.notify_from }}"
     update_repo_cache: yes
 
 - name: wait for the matrix-synapse replicaset to be ready
