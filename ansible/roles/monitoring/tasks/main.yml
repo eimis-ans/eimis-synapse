@@ -1,0 +1,16 @@
+---
+# Based on https://grafana.com/blog/2023/01/19/how-to-monitor-kubernetes-clusters-with-the-prometheus-operator/
+- name: Create or delete monitoring namespace
+  kubernetes.core.k8s:
+    name: monitoring
+    api_version: v1
+    kind: Namespace
+    state: "{{ absent_or_present }}"
+
+- name: Prometheus operator
+  shell: "kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.67.0/bundle.yaml --force-conflicts=true --server-side=true"
+
+- name: Install Prometheus RBAC
+  kubernetes.core.k8s:
+    state: present
+    template: "prometheus-rbac.yml"
