@@ -84,3 +84,5 @@ export TEAMS_BRIDGE_ENABLED="<true or false>"
 export TEAMS_BRIDGE_SUBDOMAIN_NAME="<the MS Teams bridge serverName will be : TEAMS_BRIDGE_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export TEAMS_OAUTH_CLIENT_ID="<Application (client) ID coming from the azure portal app registration>"
 export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure portal app registration>"
+# monitoring
+export MONITORING_SUBDOMAIN_NAME="monitoring"

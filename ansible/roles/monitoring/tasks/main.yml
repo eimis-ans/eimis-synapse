@@ -24,3 +24,13 @@
   kubernetes.core.k8s:
     state: present
     template: "self-service-monitor.yml"
+
+- name: Grafana
+  kubernetes.core.k8s:
+    state: present
+    template: "grafana.yml"
+
+- name: Grafana ingress
+  kubernetes.core.k8s:
+    state: present
+    template: "grafana-ingress.yml"
