@@ -14,3 +14,13 @@
   kubernetes.core.k8s:
     state: present
     template: "prometheus-rbac.yml"
+
+- name: Prometheus instance
+  kubernetes.core.k8s:
+    state: present
+    template: "prometheus-instance.yml"
+
+- name: Service monitor
+  kubernetes.core.k8s:
+    state: present
+    template: "self-service-monitor.yml"
