@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: "{{ monitoring.server_name }}"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  name: grafana-ingress
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "{{ monitoring.server_name }}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - "{{ monitoring.server_name }}"
+      secretName: monitoring-tls-secret
