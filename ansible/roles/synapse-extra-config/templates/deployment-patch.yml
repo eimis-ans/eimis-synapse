@@ -6,8 +6,6 @@ spec:
           volumeMounts:
             - name: extraconfig
               mountPath: /etc/matrix-synapse/conf.d/
-            - name: msteams-registration
-              mountPath: /data/
       volumes:
         - configMap:
             name: matrix-synapse-extraconfig
@@ -15,9 +13,3 @@ spec:
           items:
             - key: "extraconfig.yaml"
               path: "extraconfig.yaml"
-        - configMap:
-            name: msteams-registration-configmap
-          name: msteams-registration
-          items:
-            - key: "msteams-registration.yaml"
-              path: "msteams-registration.yaml"

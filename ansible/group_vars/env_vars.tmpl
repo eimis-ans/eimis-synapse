@@ -16,6 +16,7 @@ external_dns:
 operator_licecycle_manager:
   version: "v0.23.1"
 prosante_connect:
+  enabled: ${PROSANTE_CONNECT_ENABLED}
   issuer: ${PROSANTE_CONNECT_ISSUER}
   authorization_endpoint: ${PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT}
   token_endpoint: ${PROSANTE_CONNECT_TOKEN_ENDPOINT}
@@ -30,6 +31,7 @@ matrix:
 #  smtp_port: ${SMTP_PORT}
   smtp_user: ${SMTP_USER}
   smtp_pass: ${SMTP_PASS}
+  notify_from: ${SMTP_NOTIFY_FROM}
   db_host: ${SYNAPSE_DB_HOST}
   db_port: ${SYNAPSE_DB_PORT}
   db_instance_name: ${SYNAPSE_DB_INSTANCE_NAME}
@@ -46,6 +48,7 @@ matrix:
 element:
   server_name: ${ELEMENT_SUBDOMAIN_NAME}.${ENVIRONMENT}.${DNS_ZONE}
 msteams:
+  enabled: ${TEAMS_BRIDGE_ENABLED}
   server_name: ${TEAMS_BRIDGE_SUBDOMAIN_NAME}.${ENVIRONMENT}.${DNS_ZONE}
   oauth:
     client_id: ${TEAMS_OAUTH_CLIENT_ID}

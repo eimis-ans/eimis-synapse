@@ -60,6 +60,7 @@ export SMTP_HOST="<configuration to send mail : host of the SMTP server>"
 export SMTP_PORT="<configuration to send mail : port of the SMTP server>"
 export SMTP_USER="<configuration to send mail : user to connect to the SMTP server>"
 export SMTP_PASS="<configuration to send mail : password of connect to the SMTP server>"
+export SMTP_NOTIFY_FROM="<mail from like : 'Display name<email@example.org>'>"
 export SYNAPSE_DB_INSTANCE_NAME="<database name of the postgresql database linked to synapse>"
 export SYNAPSE_DB_USER="<username to access the postgresql database linked to synapse>"
 export FIRST_EIMIS_USERNAME="<username of the first eimis user created when bootstraping>"
@@ -70,6 +71,7 @@ export FEDERATION_SERVERS_LIST="<list of comma separated URI of synapse servers 
 export SYNAPSE_AUTO_REGISTRATION="<if set to true, users can auto register. If set to false, they can only be registered by admin>"
 # variables used to connect to Pro Santé Connect.
 # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+export PROSANTE_CONNECT_ENABLED="<true to login with PSC>"
 export PROSANTE_CONNECT_ISSUER="<Used to validate tokens and to discover the Pros Santé Connect's endpoints (required but unused)>"
 export PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT="<Authorization endpoint used to connect to Pro Santé Connect>"
 export PROSANTE_CONNECT_TOKEN_ENDPOINT="<Token endpoint used to retrieve token from Pro Santé Connect>"
@@ -78,6 +80,7 @@ export PROSANTE_CONNECT_JKWS_URI="<URI where to fetch the JWKS from Pro Santé C
 export PROSANTE_CONNECT_CLIENT_ID="<Client ID used to identify the client against Pro Santé Connect>"
 export PROSANTE_CONNECT_CLIENT_SECRET="<Client secret associated with client ID used to identify the client against Pro Santé Connect>"
 # variables used by the MS Teams bridge
+export TEAMS_BRIDGE_ENABLED="<true or false>"
 export TEAMS_BRIDGE_SUBDOMAIN_NAME="<the MS Teams bridge serverName will be : TEAMS_BRIDGE_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export TEAMS_OAUTH_CLIENT_ID="<Application (client) ID coming from the azure portal app registration>"
 export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure portal app registration>"
