@@ -54,4 +54,6 @@ msteams:
     client_id: ${TEAMS_OAUTH_CLIENT_ID}
     client_secret: ${TEAMS_OAUTH_CLIENT_SECRET}
 monitoring:
+  kube_prometheus_version: v0.12.0
+  kube_prometheus_git_url: "https://github.com/prometheus-operator/kube-prometheus.git"
   server_name: ${MONITORING_SUBDOMAIN_NAME}.${ENVIRONMENT}.${DNS_ZONE}

@@ -18,6 +18,10 @@
       synapse:
         strategy:
           type: Recreate
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/path: "/_synapse/metrics"
+          prometheus.io/port: "9090"
         extraCommands:
           - "cp /etc/matrix-synapse/conf.d/* /synapse/config/conf.d/"
       serverName: "{{ matrix.server_name }}"
