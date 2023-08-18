@@ -1,61 +1,28 @@
 ---
-## Based on https://github.com/prometheus-operator/kube-prometheus
-- name: Install git
-  apt:
-    name: git
-    state: present
+- name: Add prometheus helm repository
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: "https://prometheus-community.github.io/helm-charts"
 
-- name: Create temporary folder
-  ansible.builtin.tempfile:
-    state: directory
-    suffix: temp
-  register: git_tmp_folder
-  changed_when: False
-
-- name: Git clone kube-prometheus project
-  ansible.builtin.git:
-    repo: "{{ monitoring.kube_prometheus_git_url }}"
-    dest: "{{ git_tmp_folder.path }}"
-    version: "{{ monitoring.kube_prometheus_version }}"
-
-- name: debug absent_or_present
-  ansible.builtin.debug:
-    msg: "absent_or_present = {{ absent_or_present }}"
-
-- name: Create the monitoring stack - phase 1
-  command: kubectl apply --server-side -f manifests/setup
-  args:
-    chdir: "{{ git_tmp_folder.path }}"
-  when: absent_or_present=="present"
-
-- name: Create the monitoring stack - phase 2
-  command: kubectl wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
-  args:
-    chdir: "{{ git_tmp_folder.path }}"
-  when: absent_or_present=="present"
-
-- name: Create the monitoring stack - phase 3
-  command: kubectl apply -f manifests/
-  args:
-    chdir: "{{ git_tmp_folder.path }}"
-  when: absent_or_present=="present"
-
-- name: Delete the monitoring stack
-  command: kubectl delete --ignore-not-found=true -f manifests/ -f manifests/setup
-  args:
-    chdir: "{{ git_tmp_folder.path }}"
-  when: absent_or_present=="absent"
-
-- name: Matrix-synapse service for monitoring
-  kubernetes.core.k8s:
-    state: "{{ absent_or_present }}"
-    template: "matrix-monitoring-svc.yml"
-
-# From now on this code is based on
-# - https://prometheus-operator.dev/docs/user-guides/getting-started/#using-podmonitors
-# - https://matrix-org.github.io/synapse/latest/metrics-howto.html
-# - https://github.com/matrix-org/synapse/tree/master/contrib/grafana/
-- name: Matrix-synapse service monitor
-  kubernetes.core.k8s:
-    state: "{{ absent_or_present }}"
-    template: "matrix-pod-ananace-monitor.yml"
+- name: install cert-manager helm chart
+  kubernetes.core.helm:
+    name: kube-prometheus
+    chart_ref: prometheus-community/kube-prometheus-stack
+    release_namespace: monitoring
+    create_namespace: true
+    release_values:
+      grafana:
+        defaultDashboardsTimezone: cest
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            external-dns.alpha.kubernetes.io/hostname: "{{ monitoring.server_name }}"
+          hosts:
+            - "{{ monitoring.server_name }}"
+          tls:
+            - hosts:
+                - "{{ monitoring.server_name }}"
+              secretName: "grafana-tls-secret"
+    update_repo_cache: yes
