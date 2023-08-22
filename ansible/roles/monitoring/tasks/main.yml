@@ -1,10 +1,10 @@
 ---
-- name: Add prometheus helm repository
+- name: Add kube-prometheus helm repository
   kubernetes.core.helm_repository:
     name: prometheus-community
     repo_url: "https://prometheus-community.github.io/helm-charts"
 
-- name: install cert-manager helm chart
+- name: install kube-prometheus helm chart
   kubernetes.core.helm:
     name: kube-prometheus
     chart_ref: prometheus-community/kube-prometheus-stack
@@ -26,3 +26,21 @@
                 - "{{ monitoring.server_name }}"
               secretName: "grafana-tls-secret"
     update_repo_cache: yes
+
+- name : get admin username for grafana
+  shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-user}' | base64 -d"
+  register: grafana_admin_username
+
+- name : get admin password for grafana
+  shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-password}' | base64 -d"
+  register: grafana_admin_password
+
+- name: Import Grafana dashboard synapse
+  community.grafana.grafana_dashboard:
+    grafana_url: "https://{{ monitoring.server_name }}"
+    url_username: "{{ grafana_admin_username.stdout }}"
+    url_password: "{{ grafana_admin_password.stdout }}"
+    state: present
+    commit_message: Updated by ansible
+    dashboard_id: "13894"
+    dashboard_revision: "1"
