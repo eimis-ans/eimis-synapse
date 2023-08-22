@@ -27,11 +27,11 @@
               secretName: "grafana-tls-secret"
     update_repo_cache: yes
 
-- name : get admin username for grafana
+- name: get admin username for grafana
   shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-user}' | base64 -d"
   register: grafana_admin_username
 
-- name : get admin password for grafana
+- name: get admin password for grafana
   shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-password}' | base64 -d"
   register: grafana_admin_password
 
