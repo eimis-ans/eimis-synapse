@@ -84,6 +84,8 @@ env:
   TEAMS_BRIDGE_SUBDOMAIN_NAME: ${{ vars.TEAMS_BRIDGE_SUBDOMAIN_NAME }}
   TEAMS_OAUTH_CLIENT_ID: ${{ secrets.TEAMS_OAUTH_CLIENT_ID }}
   TEAMS_OAUTH_CLIENT_SECRET: ${{ secrets.TEAMS_OAUTH_CLIENT_SECRET }}
+  # variables used by monitoring
+  MONITORING_SUBDOMAIN_NAME: ${{ vars.MONITORING_SUBDOMAIN_NAME }}
 
 jobs:
   set_environment:
