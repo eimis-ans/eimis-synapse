@@ -1,4 +1,9 @@
 ---
+- name: Matrix-synapse service for monitoring
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "matrix-monitoring-svc.yml"
+
 - name: Add kube-prometheus helm repository
   kubernetes.core.helm_repository:
     name: prometheus-community
@@ -11,6 +16,9 @@
     release_namespace: monitoring
     create_namespace: true
     release_values:
+      prometheus:
+        prometheusSpec:
+          serviceMonitorSelectorNilUsesHelmValues: false
       grafana:
         defaultDashboardsTimezone: cest
         ingress:
@@ -26,6 +34,11 @@
                 - "{{ monitoring.server_name }}"
               secretName: "grafana-tls-secret"
     update_repo_cache: yes
+
+- name: Matrix-synapse service monitor
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "matrix-servicemonitor.yml"
 
 - name: get admin username for grafana
   shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-user}' | base64 -d"
