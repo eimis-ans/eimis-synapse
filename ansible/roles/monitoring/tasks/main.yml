@@ -48,12 +48,30 @@
   shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-password}' | base64 -d"
   register: grafana_admin_password
 
-- name: Import Grafana dashboard synapse
+- name: Create temporary folder
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: temp
+  register: dashboard_tmp_folder
+  changed_when: False
+
+- name: download grafana dashboard for synapse
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/matrix-org/synapse/master/contrib/grafana/synapse.json
+    dest: "{{dashboard_tmp_folder.path}}/synapse.json"
+
+- name: Replace ${DS_PROMETHEUS} with prometheus value in synapse.json file
+  ansible.builtin.replace:
+    path: "{{dashboard_tmp_folder.path}}/synapse.json"
+    regexp: '\$\{DS_PROMETHEUS\}'
+    replace: 'prometheus'
+
+- name: Import resulting dashboard in Grafana
   community.grafana.grafana_dashboard:
     grafana_url: "https://{{ monitoring.server_name }}"
     url_username: "{{ grafana_admin_username.stdout }}"
     url_password: "{{ grafana_admin_password.stdout }}"
     state: present
     commit_message: Updated by ansible
-    dashboard_id: "13894"
-    dashboard_revision: "1"
+    overwrite: true
+    path: "{{dashboard_tmp_folder.path}}/synapse.json"
