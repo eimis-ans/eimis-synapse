@@ -1,4 +1,5 @@
 resource "ovh_cloud_project_kube" "k8s_element_cluster" {
+  depends_on = [openstack_networking_subnet_v2.subnet]
   service_name       = var.service_name
   name               = "synapse_${var.env_name}_cluster"
   region             = var.os_region_name

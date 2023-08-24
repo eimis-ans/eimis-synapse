@@ -1,5 +1,4 @@
 locals {
-  #  nodes_count      = var.database_plan == "essential" ? 1 : var.database_plan == "business" ? 2 : var.database_plan == "entreprise" ? 3 : 0
   nodes_iterator = {
     essential  = ["1"],
     business   = ["1", "2"],
@@ -9,6 +8,7 @@ locals {
 }
 
 resource "ovh_cloud_project_database" "pg_database" {
+  depends_on = [openstack_networking_subnet_v2.subnet]
   service_name = var.service_name
   description  = "PostGreSQL database for ${var.env_name}"
   engine       = "postgresql"
