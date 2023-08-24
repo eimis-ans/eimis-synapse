@@ -20,6 +20,7 @@
         prometheusSpec:
           serviceMonitorSelectorNilUsesHelmValues: false
       grafana:
+        adminPassword: "{{ monitoring.grafana_password }}"
         defaultDashboardsTimezone: cest
         ingress:
           enabled: true
