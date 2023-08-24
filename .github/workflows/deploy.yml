@@ -41,6 +41,7 @@ env:
   AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   # variables used by infrastructure components
+  ENV_IN_URL: ${{vars.ENV_IN_URL}}
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
   DESIRED_NODES_NUM: ${{ vars.DESIRED_NODES_NUM }}
@@ -102,7 +103,7 @@ jobs:
 
           case $ENVIRONMENT in
           main)
-          echo "my_env=production" >> $GITHUB_OUTPUT
+          echo "my_env=eimis" >> $GITHUB_OUTPUT
           ;;
 
           develop)
