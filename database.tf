@@ -8,7 +8,7 @@ locals {
 }
 
 resource "ovh_cloud_project_database" "pg_database" {
-  depends_on = [openstack_networking_subnet_v2.subnet]
+  depends_on   = [openstack_networking_subnet_v2.subnet]
   service_name = var.service_name
   description  = "PostGreSQL database for ${var.env_name}"
   engine       = "postgresql"
