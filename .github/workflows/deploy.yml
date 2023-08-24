@@ -86,6 +86,7 @@ env:
   TEAMS_OAUTH_CLIENT_SECRET: ${{ secrets.TEAMS_OAUTH_CLIENT_SECRET }}
   # variables used by monitoring
   MONITORING_SUBDOMAIN_NAME: ${{ vars.MONITORING_SUBDOMAIN_NAME }}
+  MONITORING_GRAFANA_PASSWORD: ${{ secrets.MONITORING_GRAFANA_PASSWORD }}
 
 jobs:
   set_environment:
