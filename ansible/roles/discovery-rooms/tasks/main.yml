@@ -11,7 +11,7 @@
   ansible.builtin.import_tasks:
     file: join-discovery-room.yml
 
-- name: Dummy user joins external discovery rooms listed in matrix.discovery_room.servers_list
+- name: Dummy user joins external discovery rooms listed in matrix.servers_list
   uri:
     url: "http://{{ matrix.server_name }}/_matrix/client/r0/join/%23discoveryroom:{{ item }}"
     method: POST
@@ -23,5 +23,5 @@
     follow_redirects: all
     headers:
       Authorization: "Bearer {{ dummy_access_token }}"
-  loop: "{{ matrix.discovery_room.servers_list }}"
+  loop: "{{ matrix.servers_list }}"
   ignore_errors: true

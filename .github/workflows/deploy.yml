@@ -41,6 +41,7 @@ env:
   AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   # variables used by infrastructure components
+  ENV_IN_URL: ${{vars.ENV_IN_URL}}
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
   DESIRED_NODES_NUM: ${{ vars.DESIRED_NODES_NUM }}
@@ -84,6 +85,9 @@ env:
   TEAMS_BRIDGE_SUBDOMAIN_NAME: ${{ vars.TEAMS_BRIDGE_SUBDOMAIN_NAME }}
   TEAMS_OAUTH_CLIENT_ID: ${{ secrets.TEAMS_OAUTH_CLIENT_ID }}
   TEAMS_OAUTH_CLIENT_SECRET: ${{ secrets.TEAMS_OAUTH_CLIENT_SECRET }}
+  # variables used by monitoring
+  MONITORING_SUBDOMAIN_NAME: ${{ vars.MONITORING_SUBDOMAIN_NAME }}
+  MONITORING_GRAFANA_PASSWORD: ${{ secrets.MONITORING_GRAFANA_PASSWORD }}
 
 jobs:
   set_environment:
@@ -99,7 +103,7 @@ jobs:
 
           case $ENVIRONMENT in
           main)
-          echo "my_env=production" >> $GITHUB_OUTPUT
+          echo "my_env=eimis" >> $GITHUB_OUTPUT
           ;;
 
           develop)
