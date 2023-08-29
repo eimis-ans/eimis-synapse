@@ -29,9 +29,9 @@ spec:
     email: "{{ cert_manager.issuer_mail }}"
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-     name: letsencrypt-develop
+      name: letsencrypt-develop
     # Enable the HTTP-01 challenge provider
     solvers:
-     - http01:
-         ingress:
-           class: nginx
+      - http01:
+          ingress:
+            class: nginx

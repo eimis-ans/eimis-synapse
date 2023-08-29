@@ -11,18 +11,8 @@ data:
     exclude_rooms_from_sync:
     - "{{ discovery_room_id }}"
 {% endif %}
+{% if prosante_connect.enabled  %}
     oidc_providers:
-      - idp_id: keycloak
-        idp_name: "Keycloak IdP"
-        issuer: "https://{{ keycloak.server_name }}/realms/psc-realm"
-        client_id: "{{ keycloak.client_id }}"
-        client_secret: "{{ keycloak.client_secret }}"
-        scopes: ["openid", "profile"]
-        user_mapping_provider:
-          config:
-            localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
-        backchannel_logout_enabled: true # Optional
       - idp_id: psc
         idp_name: "Pro Santé Connect"
         idp_icon: "{{ mxc.stdout }}"
@@ -40,5 +30,13 @@ data:
             localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
             display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
         backchannel_logout_enabled: true # Optional
+{% endif %}
+    auto_join_rooms: ["#discoveryroom:{{ matrix.server_name }}"]
+    autocreate_auto_join_rooms: true
+{% if matrix.servers_list is defined %}
+    federation_domain_whitelist: {{ matrix.servers_list }}
+{% endif %}
+{% if msteams.enabled %}  
     app_service_config_files:
       - /data/msteams-registration.yaml
+{% endif %}

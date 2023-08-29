@@ -8,10 +8,14 @@
 - name: create extraconfig configmap
   kubernetes.core.k8s:
     state: present
-    template: 'cm-extraconfig.yml.j2'
+    template: "cm-extraconfig.yml.j2"
 
 - name: mount extraconfig configmap on matrix-synapse pod
   shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-patch.yml') }}' "
+
+- name: mount msteams extraconfig configmap on matrix-synapse pod
+  shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-msteams-patch.yml') }}' "
+  when: msteams.enabled
 
 - name: Scale down matrix-synapse deployment
   kubernetes.core.k8s_scale:

@@ -1,11 +1,11 @@
 # This workflow is used to destroy infrastructure
-# It installs the latest version of Terraform CLI. On pull request events, this workflow will run
+# It installs the latest version of Terraform CLI. On workflow_dispatch events, this workflow will run
 # `terraform init` and terraform destroy.
 # It can only be manually launched
 #
 # Documentation for `hashicorp/setup-terraform` is located here: https://github.com/hashicorp/setup-terraform
 
-name: 'Destroy'
+name: "Destroy"
 
 on:
   workflow_dispatch:
@@ -14,43 +14,58 @@ permissions:
   contents: read
 
 env:
+  #### Openstack vars from openrc file
+  OS_AUTH_URL: "https://auth.cloud.ovh.net/v3"
+  OS_IDENTITY_API_VERSION: 3
+  OS_USER_DOMAIN_NAME: "Default"
+  OS_PROJECT_DOMAIN_NAME: "Default"
+  OS_TENANT_ID: ${{ vars.OS_TENANT_ID }}
+  OS_TENANT_NAME: ${{ vars.OS_TENANT_NAME }}
+  OS_USERNAME: ${{ secrets.OS_USERNAME }}
+  OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+  OS_REGION_NAME: ${{ vars.OS_REGION_NAME }}
+  #### OVH API vars from OVHcloud manager
+  OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
+  OVH_BASEURL: ${{ vars.OVH_BASEURL }}
+  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
+  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
+  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
+  OVH_CLOUD_PROJECT_SERVICE: ${{ vars.OS_TENANT_ID }}
   # configure access to S3 where tfstates are stored
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
   AWS_REGION: ${{ vars.AWS_REGION }}
-  # configure access to OVH provider
-  OVH_ENDPOINT: ${{ vars.OVH_ENDPOINT }}
-  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
-  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
-  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
   # variables used by infrastructure components
-  SERVICE_NAME: ${{ vars.SERVICE_NAME }}
-  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
-  CLUSTER_REGION: ${{ vars.CLUSTER_REGION }}
+  ENV_IN_URL: ${{vars.ENV_IN_URL}}
   CLUSTER_VERSION: ${{ vars.CLUSTER_VERSION }}
-  NODEPOOL_NAME: ${{ vars.NODEPOOL_NAME }}
   NODEPOOL_FLAVOR: ${{ vars.NODEPOOL_FLAVOR }}
+  DESIRED_NODES_NUM: ${{ vars.DESIRED_NODES_NUM }}
+  MAX_NODES_NUM: ${{ vars.MAX_NODES_NUM }}
+  MIN_NODES_NUM: ${{ vars.MIN_NODES_NUM }}
   DNS_ZONE: ${{ vars.DNS_ZONE }}
   ISSUER_MAIL: ${{ vars.ISSUER_MAIL }}
+  GLOBALE_REGION: ${{ vars.GLOBALE_REGION }}
+  DATABASE_VERSION: ${{ vars.DATABASE_VERSION }}
+  DATABASE_PLAN: ${{ vars.DATABASE_PLAN }}
+  DATABASE_FLAVOR: ${{ vars.DATABASE_FLAVOR }}
+  DATABASE_DISK_SIZE: ${{ vars.DATABASE_DISK_SIZE }}
+  SYNAPSE_DB_INSTANCE_NAME: ${{ vars.SYNAPSE_DB_INSTANCE_NAME }}
+  SYNAPSE_DB_USER: ${{ vars.SYNAPSE_DB_USER }}
+  VLAN_CIDR: ${{ vars.VLAN_CIDR }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
   ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
   SMTP_HOST: ${{ vars.SMTP_HOST }}
-  # SMTP_PORT: ${{ vars.SMTP_PORT }}
   SMTP_USER: ${{ vars.SMTP_USER }}
   SMTP_PASS: ${{ secrets.SMTP_PASS }}
+  SMTP_NOTIFY_FROM: ${{ vars.SMTP_NOTIFY_FROM }}
   FIRST_EIMIS_USERNAME: ${{ secrets.FIRST_EIMIS_USERNAME }}
   FIRST_EIMIS_PASSWORD: ${{ secrets.FIRST_EIMIS_PASSWORD }}
   DUMMY_USERNAME: ${{ secrets.DUMMY_USERNAME }}
   DUMMY_PASSWORD: ${{ secrets.DUMMY_PASSWORD }}
   FEDERATION_SERVERS_LIST: ${{ vars.FEDERATION_SERVERS_LIST }}
-  # variables used by matrix keycloak
-  KECLOAK_DB_INSTANCE_NAME: ${{ vars.KECLOAK_DB_INSTANCE_NAME }}
-  KEYCLOAK_DB_USER: ${{ vars.KEYCLOAK_DB_USER }}
-  KEYCLOAK_DB_PASSWORD: ${{ secrets.KEYCLOAK_DB_PASSWORD }}
-  KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
-  KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
+  SYNAPSE_AUTO_REGISTRATION: ${{ vars.SYNAPSE_AUTO_REGISTRATION }}
   # variables used to connect to Pro Santé Connect.
   # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
   PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
@@ -60,10 +75,13 @@ env:
   PROSANTE_CONNECT_JKWS_URI: ${{ vars.PROSANTE_CONNECT_JKWS_URI }}
   PROSANTE_CONNECT_CLIENT_ID: ${{ secrets.PROSANTE_CONNECT_CLIENT_ID }}
   PROSANTE_CONNECT_CLIENT_SECRET: ${{ secrets.PROSANTE_CONNECT_CLIENT_SECRET }}
+  # variables used by monitoring
+  MONITORING_SUBDOMAIN_NAME: ${{ vars.MONITORING_SUBDOMAIN_NAME }}
+  MONITORING_GRAFANA_PASSWORD: ${{ secrets.MONITORING_GRAFANA_PASSWORD }}
 
 jobs:
   set_environment:
-    name: 'Dynamic detection of environment'
+    name: "Dynamic detection of environment"
     outputs:
       my_env: ${{ steps.setenv.outputs.my_env }}
     runs-on: ubuntu-latest
@@ -85,7 +103,7 @@ jobs:
           preprod)
           echo "my_env=preprod" >> $GITHUB_OUTPUT
           ;;
-          
+
           *)
           environment_list_array=( ${{ vars.PERSONAL_ENVIRONMENT_LIST }} )
           for environment_perso in "${environment_list_array[@]}"; do
@@ -105,7 +123,7 @@ jobs:
           esac
 
   destroy:
-    name: 'Destroying infrastructure with Terraform'
+    name: "Destroying infrastructure with Terraform"
     runs-on: ubuntu-latest
     environment:
       name: ${{ needs.set_environment.outputs.my_env }}
@@ -132,13 +150,13 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
-      # Generate kubeconfig file
-      - name: Generate kubeconfig file
-        run: sh scripts/generate_kubeconfig_file.sh
+      # Generates kubeconfig file and group_vars/all files from the environment variables
+      - name: "Generates kubeconfig file and group_vars/all files from the environment variables"
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_configuration_var_files.sh
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_var_file.sh
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_provisioning_var_files.sh
 
       # Run ansible_destroy.sh script
       - name: ansible_configuration script

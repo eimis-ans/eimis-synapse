@@ -1,0 +1,78 @@
+---
+- name: Matrix-synapse service for monitoring
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "matrix-monitoring-svc.yml"
+
+- name: Add kube-prometheus helm repository
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: "https://prometheus-community.github.io/helm-charts"
+
+- name: install kube-prometheus helm chart
+  kubernetes.core.helm:
+    name: kube-prometheus
+    chart_ref: prometheus-community/kube-prometheus-stack
+    release_namespace: monitoring
+    create_namespace: true
+    release_values:
+      prometheus:
+        prometheusSpec:
+          serviceMonitorSelectorNilUsesHelmValues: false
+      grafana:
+        adminPassword: "{{ monitoring.grafana_password }}"
+        defaultDashboardsTimezone: cest
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt-prod"
+            external-dns.alpha.kubernetes.io/hostname: "{{ monitoring.server_name }}"
+          hosts:
+            - "{{ monitoring.server_name }}"
+          tls:
+            - hosts:
+                - "{{ monitoring.server_name }}"
+              secretName: "grafana-tls-secret"
+    update_repo_cache: yes
+
+- name: Matrix-synapse service monitor
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "matrix-servicemonitor.yml"
+
+- name: get admin username for grafana
+  shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-user}' | base64 -d"
+  register: grafana_admin_username
+
+- name: get admin password for grafana
+  shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-password}' | base64 -d"
+  register: grafana_admin_password
+
+- name: Create temporary folder
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: temp
+  register: dashboard_tmp_folder
+  changed_when: False
+
+- name: download grafana dashboard for synapse
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/matrix-org/synapse/master/contrib/grafana/synapse.json
+    dest: "{{dashboard_tmp_folder.path}}/synapse.json"
+
+- name: Replace ${DS_PROMETHEUS} with prometheus value in synapse.json file
+  ansible.builtin.replace:
+    path: "{{dashboard_tmp_folder.path}}/synapse.json"
+    regexp: '\$\{DS_PROMETHEUS\}'
+    replace: 'prometheus'
+
+- name: Import resulting dashboard in Grafana
+  community.grafana.grafana_dashboard:
+    grafana_url: "https://{{ monitoring.server_name }}"
+    url_username: "{{ grafana_admin_username.stdout }}"
+    url_password: "{{ grafana_admin_password.stdout }}"
+    state: present
+    commit_message: Updated by ansible
+    overwrite: true
+    path: "{{dashboard_tmp_folder.path}}/synapse.json"
