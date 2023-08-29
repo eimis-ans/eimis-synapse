@@ -103,7 +103,7 @@ jobs:
 
           case $ENVIRONMENT in
           main)
-          echo "my_env=eimis" >> $GITHUB_OUTPUT
+          echo "my_env=production" >> $GITHUB_OUTPUT
           ;;
 
           develop)
