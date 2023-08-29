@@ -28,7 +28,8 @@ data:
         user_mapping_provider:
           config:
             localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+            display_name_template: "{% raw %}{{ user.given_name }} {{ user.family_name }}{% endraw %}"
+            email_template: "{% raw %}{{ user.email }}{% endraw %}"
         backchannel_logout_enabled: true # Optional
 {% endif %}
     auto_join_rooms: ["#discoveryroom:{{ matrix.server_name }}"]
