@@ -8,6 +8,26 @@
     name: ananace-charts
     repo_url: "https://ananace.gitlab.io/charts"
 
+- name: Create temporary folder
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: temp
+  register: s3_module_tmp_folder
+  changed_when: False
+
+- name: Download s3 media repo module
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/matrix-org/synapse-s3-storage-provider/v1.2.1/s3_storage_provider.py
+    dest: "{{s3_module_tmp_folder.path}}/s3_storage_provider.py"
+
+# TODO: better manage indempotence and variable for module version
+- name: Delete config map for s3 media repo module
+  shell: "kubectl delete configmap s3-media-repo-module"
+  ignore_errors: True
+
+- name: Create config map for s3 media repo module
+  shell: "kubectl create configmap s3-media-repo-module --from-file '{{ s3_module_tmp_folder.path }}/'"
+
 - name: matrix-synapse helm chart
   kubernetes.core.helm:
     name: matrix-synapse
@@ -22,8 +42,17 @@
           prometheus.io/scrape: "true"
           prometheus.io/path: "/_synapse/metrics"
           prometheus.io/port: "9090"
+        extraVolumes:
+          - name: s3-media-repo-module
+            configMap:
+              name: s3-media-repo-module
+        extraVolumeMounts:
+          - name: s3-media-repo-module
+            mountPath: /usr/local/lib/python3.11/site-packages/s3_media_repo_module
         extraCommands:
           - "cp /etc/matrix-synapse/conf.d/* /synapse/config/conf.d/"
+          - "pip install boto3" # for s3_storage_provider module
+          - "cp /usr/local/lib/python3.11/site-packages/s3_media_repo_module/s3_storage_provider.py /usr/local/lib/python3.11/site-packages/s3_storage_provider.py"
       serverName: "{{ matrix.server_name }}"
       config:
         enableRegistration: "{{ matrix.auto_registration }}"
