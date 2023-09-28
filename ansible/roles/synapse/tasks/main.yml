@@ -8,7 +8,7 @@
     name: ananace-charts
     repo_url: "https://ananace.gitlab.io/charts"
 
-- name: New module version?
+- name: Is there a new s3 media repo module version?
   shell: |
     current_version=$(kubectl get configmap s3-media-repo-module -o "jsonpath={.data['module_version']}")
     if [ "$current_version" = "{{ matrix.s3_media_repo.module_version }}" ]; then
@@ -17,7 +17,6 @@
       echo "yes"
     fi
   register: new_version
-  ignore_errors: True
 
 - name: Create temporary folder
   ansible.builtin.tempfile:
