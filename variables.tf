@@ -42,10 +42,6 @@ variable "global_region" {
   description = "OVH global location for PostGreSQL and VPC"
   type        = string
 }
-variable "region_s3" {
-  description = "OVH global location for s3"
-  type        = string
-}
 
 variable "database_version" {
   description = "Version of postgresql"

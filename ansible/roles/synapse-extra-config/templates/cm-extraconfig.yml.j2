@@ -47,10 +47,10 @@ data:
         store_remote: True
         store_synchronous: True
         config:
-          bucket: {{ env }}-{{ matrix.s3_media_repo.bucket_name }}
+          bucket: {{ matrix.s3_media_repo.bucket_name }}
           # All of the below options are optional, for use with non-AWS S3-like
           # services, or to specify access tokens here instead of some external method.
-          region_name: gra
+          region_name: {{ matrix.s3_media_repo.region }}
           endpoint_url:  {{ matrix.s3_media_repo.url }}
           access_key_id: {{ matrix.s3_media_repo.access_key }}
           secret_access_key: {{ matrix.s3_media_repo.secret_key }}

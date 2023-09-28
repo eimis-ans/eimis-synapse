@@ -24,7 +24,7 @@ provider "openstack" {
 }
 
 provider "aws" {
-  region     = var.region_s3
+  region     = lower(var.global_region)
   access_key = ovh_cloud_project_user_s3_credential.s3_admin_cred.access_key_id
   secret_key = ovh_cloud_project_user_s3_credential.s3_admin_cred.secret_access_key
 

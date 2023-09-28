@@ -11,5 +11,4 @@ resource "ovh_cloud_project_user_s3_credential" "s3_admin_cred" {
 
 resource "aws_s3_bucket" "media_repo_bucket" {
   bucket = "${var.env_name}-${var.media_repo_bucket_name}"
-
 }
