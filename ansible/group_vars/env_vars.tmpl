@@ -44,6 +44,13 @@ matrix:
   dummy_password: ${DUMMY_PASSWORD}
   auto_registration: ${SYNAPSE_AUTO_REGISTRATION}
   servers_list: ${FEDERATION_SERVERS_LIST}
+  s3_media_repo:
+    region: ${S3_REGION}
+    bucket_name: ${S3_MEDIA_BUCKET_NAME}
+    url: ${S3_MEDIA_REPO_URL}
+    access_key: ${S3_MEDIA_REPO_ACCESS_KEY}
+    secret_key: ${S3_MEDIA_REPO_SECRET_KEY}
+    module_version: "v1.2.1"
 element:
   server_name: ${ELEMENT_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
 msteams:

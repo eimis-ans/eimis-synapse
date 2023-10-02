@@ -72,3 +72,9 @@ variable "vlan_cidr" {
   description = "Range of IP for the private network"
   type        = string
 }
+
+variable "s3_media_repo_endpoint" {
+  description = "S3 endpoint for media repo"
+  type        = string
+  default     = "s3.gra.io.cloud.ovh.net"
+}

@@ -36,3 +36,24 @@ output "synapse_databse_uri" {
   ])
   sensitive = true
 }
+
+output "s3_media_repo_access_key" {
+  description = "the access key that have been created by the terraform script"
+  value       = ovh_cloud_project_user_s3_credential.s3_admin_cred.access_key_id
+}
+
+output "s3_media_repo_secret_key" {
+  description = "the secret key that have been created by the terraform script"
+  value       = ovh_cloud_project_user_s3_credential.s3_admin_cred.secret_access_key
+  sensitive   = true
+}
+
+output "s3_media_repo_bucket_name" {
+  description = "bucket name of the s3 media repo"
+  value       = aws_s3_bucket.media_repo_bucket.bucket
+}
+
+output "s3_media_repo_url" {
+  description = "the url of the s3 media repo"
+  value       = "https://${aws_s3_bucket.media_repo_bucket.bucket}.${var.s3_media_repo_endpoint}/"
+}
