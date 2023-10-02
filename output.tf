@@ -48,7 +48,12 @@ output "s3_media_repo_secret_key" {
   sensitive   = true
 }
 
+output "s3_media_repo_bucket_name" {
+  description = "bucket name of the s3 media repo"
+  value       = aws_s3_bucket.media_repo_bucket.bucket
+}
+
 output "s3_media_repo_url" {
   description = "the url of the s3 media repo"
-  value       = "https://${var.env_name}-${var.media_repo_bucket_name}.${var.s3_media_repo_endpoint}/"
+  value       = "https://${aws_s3_bucket.media_repo_bucket.bucket}.${var.s3_media_repo_endpoint}/"
 }
