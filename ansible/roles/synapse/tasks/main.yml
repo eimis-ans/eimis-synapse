@@ -44,6 +44,7 @@
   kubernetes.core.helm:
     name: matrix-synapse
     chart_ref: ananace-charts/matrix-synapse
+    chart_version: "{{ matrix.chart_version }}"
     release_state: "{{ absent_or_present }}"
     release_namespace: default
     release_values:

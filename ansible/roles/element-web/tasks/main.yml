@@ -3,6 +3,7 @@
   kubernetes.core.helm:
     name: element-web
     chart_ref: ananace-charts/element-web
+    chart_version: {{ element.chart_version }}
     release_state: "{{ absent_or_present }}"
     release_namespace: element-web
     create_namespace: true
