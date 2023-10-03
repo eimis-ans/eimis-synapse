@@ -13,6 +13,7 @@
   kubernetes.core.helm:
     name: kube-prometheus
     chart_ref: prometheus-community/kube-prometheus-stack
+    chart_version: "{{ monitoring.chart_version }}"
     release_namespace: monitoring
     create_namespace: true
     release_values:
