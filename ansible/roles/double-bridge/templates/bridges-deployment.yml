@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: double-bridge
+  name: double-bridge
+  namespace: bridges
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: double-bridge
+  template:
+    metadata:
+      labels:
+        app: double-bridge
+    spec:
+#      volumes:
+#        - name: data-vol
+#          persistentVolumeClaim:
+#            claimName: msteams-pvc
+#        - name: msteams-cm
+#          configMap:
+#            name: msteams-configmap
+#            items:
+#              - key: "config.yaml"
+#                path: "config.yaml"
+      containers:
+        - image: eimisans/bridge-poc
+          name: mx-puppet-teams
+          ports:
+            - containerPort: 9000
+#          volumeMounts:
+#            - mountPath: /data
+#              name: data-vol
+#            - mountPath: /data/config.yaml
+#              subPath: config.yaml
+#              name: msteams-cm

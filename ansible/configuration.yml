@@ -9,6 +9,7 @@
     - cert-manager
     - external-dns
     - postgresql-init
+    - double-bridge
     - teams-bridge
     - synapse
     - first-admin

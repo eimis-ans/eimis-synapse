@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: double-bridge
+  name: bridges-svc
+  namespace: bridges
+spec:
+  type: ClusterIP
+  selector:
+    app: double-bridge
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000

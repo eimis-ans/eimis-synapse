@@ -1,0 +1,85 @@
+synapse:
+  strategy:
+    type: Recreate
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/_synapse/metrics"
+    prometheus.io/port: "9090"
+  extraVolumes:
+    - name: s3-media-repo-module
+      configMap:
+        name: s3-media-repo-module
+{% if double_bridge.enabled %}
+    - name: appservices
+      configMap:
+        name: bridges-registration-configmap
+      items:
+        - key: "eimis-registration.yaml"
+          path: "eimis-registration.yaml"
+{% endif %}
+{% if msteams.enabled %}
+    - name: msteams-registration
+      configMap:
+        name: msteams-registration-configmap
+      items:
+        - key: "msteams-registration.yaml"
+          path: "msteams-registration.yaml"
+{% endif %}
+  extraVolumeMounts:
+    - name: s3-media-repo-module
+      mountPath: /usr/local/lib/python3.11/site-packages/s3_media_repo_module
+{% if double_bridge.enabled %}
+    - name: appservices
+      mountPath: /synapse/config/appservices
+{% endif %}
+{% if msteams.enabled %}
+    - name: msteams-registration
+      mountPath: /synapse/config/appservices
+{% endif %}
+  extraCommands:
+    - "cp /etc/matrix-synapse/conf.d/* /synapse/config/conf.d/"
+    - "pip install boto3" # for s3_storage_provider module
+    - "cp /usr/local/lib/python3.11/site-packages/s3_media_repo_module/s3_storage_provider.py /usr/local/lib/python3.11/site-packages/s3_storage_provider.py"
+serverName: "{{ matrix.server_name }}"
+config:
+  enableRegistration: "{{ matrix.auto_registration }}"
+postgresql:
+  enabled: false
+externalPostgresql:
+  host: "{{ matrix.db_host }}"
+  port: "{{ matrix.db_port }}"
+  database: "{{ matrix.db_instance_name }}"
+  username: "{{ matrix.db_user }}"
+  existingSecret: postgres-secrets
+  existingSecretPasswordKey: synapse-db-password
+ingress:
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: "{{ matrix.server_name }}"
+  tls:
+    - hosts:
+        - "{{ matrix.server_name }}"
+      secretName: "matrix-tls-secret"
+wellknown:
+  enabled: true
+extraConfig:
+  allow_public_rooms_over_federation: true
+  enable_registration_without_verification: false
+  registrations_require_3pid:
+    - email
+  email:
+    smtp_host: "{{ matrix.smtp_host }}"
+    smtp_port: 587
+    smtp_user: "{{ matrix.smtp_user }}"
+    smtp_pass: "{{ matrix.smtp_pass }}"
+    notif_from: "{{ matrix.notify_from }}"
+{% if double_bridge.enabled or msteams.enabled %}
+  app_service_config_files:
+{% if double_bridge.enabled %}
+    - /synapse/config/appservices/eimis-registration.yaml
+{% endif %}
+{% if msteams.enabled %}
+    - /data/msteams-registration.yaml
+{% endif %}
+{% endif %}

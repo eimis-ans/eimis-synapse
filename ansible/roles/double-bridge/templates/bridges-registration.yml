@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bridges-registration-configmap
+  namespace: default
+data:
+  eimis-registration.yaml: |
+    as_token: "{{ bridges_bridge_vars.as_token }}"
+    hs_token: "{{ bridges_bridge_vars.hs_token }}"
+    id: "{{ bridges_bridge_vars.id }}"
+    url: 'http://bridges-svc.bridges'
+    sender_localpart: "{{ bridges_bridge_vars.sender_localpart }}"
+    namespaces:
+      users:
+        - exclusive: true
+          regex: '@eimis_.*'
+      aliases:
+        - exclusive: false
+          regex: '#*.*'

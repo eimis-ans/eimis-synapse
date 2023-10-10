@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: "{{ double_bridge.bridge1_url_part }}"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  name: bridges-ingress
+  namespace: bridges
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "{{ double_bridge.bridge1_url_part }}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: bridges-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - "{{ double_bridge.bridge1_url_part }}"
+      secretName: bridges-tls-secret

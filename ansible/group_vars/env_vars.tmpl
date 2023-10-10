@@ -59,6 +59,10 @@ msteams:
   oauth:
     client_id: ${TEAMS_OAUTH_CLIENT_ID}
     client_secret: ${TEAMS_OAUTH_CLIENT_SECRET}
+double_bridge:
+  enabled: ${DOUBLE_BRIDGE_ENABLED}
+  bridge1_url_part: ${BRIDGE1_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
+  bridge2_url_part: ${BRIDGE2_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
 monitoring:
   chart_version: "51.2.0"
   kube_prometheus_git_url: "https://github.com/prometheus-operator/kube-prometheus.git"

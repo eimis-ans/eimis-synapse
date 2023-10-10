@@ -3,7 +3,6 @@
 # Role used to complete the configuration of the matrix synapse server with :
 #  - the mxc uri of the ProSanté Connect button image
 #  - the room ids of discovery rooms to hide from users
-#  - the S3 media repo storage
 # Matrix-synapse pods are restarted at the end of the process
 #
 - name: create extraconfig configmap

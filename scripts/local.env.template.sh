@@ -86,6 +86,10 @@ export TEAMS_BRIDGE_ENABLED="<true or false>"
 export TEAMS_BRIDGE_SUBDOMAIN_NAME="<the MS Teams bridge serverName will be : TEAMS_BRIDGE_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 export TEAMS_OAUTH_CLIENT_ID="<Application (client) ID coming from the azure portal app registration>"
 export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure portal app registration>"
+# Variables used by the double bridges POC
+export DOUBLE_BRIDGE_ENABLED="<true of false>"
+export BRIDGE1_SUBDOMAIN_NAME="<the bridge #1 serverName will be : BRIDGE1_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
+export BRIDGE2_SUBDOMAIN_NAME="<the bridge #2 serverName will be : BRIDGE2_SUBDOMAIN_NAME.ENVIRONMENT.DNS_ZONE>"
 # monitoring
 export MONITORING_SUBDOMAIN_NAME="<the grafana serverName will be : SERVER_SUBDOMAIN_NAME.ENV_IN_URL.DNS_ZONE>"
 export MONITORING_GRAFANA_PASSWORD="<password for the grafana admin user>"
