@@ -37,10 +37,6 @@ data:
 {% if matrix.servers_list is defined %}
     federation_domain_whitelist: {{ matrix.servers_list }}
 {% endif %}
-{% if msteams.enabled %}  
-    app_service_config_files:
-      - /data/msteams-registration.yaml
-{% endif %}
     media_storage_providers:
       - module: s3_storage_provider.S3StorageProviderBackend
         store_local: True

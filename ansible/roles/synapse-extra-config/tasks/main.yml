@@ -3,6 +3,7 @@
 # Role used to complete the configuration of the matrix synapse server with :
 #  - the mxc uri of the ProSanté Connect button image
 #  - the room ids of discovery rooms to hide from users
+#  - the S3 media repo storage
 # Matrix-synapse pods are restarted at the end of the process
 #
 - name: create extraconfig configmap
@@ -12,10 +13,6 @@
 
 - name: mount extraconfig configmap on matrix-synapse pod
   shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-patch.yml') }}' "
-
-- name: mount msteams extraconfig configmap on matrix-synapse pod
-  shell: "kubectl patch deployment matrix-synapse -p '{{ lookup('template', 'deployment-msteams-patch.yml') }}' "
-  when: msteams.enabled
 
 - name: Scale down matrix-synapse deployment
   kubernetes.core.k8s_scale:
