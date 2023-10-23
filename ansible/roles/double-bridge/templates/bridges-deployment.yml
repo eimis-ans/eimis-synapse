@@ -27,9 +27,9 @@ spec:
 #                path: "config.yaml"
       containers:
         - image: eimisans/bridge-poc
-          name: mx-puppet-teams
+          name: eimis-bridge1
           ports:
-            - containerPort: 9000
+            - containerPort: 9090
 #          volumeMounts:
 #            - mountPath: /data
 #              name: data-vol
