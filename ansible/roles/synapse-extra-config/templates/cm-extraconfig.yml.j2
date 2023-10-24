@@ -28,7 +28,8 @@ data:
         user_mapping_provider:
           config:
             localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+            display_name_template: "{% raw %}{{ user.given_name }} {{ user.family_name }}{% endraw %}"
+            email_template: "{% raw %}{{ user.email }}{% endraw %}"
         backchannel_logout_enabled: true # Optional
 {% endif %}
     auto_join_rooms: ["#discoveryroom:{{ matrix.server_name }}"]
@@ -40,3 +41,16 @@ data:
     app_service_config_files:
       - /data/msteams-registration.yaml
 {% endif %}
+    media_storage_providers:
+      - module: s3_storage_provider.S3StorageProviderBackend
+        store_local: True
+        store_remote: True
+        store_synchronous: True
+        config:
+          bucket: {{ matrix.s3_media_repo.bucket_name }}
+          # All of the below options are optional, for use with non-AWS S3-like
+          # services, or to specify access tokens here instead of some external method.
+          region_name: {{ matrix.s3_media_repo.region }}
+          endpoint_url:  {{ matrix.s3_media_repo.url }}
+          access_key_id: {{ matrix.s3_media_repo.access_key }}
+          secret_access_key: {{ matrix.s3_media_repo.secret_key }}

@@ -13,6 +13,7 @@
   kubernetes.core.helm:
     name: kube-prometheus
     chart_ref: prometheus-community/kube-prometheus-stack
+    chart_version: "{{ monitoring.chart_version }}"
     release_namespace: monitoring
     create_namespace: true
     release_values:
@@ -66,6 +67,16 @@
     path: "{{dashboard_tmp_folder.path}}/synapse.json"
     regexp: '\$\{DS_PROMETHEUS\}'
     replace: 'prometheus'
+
+- name: wait for the grafana to be ready
+  ansible.builtin.uri:
+    url: "https://{{ monitoring.server_name }}/api/health"
+    method: GET
+  register: grafana_health
+  until: grafana_health.status==200
+  retries: 30
+  delay: 5
+  when: absent_or_present=="present"
 
 - name: Import resulting dashboard in Grafana
   community.grafana.grafana_dashboard:

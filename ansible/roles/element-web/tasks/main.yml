@@ -3,6 +3,7 @@
   kubernetes.core.helm:
     name: element-web
     chart_ref: ananace-charts/element-web
+    chart_version: "{{ element.chart_version }}"
     release_state: "{{ absent_or_present }}"
     release_namespace: element-web
     create_namespace: true
@@ -10,6 +11,11 @@
       defaultServer:
         url: "https://{{ matrix.server_name }}"
         name: "{{ matrix.server_name }}"
+      nginxConfig: |-
+        add_header X-Frame-Options SAMEORIGIN;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection "1; mode=block";
+        add_header Content-Security-Policy "frame-ancestors 'self'";
       ingress:
         enabled: true
         className: nginx

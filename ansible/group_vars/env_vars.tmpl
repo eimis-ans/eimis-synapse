@@ -11,10 +11,8 @@ cert_manager:
   version: "1.11.0"
   issuer_mail: ${ISSUER_MAIL}
 external_dns:
-  version: "v0.13.5"
+  version: "v0.13.6"
   registry_id: ${ENVIRONMENT}
-operator_licecycle_manager:
-  version: "v0.23.1"
 prosante_connect:
   enabled: ${PROSANTE_CONNECT_ENABLED}
   issuer: ${PROSANTE_CONNECT_ISSUER}
@@ -25,6 +23,7 @@ prosante_connect:
   client_id: ${PROSANTE_CONNECT_CLIENT_ID}
   client_secret: ${PROSANTE_CONNECT_CLIENT_SECRET}
 matrix:
+  chart_version: "3.7.7"
   server_name: ${SERVER_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
   smtp_host: ${SMTP_HOST}
 # FIXME smtp_port set with ansible variable is consider as string and not int
@@ -44,7 +43,15 @@ matrix:
   dummy_password: ${DUMMY_PASSWORD}
   auto_registration: ${SYNAPSE_AUTO_REGISTRATION}
   servers_list: ${FEDERATION_SERVERS_LIST}
+  s3_media_repo:
+    region: ${S3_REGION}
+    bucket_name: ${S3_MEDIA_BUCKET_NAME}
+    url: ${S3_MEDIA_REPO_URL}
+    access_key: ${S3_MEDIA_REPO_ACCESS_KEY}
+    secret_key: ${S3_MEDIA_REPO_SECRET_KEY}
+    module_version: "v1.2.1"
 element:
+  chart_version: "1.3.2"
   server_name: ${ELEMENT_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
 msteams:
   enabled: ${TEAMS_BRIDGE_ENABLED}
@@ -53,7 +60,7 @@ msteams:
     client_id: ${TEAMS_OAUTH_CLIENT_ID}
     client_secret: ${TEAMS_OAUTH_CLIENT_SECRET}
 monitoring:
-  kube_prometheus_version: v0.12.0
+  chart_version: "51.2.0"
   kube_prometheus_git_url: "https://github.com/prometheus-operator/kube-prometheus.git"
   server_name: ${MONITORING_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
   grafana_password: ${MONITORING_GRAFANA_PASSWORD}
