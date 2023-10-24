@@ -47,7 +47,7 @@
     chart_version: "{{ matrix.chart_version }}"
     release_state: "{{ absent_or_present }}"
     release_namespace: default
-    values: "{{ lookup('template', 'release_values.yml.j2') | from_yaml }}"
+    values: "{{ lookup('template', 'synapse-chart-config.j2') | from_yaml }}"
     update_repo_cache: yes
 
 - name: wait for the matrix-synapse replicaset to be ready
