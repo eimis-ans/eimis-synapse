@@ -10,12 +10,12 @@
     kind: Namespace
     state: "{{ bridges_absent_or_present }}"
 
-#- name: First bridge configmap
+# - name: First bridge configmap
 #  kubernetes.core.k8s:
 #    state: "{{ bridges_absent_or_present }}"
 #    template: "bridges-configmap.yml"
 
-#- name: Bridge persistent volume
+# - name: Bridge persistent volume
 #  kubernetes.core.k8s:
 #    state: "{{ bridges_absent_or_present }}"
 #    template: "msteams-pvc.yml"

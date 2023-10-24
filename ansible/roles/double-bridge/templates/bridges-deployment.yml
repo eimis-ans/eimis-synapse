@@ -15,24 +15,8 @@ spec:
       labels:
         app: double-bridge
     spec:
-#      volumes:
-#        - name: data-vol
-#          persistentVolumeClaim:
-#            claimName: msteams-pvc
-#        - name: msteams-cm
-#          configMap:
-#            name: msteams-configmap
-#            items:
-#              - key: "config.yaml"
-#                path: "config.yaml"
       containers:
         - image: eimisans/bridge-poc
           name: eimis-bridge1
           ports:
             - containerPort: 9090
-#          volumeMounts:
-#            - mountPath: /data
-#              name: data-vol
-#            - mountPath: /data/config.yaml
-#              subPath: config.yaml
-#              name: msteams-cm
