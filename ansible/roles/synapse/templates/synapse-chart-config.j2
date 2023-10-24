@@ -9,6 +9,14 @@ synapse:
     - name: s3-media-repo-module
       configMap:
         name: s3-media-repo-module
+{% if double_bridge.enabled %}
+    - name: appservices
+      configMap:
+        name: bridges-registration-configmap
+      items:
+        - key: "eimis-registration.yaml"
+          path: "eimis-registration.yaml"
+{% endif %}
 {% if msteams.enabled %}
     - name: msteams-registration
       configMap:
@@ -20,6 +28,10 @@ synapse:
   extraVolumeMounts:
     - name: s3-media-repo-module
       mountPath: /usr/local/lib/python3.11/site-packages/s3_media_repo_module
+{% if double_bridge.enabled %}
+    - name: appservices
+      mountPath: /synapse/config/appservices
+{% endif %}
 {% if msteams.enabled %}
     - name: msteams-registration
       mountPath: /synapse/config/appservices
@@ -62,7 +74,12 @@ extraConfig:
     smtp_user: "{{ matrix.smtp_user }}"
     smtp_pass: "{{ matrix.smtp_pass }}"
     notif_from: "{{ matrix.notify_from }}"
-{% if msteams.enabled %}
+{% if double_bridge.enabled or msteams.enabled %}
   app_service_config_files:
-    - /synapse/config/appservices/msteams-registration.yaml
+{% if double_bridge.enabled %}
+    - /synapse/config/appservices/eimis-registration.yaml
+{% endif %}
+{% if msteams.enabled %}
+    /synapse/config/appservices/msteams-registration.yaml
+{% endif %}
 {% endif %}
