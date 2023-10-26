@@ -10,7 +10,7 @@ terraform {
     }
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~> 5.22"
     }
   }
 }
@@ -34,6 +34,6 @@ provider "aws" {
   # the gra region is unknown to AWS hence skipping is needed.
   skip_region_validation = true
   endpoints {
-    s3 = var.s3_media_repo_endpoint
+    s3 = "https://${var.s3_media_repo_endpoint}"
   }
 }
