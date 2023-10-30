@@ -34,7 +34,7 @@ env:
   # configure access to S3 where tfstates are stored
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_S3_ENDPOINT: ${{ vars.AWS_S3_ENDPOINT }}
+  AWS_ENDPOINT_URL_S3: ${{ vars.AWS_ENDPOINT_URL_S3 }}
   AWS_S3_MEDIA_REPO_ENDPOINT: ${{ vars.AWS_S3_MEDIA_REPO_ENDPOINT }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   # variables used by infrastructure components
