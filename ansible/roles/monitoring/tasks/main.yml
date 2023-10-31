@@ -27,7 +27,7 @@
                 accessModes: ["ReadWriteOnce"]
                 resources:
                   requests:
-                    storage: 50Gi
+                    storage: "{{ monitoring.prometheus_volume_size }}"
       grafana:
         adminPassword: "{{ monitoring.grafana_password }}"
         defaultDashboardsTimezone: cest
