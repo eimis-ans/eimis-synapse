@@ -58,7 +58,7 @@ env:
   SYNAPSE_DB_INSTANCE_NAME: ${{ vars.SYNAPSE_DB_INSTANCE_NAME }}
   SYNAPSE_DB_USER: ${{ vars.SYNAPSE_DB_USER }}
   VLAN_CIDR: ${{ vars.VLAN_CIDR }}
-  TF_LOG: ${{ TF_LOG }}
+  TF_LOG: ${{ vars.TF_LOG }}
   # variables used by matrix components
   SERVER_SUBDOMAIN_NAME: ${{ vars.SERVER_SUBDOMAIN_NAME }}
   ELEMENT_SUBDOMAIN_NAME: ${{ vars.ELEMENT_SUBDOMAIN_NAME }}
