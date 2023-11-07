@@ -6,6 +6,7 @@ on:
 
 jobs:
   lint-terraform:
+    name: "Terraform linter"
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +34,7 @@ jobs:
         run: tflint -f compact
 
   lint-yaml:
+    name: "Yaml linter"
     runs-on: ubuntu-latest
 
     steps:
@@ -45,6 +47,9 @@ jobs:
   kics-scan:
     name: "Scan IaC with kics"
     runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
     steps:
       - name: Check out code
         uses: actions/checkout@v3
