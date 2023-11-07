@@ -41,3 +41,34 @@ jobs:
 
       - name: Lint yaml files
         uses: ibiqlik/action-yamllint@v3
+
+  kics-scan:
+    name: "Scan IaC with kics"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Mkdir results-dir
+        # make sure results dir is created
+        run: mkdir -p results-dir
+
+      - name: scan code with kics
+        uses: Checkmarx/kics-github-action@v1.7.0
+        with:
+          # path to file or directory to scan
+          path: .
+          # file path to store result in json format
+          output_path: results-dir
+          # file path to store source internal representation in JSON format
+          payload_path: # optional
+          # path to directory with queries (default "./assets/queries")
+          queries: # optional
+          # verbose scan
+          verbose: # optional
+          fail_on: high
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results-dir/results.sarif
