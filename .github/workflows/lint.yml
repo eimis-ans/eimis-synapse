@@ -61,11 +61,11 @@ jobs:
           # file path to store result in json format
           output_path: results-dir
           # file path to store source internal representation in JSON format
-          payload_path: # optional
+          # payload_path: # optional
           # path to directory with queries (default "./assets/queries")
-          queries: # optional
+          # queries: # optional
           # verbose scan
-          verbose: # optional
+          # verbose: # optional
           fail_on: high
 
       - name: Upload SARIF file
