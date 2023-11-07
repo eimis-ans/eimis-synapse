@@ -20,6 +20,14 @@
       prometheus:
         prometheusSpec:
           serviceMonitorSelectorNilUsesHelmValues: false
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: csi-cinder-classic
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: "{{ monitoring.prometheus_volume_size }}"
       grafana:
         adminPassword: "{{ monitoring.grafana_password }}"
         defaultDashboardsTimezone: cest

@@ -89,3 +89,4 @@ export TEAMS_OAUTH_CLIENT_SECRET="<Application secret coming from the azure port
 # monitoring
 export MONITORING_SUBDOMAIN_NAME="<the grafana serverName will be : SERVER_SUBDOMAIN_NAME.ENV_IN_URL.DNS_ZONE>"
 export MONITORING_GRAFANA_PASSWORD="<password for the grafana admin user>"
+export MONITORING_PROMETHEUS_VOLUME_SIZE="<Prometheus database size in a k8s format e.g. 10Gi>"
