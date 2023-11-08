@@ -1,4 +1,4 @@
-name: lint
+name: Linters
 
 on:
   workflow_dispatch:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   lint-terraform:
+    name: "Terraform linter"
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +34,7 @@ jobs:
         run: tflint -f compact
 
   lint-yaml:
+    name: "Yaml linter"
     runs-on: ubuntu-latest
 
     steps:
