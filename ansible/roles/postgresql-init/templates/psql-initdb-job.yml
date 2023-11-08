@@ -9,6 +9,8 @@ spec:
       containers:
         - name: psql
           image: governmentpaas/psql:pr-287
+          securityContext:
+            allowPrivilegeEscalation: false
           command: ["sh", "-c"]
           args:
             - "sh /scripts/initdb.sh"

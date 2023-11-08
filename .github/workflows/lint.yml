@@ -1,4 +1,4 @@
-name: Code analysis
+name: Linters
 
 on:
   workflow_dispatch:

@@ -74,6 +74,7 @@ data:
       # Connection string to connect to the Postgres instance
       # with username "user", password "pass", host "localhost" and database name "dbname".
       # Modify each value as necessary
+      # kics-scan ignore-line
       #connString: "postgres://user:pass@localhost/dbname?sslmode=disable"
       # Use SQLite3 as a database backend
       # The name of the database file
