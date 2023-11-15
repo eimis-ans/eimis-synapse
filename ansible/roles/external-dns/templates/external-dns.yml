@@ -58,6 +58,8 @@ spec:
       containers:
         - name: external-dns
           image: "registry.k8s.io/external-dns/external-dns:{{ external_dns.version }}"
+          securityContext:
+            allowPrivilegeEscalation: false
           args:
             - --source=ingress
             - "--domain-filter={{ dns_zone }}"
