@@ -78,3 +78,9 @@ variable "s3_media_repo_endpoint" {
   type        = string
   default     = "s3.gra.io.cloud.ovh.net"
 }
+
+variable "aws_s3_media_repo_secret_key" {
+  description = "AWS secret key for media repo"
+  type        = string
+  default     = ""
+}
