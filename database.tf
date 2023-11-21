@@ -4,7 +4,7 @@ locals {
     business   = ["1", "2"],
     entreprise = ["1", "2", "3"]
   }
-  nodes_set = lookup(local.nodes_iterator, var.database_plan)
+  nodes_set = lookup(local.nodes_iterator, var.database_plan, ["0"])
 }
 
 resource "ovh_cloud_project_database" "pg_database" {
