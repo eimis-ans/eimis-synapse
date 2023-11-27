@@ -158,6 +158,8 @@ jobs:
       # Install the latest version of Terraform CLI
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.*
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -205,6 +207,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false
+          terraform_version: 1.6.*
 
       - name: Terraform Init
         run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
