@@ -76,5 +76,4 @@ variable "vlan_cidr" {
 variable "s3_media_repo_endpoint" {
   description = "S3 endpoint for media repo"
   type        = string
-  default     = "s3.gra.io.cloud.ovh.net"
 }
