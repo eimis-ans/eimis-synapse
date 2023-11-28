@@ -22,12 +22,11 @@ jobs:
       - name: scan code with kics
         uses: Checkmarx/kics-github-action@v1.7.0
         with:
-          # path to file or directory to scan
           path: .
-          # file path to store result in json format
+          config_path: ./.github/kics.config.yml
           output_path: results-dir
-          output_formats: 'json,sarif'
-          ignore_on_exit: results
+          output_formats: "json,sarif"
+          ignore_on_exit: "results"
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
