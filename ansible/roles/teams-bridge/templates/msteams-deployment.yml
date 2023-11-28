@@ -30,6 +30,8 @@ spec:
           name: mx-puppet-teams
           securityContext:
             allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
           ports:
             - containerPort: 8432
           volumeMounts:
