@@ -152,7 +152,7 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
+        run: cd terraform && terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
       # Generates kubeconfig file and group_vars/all files from the environment variables
       - name: "Generates kubeconfig file and group_vars/all files from the environment variables"
@@ -171,4 +171,4 @@ jobs:
         # See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Destroy
         # if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-        run: terraform destroy -auto-approve -input=false
+        run: cd terraform && terraform destroy -auto-approve -input=false
