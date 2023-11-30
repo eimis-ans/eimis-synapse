@@ -1,2 +1,4 @@
+exclude-paths:
+  - "**/terraform/terraform_output.json"
 exclude-queries:
   - "555ab8f9-2001-455e-a077-f2d0f41e2fb9" #commit SHA ID for GH actions
