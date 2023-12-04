@@ -37,8 +37,8 @@ export OVH_CLOUD_PROJECT_SERVICE="$OS_TENANT_ID"
 # configure access to S3 where tfstates are stored
 export AWS_ACCESS_KEY_ID="<the access key id>"
 export AWS_SECRET_ACCESS_KEY="<the secret access key>"
-export AWS_S3_ENDPOINT="<the OVH s3 endpoint URL>"
-export AWS_S3_MEDIA_REPO_ENDPOINT="< could be another endpoint for s3 media repo>"
+export AWS_ENDPOINT_URL_S3="<the OVH s3 endpoint URL with https : Ex: https://s3.gra.perf.cloud.ovh.net>"
+export AWS_S3_MEDIA_REPO_ENDPOINT="< could be another endpoint for s3 media repo, without https : Ex: s3.gra.io.cloud.ovh.net>"
 export AWS_REGION="<the OVH s3 region>"
 # variables used by infrastructure components
 export ENV_IN_URL="<part of the URL that will be specific for each environment>"
