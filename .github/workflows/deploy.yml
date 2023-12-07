@@ -163,11 +163,13 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
+        run: |
+          cd terraform
+          terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
-        run: terraform fmt -check
+        run: cd terraform && terraform fmt -check
 
       # Generates a terraform.tfvars file from the environment variables
       - name: Generate tfvars file
@@ -175,14 +177,14 @@ jobs:
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: cd terraform && terraform plan -input=false
 
         # On push to "main", build or change infrastructure according to Terraform configuration files
         # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud".
         # See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
       - name: Terraform Apply
         # if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        run: cd terraform && terraform apply -auto-approve -input=false
 
   configuration:
     name: "Configuration with Ansible"
@@ -210,7 +212,7 @@ jobs:
           terraform_version: 1.6.*
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
+        run: cd terraform && terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
 
       # Generates kubeconfig file and group_vars/all files from the environment variables
       - name: "Generates kubeconfig file and group_vars/all files from the environment variables"

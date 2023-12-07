@@ -13,7 +13,7 @@
 
 - name: Dummy user joins external discovery rooms listed in matrix.servers_list
   uri:
-    url: "http://{{ matrix.server_name }}/_matrix/client/r0/join/%23discoveryroom:{{ item }}"
+    url: "https://{{ matrix.server_name }}/_matrix/client/r0/join/%23discoveryroom:{{ item }}"
     method: POST
     body: ""
     status_code: 200, 201

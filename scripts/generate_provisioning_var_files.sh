@@ -1,2 +1,2 @@
 #!/bin/bash
-envsubst < "terraform.tfvars.tmpl" > terraform.tfvars
+envsubst < "terraform/terraform.tfvars.tmpl" > terraform/terraform.tfvars
