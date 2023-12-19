@@ -71,6 +71,7 @@ export DUMMY_USERNAME="<dummy user used with the discovery room mecanism>"
 export DUMMY_PASSWORD="<password for the dummy user>"
 export FEDERATION_SERVERS_LIST="<list of comma separated URI of synapse servers included in federation. Ex : ['preprod.eimis.incubateur.net','matrix.pandalab.fr']>"
 export SYNAPSE_AUTO_REGISTRATION="<if set to true, users can auto register. If set to false, they can only be registered by admin>"
+export SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB="<max size of media in MB>"
 # variables used to connect to Pro Santé Connect.
 # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
 export PROSANTE_CONNECT_ENABLED="<true to login with PSC>"
