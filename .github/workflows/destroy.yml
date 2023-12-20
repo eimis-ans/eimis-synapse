@@ -67,6 +67,7 @@ env:
   DUMMY_PASSWORD: ${{ secrets.DUMMY_PASSWORD }}
   FEDERATION_SERVERS_LIST: ${{ vars.FEDERATION_SERVERS_LIST }}
   SYNAPSE_AUTO_REGISTRATION: ${{ vars.SYNAPSE_AUTO_REGISTRATION }}
+  SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB: ${{ vars.SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB }}
   # variables used to connect to Pro Santé Connect.
   # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
   PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
