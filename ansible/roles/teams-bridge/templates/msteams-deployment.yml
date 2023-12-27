@@ -15,6 +15,7 @@ spec:
       labels:
         app: msteams-bridge
     spec:
+      automountServiceAccountToken: false
       volumes:
         - name: data-vol
           persistentVolumeClaim:
@@ -30,6 +31,8 @@ spec:
           name: mx-puppet-teams
           securityContext:
             allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
           ports:
             - containerPort: 8432
           volumeMounts:

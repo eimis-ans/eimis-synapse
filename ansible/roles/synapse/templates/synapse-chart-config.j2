@@ -45,6 +45,7 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     external-dns.alpha.kubernetes.io/hostname: "{{ matrix.server_name }}"
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ matrix.media_upload_max_size_mb }}m
   tls:
     - hosts:
         - "{{ matrix.server_name }}"
@@ -54,6 +55,7 @@ wellknown:
 extraConfig:
   allow_public_rooms_over_federation: true
   enable_registration_without_verification: false
+  max_upload_size: {{ matrix.media_upload_max_size_mb }}M
   registrations_require_3pid:
     - email
   email:

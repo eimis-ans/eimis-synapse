@@ -30,9 +30,13 @@ and fill it with all the environment variables values needed.
     ```bash
     sh scripts/generate_provisioning_var_files.sh
     ```
+- Go to the terraform folder
+    ```bash
+    cd terraform
+    ```
 - Initialize the Terraform workspace specifying the name of the S3 bucket
     ```bash
-    terraform init -backend-config="bucket=terraform-states-hp-myenv"
+    terraform init -backend-config="bucket=terraform-states-hp-$ENVIRONMENT"
     ```
 - Create the Terraform execution plan to validate that everything is ok
     ```bash
