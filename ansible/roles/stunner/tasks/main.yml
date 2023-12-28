@@ -1,0 +1,36 @@
+---
+- name: should the coturn server be activated or not?
+  set_fact:
+    stunner_absent_or_present: "{{ 'absent' if absent_or_present == 'absent' or not stunner.enabled else 'present' }}"
+
+- name: Add stunner helm repository
+  kubernetes.core.helm_repository:
+    name: stunner
+    repo_url: "https://l7mp.io/stunner"
+
+- name: Deploy latest version of stunner control plane chart inside stunner-system namespace (and create it)
+  kubernetes.core.helm:
+    name: stunner-gateway-operator
+    chart_ref: stunner/stunner-gateway-operator
+    release_namespace: stunner-system
+    create_namespace: true
+    release_values:
+      stunnerGatewayOperator.dataplane.mode: managed
+    state: "{{ stunner_absent_or_present }}"
+
+- name: Create or delete namespace dedicated to stunner
+  kubernetes.core.k8s:
+    name: stunner
+    api_version: v1
+    kind: Namespace
+    state: "{{ stunner_absent_or_present }}"
+
+- name: Configure stunner
+  kubernetes.core.k8s:
+    template: "stunner-configuration.yml"
+    state: "{{ stunner_absent_or_present }}"
+
+- name: Stunner ingress
+  kubernetes.core.k8s:
+    template: "stunner-ingress.yml"
+    state: "{{ stunner_absent_or_present }}"
