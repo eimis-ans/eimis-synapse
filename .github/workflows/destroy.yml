@@ -71,6 +71,7 @@ env:
   SYNAPSE_WELCOME_ROOM: ${{ vars.SYNAPSE_WELCOME_ROOM }}
   # variables used to connect to Pro Santé Connect.
   # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+  PROSANTE_CONNECT_ENABLED: ${{ vars.PROSANTE_CONNECT_ENABLED }}
   PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
   PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT: ${{ vars.PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT }}
   PROSANTE_CONNECT_TOKEN_ENDPOINT: ${{ vars.PROSANTE_CONNECT_TOKEN_ENDPOINT }}
@@ -152,6 +153,10 @@ jobs:
         with:
           terraform_version: 1.6.*
 
+      # Generates a terraform.tfvars file from the environment variables
+      - name: Generate tfvars file
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_provisioning_var_files.sh
+
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: cd terraform && terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"
@@ -160,12 +165,8 @@ jobs:
       - name: "Generates kubeconfig file and group_vars/all files from the environment variables"
         run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_configuration_var_files.sh
 
-      # Generates a terraform.tfvars file from the environment variables
-      - name: Generate tfvars file
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_provisioning_var_files.sh
-
       # Run ansible_destroy.sh script
-      - name: ansible_configuration script
+      - name: ansible destroy script
         run: sh scripts/ansible_destroy.sh
 
         # On push to "main", build or change infrastructure according to Terraform configuration files
