@@ -5,6 +5,7 @@
   vars:
     absent_or_present: absent
   roles:
+    - monitoring
     - element-web
     - synapse
     - teams-bridge
@@ -35,4 +36,5 @@
         name: "{{ item }}"
       loop:
         - element-web
+        - monitoring
   ignore_errors: True
