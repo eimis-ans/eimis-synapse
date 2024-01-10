@@ -6,11 +6,11 @@ terraform {
     }
     openstack = {
       source  = "terraform-provider-openstack/openstack"
-      version = "~> 1.49.0"
+      version = "~> 1.53.0"
     }
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.22"
+      version = "~> 5.31.0"
     }
   }
 }

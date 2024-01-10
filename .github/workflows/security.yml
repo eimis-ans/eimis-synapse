@@ -13,7 +13,7 @@ jobs:
       security-events: write
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Mkdir results-dir
         # make sure results dir is created
