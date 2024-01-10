@@ -64,6 +64,11 @@ extraConfig:
     smtp_user: "{{ matrix.smtp_user }}"
     smtp_pass: "{{ matrix.smtp_pass }}"
     notif_from: "{{ matrix.notify_from }}"
+  auto_join_rooms: 
+      - "#discoveryroom:{{ matrix.server_name }}"
+{% if matrix.welcome_room is defined %}
+      - "#{{ matrix.welcome_room }}:{{ matrix.server_name }}"
+{% endif %}
 {% if msteams.enabled %}
   app_service_config_files:
     - /synapse/config/appservices/msteams-registration.yaml

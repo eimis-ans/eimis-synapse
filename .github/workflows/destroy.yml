@@ -68,6 +68,7 @@ env:
   FEDERATION_SERVERS_LIST: ${{ vars.FEDERATION_SERVERS_LIST }}
   SYNAPSE_AUTO_REGISTRATION: ${{ vars.SYNAPSE_AUTO_REGISTRATION }}
   SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB: ${{ vars.SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB }}
+  SYNAPSE_WELCOME_ROOM: ${{ vars.SYNAPSE_WELCOME_ROOM }}
   # variables used to connect to Pro Santé Connect.
   # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
   PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
@@ -143,11 +144,11 @@ jobs:
 
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install the latest version of Terraform CLI
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.*
 

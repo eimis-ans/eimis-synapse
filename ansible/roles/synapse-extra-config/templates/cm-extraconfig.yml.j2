@@ -32,8 +32,6 @@ data:
             email_template: "{% raw %}{{ user.email }}{% endraw %}"
         backchannel_logout_enabled: true # Optional
 {% endif %}
-    auto_join_rooms: ["#discoveryroom:{{ matrix.server_name }}"]
-    autocreate_auto_join_rooms: true
 {% if matrix.servers_list is defined %}
     federation_domain_whitelist: {{ matrix.servers_list }}
 {% endif %}
