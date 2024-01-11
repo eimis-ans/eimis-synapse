@@ -10,6 +10,9 @@ resource "ovh_cloud_project_kube" "k8s_element_cluster" {
     default_vrack_gateway              = "${var.vlan_cidr}.1"
     private_network_routing_as_default = true
   }
+  timeouts {
+    update = "45m"
+  }
 }
 
 resource "ovh_cloud_project_kube_nodepool" "node_pool" {
