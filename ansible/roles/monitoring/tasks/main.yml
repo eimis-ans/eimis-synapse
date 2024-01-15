@@ -8,6 +8,7 @@
   kubernetes.core.helm_repository:
     name: prometheus-community
     repo_url: "https://prometheus-community.github.io/helm-charts"
+  when: absent_or_present=="present"
 
 - name: install kube-prometheus helm chart
   kubernetes.core.helm:
@@ -15,6 +16,7 @@
     chart_ref: prometheus-community/kube-prometheus-stack
     chart_version: "{{ monitoring.chart_version }}"
     release_namespace: monitoring
+    release_state: "{{ absent_or_present }}"
     create_namespace: true
     release_values:
       prometheus:
@@ -53,10 +55,12 @@
 - name: get admin username for grafana
   shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-user}' | base64 -d"
   register: grafana_admin_username
+  when: absent_or_present=="present"
 
 - name: get admin password for grafana
   shell: "kubectl get secrets kube-prometheus-grafana -n monitoring -o jsonpath='{$.data.admin-password}' | base64 -d"
   register: grafana_admin_password
+  when: absent_or_present=="present"
 
 - name: Create temporary folder
   ansible.builtin.tempfile:
@@ -69,12 +73,14 @@
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/matrix-org/synapse/master/contrib/grafana/synapse.json
     dest: "{{dashboard_tmp_folder.path}}/synapse.json"
+  when: absent_or_present=="present"
 
 - name: Replace ${DS_PROMETHEUS} with prometheus value in synapse.json file
   ansible.builtin.replace:
     path: "{{dashboard_tmp_folder.path}}/synapse.json"
     regexp: '\$\{DS_PROMETHEUS\}'
     replace: 'prometheus'
+  when: absent_or_present=="present"
 
 - name: wait for the grafana to be ready
   ansible.builtin.uri:
@@ -95,3 +101,4 @@
     commit_message: Updated by ansible
     overwrite: true
     path: "{{dashboard_tmp_folder.path}}/synapse.json"
+  when: absent_or_present=="present"
