@@ -34,34 +34,30 @@
     name: ingress-octavia
     api_version: v1
     kind: Namespace
-    state: present
-
-- name: Install octavia-ingress-controller configmap
-  kubernetes.core.k8s:
-    template: "octavia-ingress-controller-config.yml"
-
-#- name: Install octavia-ingress-controller
+    state: absent
+#
+#- name: Install octavia-ingress-controller configmap
 #  kubernetes.core.k8s:
-#    template: "octavia-ingress-controller.yml"
-
-- name: Add octavia-ingress-controller helm repository
-  kubernetes.core.helm_repository:
-    name: slamdev
-    repo_url: "https://slamdev.github.io/helm-charts"
-
-- name: install octavia-ingress-controller helm chart
-  kubernetes.core.helm:
-    name: octavia-ingress-controller
-    chart_ref: slamdev/octavia-ingress-controller
-    chart_version: "{{ ovh.octavia.ingress_controller.helm_version }}"
-    release_namespace: ingress-octavia
-    create_namespace: true
-    update_repo_cache: yes
-    release_values:
-      debug: true
-      ingressConfigVolume:
-        configMap:
-          name: octavia-ingress-controller-config
-          items:
-            - key: config
-              path: octavia-ingress-controller-config.yaml
+#    template: "octavia-ingress-controller-config.yml"
+#
+#- name: Add octavia-ingress-controller helm repository
+#  kubernetes.core.helm_repository:
+#    name: slamdev
+#    repo_url: "https://slamdev.github.io/helm-charts"
+#
+#- name: install octavia-ingress-controller helm chart
+#  kubernetes.core.helm:
+#    name: octavia-ingress-controller
+#    chart_ref: slamdev/octavia-ingress-controller
+#    chart_version: "{{ ovh.octavia.ingress_controller.helm_version }}"
+#    release_namespace: ingress-octavia
+#    create_namespace: true
+#    update_repo_cache: yes
+#    release_values:
+#      debug: true
+#      ingressConfigVolume:
+#        configMap:
+#          name: octavia-ingress-controller-config
+#          items:
+#            - key: config
+#              path: octavia-ingress-controller-config.yaml

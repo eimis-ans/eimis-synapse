@@ -30,7 +30,10 @@
     template: "stunner-configuration.yml"
     state: "{{ stunner_absent_or_present }}"
 
-- name: Stunner ingress
-  kubernetes.core.k8s:
-    template: "stunner-ingress.yml"
-    state: "{{ stunner_absent_or_present }}"
+- name: Get Stunner gateway external IP for Matrix
+  shell: 'kubectl get service -n stunner udp-gateway -o jsonpath="{$.status.loadBalancer.ingress[0].ip}"'
+  register: stunner_gateway
+  until: stunner_gateway.stdout.find(".") != -1
+  retries: 30
+  delay: 5
+  when: stunner_absent_or_present=="present"

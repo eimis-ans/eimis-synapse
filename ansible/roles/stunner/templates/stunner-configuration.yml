@@ -39,19 +39,6 @@ spec:
       protocol: TURN-UDP
 
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: tcp-gateway
-  namespace: stunner
-spec:
-  gatewayClassName: stunner-gatewayclass
-  listeners:
-    - name: tcp-listener
-      port: 3478
-      protocol: TURN-TCP
-
----
 apiVersion: stunner.l7mp.io/v1
 kind: UDPRoute
 metadata:
@@ -60,24 +47,7 @@ metadata:
 spec:
   parentRefs:
     - name: udp-gateway
-    - name: tcp-gateway
   rules:
     - backendRefs:
         - name: stunner
           namespace: stunner
-
----
-# make sure the stunner service exists, otherwise the above route will be useless
-apiVersion: v1
-kind: Service
-metadata:
-  name: stunner
-  namespace: stunner
-spec:
-  selector:
-    app: stunner
-  ports:
-    - port: 3478
-      protocol: UDP
-      targetPort: 3478
-  type: ClusterIP
