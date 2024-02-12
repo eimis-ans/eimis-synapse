@@ -27,6 +27,30 @@ output "synapse_db_port" {
   sensitive = true
 }
 
+output "avnadmin_keycloak_db_password" {
+  description = "keycloak database admin password"
+  value       = ovh_cloud_project_database_postgresql_user.avnadmin_keycloak.password
+  sensitive   = true
+}
+
+output "keycloak_db_password" {
+  description = "keycloak database user password"
+  value       = ovh_cloud_project_database_postgresql_user.keycloak.password
+  sensitive   = true
+}
+
+output "keycloak_db_host" {
+  description = "the keycloak database url given by ovh"
+  value       = ovh_cloud_project_database.pg_keycloak_database.endpoints[0].domain
+  sensitive   = true
+}
+
+output "keycloak_db_port" {
+  description = "the port of the keycloak database"
+  value       = ovh_cloud_project_database.pg_keycloak_database.endpoints[0].port
+  sensitive   = true
+}
+
 output "synapse_databse_uri" {
   value = join("", [
     "postgres://", ovh_cloud_project_database_postgresql_user.synapse.name, ":",

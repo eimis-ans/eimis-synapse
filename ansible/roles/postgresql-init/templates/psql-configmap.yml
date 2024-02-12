@@ -8,3 +8,13 @@ data:
   initdb.sh: |
     #!/bin/bash
     psql  defaultdb --command="CREATE DATABASE {{ matrix.db_instance_name }} WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C' OWNER "{{ matrix.db_user }}";"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: psql-init-db
+  namespace: keycloak
+data:
+  initdb.sh: |
+    #!/bin/bash
+    psql  defaultdb --echo-queries --command="CREATE DATABASE keycloak WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C' OWNER keycloak;"
