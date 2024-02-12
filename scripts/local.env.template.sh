@@ -95,3 +95,6 @@ export MONITORING_PROMETHEUS_VOLUME_SIZE="<Prometheus database size in a k8s for
 # stunner
 STUNNER_ENABLED="<true or false>"
 STUNNER_SHARED_SECRET="<shared secret for stunner>"
+# keycloak
+export KEYCLOAK_CLIENT_ID="<client ID used by keycloak to identify synapse client>"
+export KEYCLOAK_CLIENT_SECRET="<secret used in conjunction with client ID to identify synapse client>"
