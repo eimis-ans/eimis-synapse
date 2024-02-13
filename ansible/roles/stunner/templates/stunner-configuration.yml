@@ -18,7 +18,6 @@ metadata:
   name: stunner-gatewayconfig
   namespace: stunner
 spec:
-  logLevel: "all:DEBUG,turn:INFO"
   realm: stunner.l7mp.io
   username: "stunner"
   authRef:
