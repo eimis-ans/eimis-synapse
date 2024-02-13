@@ -35,10 +35,17 @@
     template: "stunner-configuration.yml"
     state: "{{ stunner_absent_or_present }}"
 
-- name: Get Stunner gateway external IP for Matrix
-  shell: 'kubectl get service -n stunner udp-gateway -o jsonpath="{$.status.loadBalancer.ingress[0].ip}"'
-  register: stunner_gateway
-  until: stunner_gateway.stdout.find(".") != -1
-  retries: 30
+- name: Get Stunner gateway external IP
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    name: udp-gateway
+    namespace: stunner
+  register: udp_gateway_service
+  until: udp_gateway_service.resources[0].status.loadBalancer.ingress[0].ip is defined
+  retries: 48
   delay: 5
-  when: stunner_absent_or_present=="present"
+
+- name: register Stunner gateway external IP
+  set_fact:
+    stunner_gateway_ip: "{{ udp_gateway_service.resources[0].status.loadBalancer.ingress[0].ip | default('no_stunner')}}"
