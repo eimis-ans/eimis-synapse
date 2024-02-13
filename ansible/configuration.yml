@@ -10,6 +10,7 @@
     - external-dns
     - postgresql-init
     - teams-bridge
+    - stunner
     - synapse
     - first-admin
     - psc-button

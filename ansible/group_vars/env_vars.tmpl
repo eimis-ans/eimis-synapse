@@ -61,6 +61,10 @@ msteams:
   oauth:
     client_id: ${TEAMS_OAUTH_CLIENT_ID}
     client_secret: ${TEAMS_OAUTH_CLIENT_SECRET}
+stunner:
+  enabled: ${STUNNER_ENABLED}
+  chart_version: "v0.17.0"
+  shared_secret: ${STUNNER_SHARED_SECRET}
 monitoring:
   chart_version: "55.5.0"
   kube_prometheus_git_url: "https://github.com/prometheus-operator/kube-prometheus.git"

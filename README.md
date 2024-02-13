@@ -68,3 +68,4 @@ This will lead to the installation of the following components in the cluster :
 - components specific to our stack :
   - the synapse stack and its customization
   - the element-web stack
+  - the stunner stack used to facilitate audio/video on element
