@@ -70,9 +70,9 @@ extraConfig:
       - "#{{ matrix.welcome_room }}:{{ matrix.server_name }}"
 {% endif %}
 {% if stunner.enabled is defined %}
-  turn_uris: ["turn:{{ stunner_gateway.stdout }}:3478?transport=tcp","turn:{{ stunner_gateway.stdout }}:3478?transport=udp" ]
-  turn_username: "user-1"
-  turn_password: "pass-1"
+  turn_uris: ["turn:{{ stunner_gateway.stdout }}:3478?transport=udp" ]
+  turn_shared_secret: "{{ stunner.shared_secret }}"
+  turn_user_lifetime: 86400000
   turn_allow_guests: True
 {% endif %}
 {% if msteams.enabled %}

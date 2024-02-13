@@ -18,10 +18,12 @@ metadata:
   name: stunner-gatewayconfig
   namespace: stunner
 spec:
+  logLevel: "all:DEBUG,turn:INFO"
   realm: stunner.l7mp.io
-  authType: plaintext
-  userName: "user-1"
-  password: "pass-1"
+  username: "stunner"
+  authRef:
+    name: stunner-auth-secret
+    namespace: stunner
   loadBalancerServiceAnnotations:
     loadbalancer.ovhcloud.com/class: "octavia"
 

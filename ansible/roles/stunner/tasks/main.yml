@@ -25,6 +25,11 @@
     kind: Namespace
     state: "{{ stunner_absent_or_present }}"
 
+- name: Create secret for stunner
+  kubernetes.core.k8s:
+    template: "stunner-auth-secret.yml"
+    state: "{{ stunner_absent_or_present }}"
+
 - name: Configure stunner
   kubernetes.core.k8s:
     template: "stunner-configuration.yml"

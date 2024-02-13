@@ -71,7 +71,7 @@ msteams:
     client_secret: ${TEAMS_OAUTH_CLIENT_SECRET}
 stunner:
   enabled: ${STUNNER_ENABLED}
-  server_name: ${STUNNER_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
+  shared_secret: ${STUNNER_SHARED_SECRET}
 monitoring:
   chart_version: "55.5.0"
   kube_prometheus_git_url: "https://github.com/prometheus-operator/kube-prometheus.git"
