@@ -1,0 +1,28 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: KeycloakRealmImport
+metadata:
+  name: eimis-realm-kc
+  namespace: keycloak
+spec:
+  keycloakCRName: keycloak-eimis
+  realm:
+    id: eimis-realm
+    realm: eimis-realm
+    displayName: "Eimis Connect"
+    enabled: true
+    clients:
+      - clientId: "{{ keycloak.client_id }}"
+        name: "synapsecret"
+        description: "EIMIS Keycloak Client"
+        rootUrl: "https://{{ matrix.server_name }}"
+        adminUrl: "https://{{ matrix.server_name }}"
+        baseUrl: ""
+        enabled: true
+        clientAuthenticatorType: "client-secret"
+        secret: "{{ keycloak.client_secret }}"
+        redirectUris:
+          - "/_synapse/client/oidc/callback"
+        protocol: "openid-connect"
+        attributes:
+          login_theme: "keycloak"
+          post.logout.redirect.uris: "/_synapse/client/oidc/backchannel_logout"

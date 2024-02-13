@@ -96,6 +96,9 @@ env:
   # variables used by stun/turn server
   STUNNER_ENABLED: ${{ vars.STUNNER_ENABLED }}
   STUNNER_SHARED_SECRET: ${{ secrets.STUNNER_SHARED_SECRET }}
+  # variables used by matrix keycloak
+  KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
+  KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
 
 jobs:
   set_environment:

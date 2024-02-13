@@ -11,8 +11,19 @@ data:
     exclude_rooms_from_sync:
     - "{{ discovery_room_id }}"
 {% endif %}
-{% if prosante_connect.enabled  %}
     oidc_providers:
+      - idp_id: keycloak
+        idp_name: "EIMIS Connect"
+        issuer: "https://{{ keycloak.server_name }}/realms/eimis-realm"
+        client_id: "{{ keycloak.client_id }}"
+        client_secret: "{{ keycloak.client_secret }}"
+        scopes: ["openid", "profile"]
+        user_mapping_provider:
+          config:
+            localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
+            display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+        backchannel_logout_enabled: true # Optional
+{% if prosante_connect.enabled  %}
       - idp_id: psc
         idp_name: "Pro Santé Connect"
         idp_icon: "{{ mxc.stdout }}"

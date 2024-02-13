@@ -31,3 +31,9 @@
   retries: 30
   delay: 5
   when: absent_or_present=="present"
+
+- name: Import realm into Keycloak
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "keycloak-realm.yml"
+  when: absent_or_present=="present"
