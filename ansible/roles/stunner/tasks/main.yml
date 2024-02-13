@@ -12,6 +12,7 @@
   kubernetes.core.helm:
     name: stunner-gateway-operator
     chart_ref: stunner/stunner-gateway-operator
+    chart_version: "{{ stunner.chart_version }}"
     release_namespace: stunner-system
     create_namespace: true
     release_values:
