@@ -32,11 +32,12 @@
     state: "{{ stunner_absent_or_present }}"
 
 - name: Configure stunner
+  when: stunner_absent_or_present == "present"
   kubernetes.core.k8s:
     template: "stunner-configuration.yml"
-    state: "{{ stunner_absent_or_present }}"
 
 - name: Get Stunner gateway external IP
+  when: stunner_absent_or_present == "present"
   kubernetes.core.k8s_info:
     api_version: v1
     kind: Service
@@ -48,5 +49,6 @@
   delay: 5
 
 - name: register Stunner gateway external IP
+  when: stunner_absent_or_present == "present"
   set_fact:
     stunner_gateway_ip: "{{ udp_gateway_service.resources[0].status.loadBalancer.ingress[0].ip | default('no_stunner')}}"
