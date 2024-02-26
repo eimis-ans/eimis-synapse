@@ -24,7 +24,7 @@
 
 - name: Wait for the keycloak instance to be up and running
   ansible.builtin.uri:
-    url: "https://{{ keycloak.server_name }}/"
+    url: "https://{{ keycloak.server_name }}/health/started"
     method: GET
   register: keycloak_ping
   until: keycloak_ping.status==200
