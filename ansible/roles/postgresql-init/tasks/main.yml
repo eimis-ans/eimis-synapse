@@ -1,20 +1,25 @@
 ---
 #
-# Role used to initialise the postgresql database
+# Role used to initialise postgresql databases
 # It is done with ansible because it is not possible to create a postgresql database
 # on OVH with Terraform ovh provider while specifying a custom collate and c-type
 #
-- name: Postgres database secret for Synapse
+- name: Postgres database secrets
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
     template: "postgres-secret.yml"
 
-- name: create configmap with initdb.sh script
+- name: create configmaps for initdb.sh scripts
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
     template: "psql-configmap.yml"
 
-- name: Run the initdb.sh with a dedicated job
+- name: Run init script for synapse DB
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
     template: "psql-initdb-job.yml"
+
+- name: Run init script for keycloak DB
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "psql-init-keycloak-db-job.yml"

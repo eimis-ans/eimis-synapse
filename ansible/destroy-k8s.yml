@@ -9,6 +9,7 @@
     - element-web
     - stunner
     - synapse
+    - keycloak
     - teams-bridge
   tasks:
     - name: Wait for 60 seconds so that external-dns has correctly unregistered the different ingresses
@@ -36,6 +37,7 @@
         kind: Namespace
         name: "{{ item }}"
       loop:
+        - keycloak
         - element-web
         - monitoring
   ignore_errors: True

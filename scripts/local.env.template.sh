@@ -62,7 +62,8 @@ export SMTP_HOST="<configuration to send mail : host of the SMTP server>"
 export SMTP_PORT="<configuration to send mail : port of the SMTP server>"
 export SMTP_USER="<configuration to send mail : user to connect to the SMTP server>"
 export SMTP_PASS="<configuration to send mail : password of connect to the SMTP server>"
-export SMTP_NOTIFY_FROM="<mail from like : 'Display name<email@example.org>'>"
+export SMTP_FROM="<just the e-mail e.g. 'email@example.org'>"
+export SMTP_DISPLAY_NAME="<Only the display name like in : 'Display name<email@example.org>' (without <email@example.org> got it?)>"
 export SYNAPSE_DB_INSTANCE_NAME="<database name of the postgresql database linked to synapse>"
 export SYNAPSE_DB_USER="<username to access the postgresql database linked to synapse>"
 export FIRST_EIMIS_USERNAME="<username of the first eimis user created when bootstraping>"
@@ -95,3 +96,6 @@ export MONITORING_PROMETHEUS_VOLUME_SIZE="<Prometheus database size in a k8s for
 # stunner
 STUNNER_ENABLED="<true or false>"
 STUNNER_SHARED_SECRET="<shared secret for stunner>"
+# keycloak
+export KEYCLOAK_CLIENT_ID="<client ID used by keycloak to identify synapse client>"
+export KEYCLOAK_CLIENT_SECRET="<secret used in conjunction with client ID to identify synapse client>"
