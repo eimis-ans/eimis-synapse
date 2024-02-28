@@ -14,6 +14,7 @@ data:
     oidc_providers:
       - idp_id: keycloak
         idp_name: "EIMIS Connect"
+        idp_icon: "{{ mxc_eimis_connect.stdout }}"
         issuer: "https://{{ keycloak.server_name }}/realms/eimis-realm"
         client_id: "{{ keycloak.client_id }}"
         client_secret: "{{ keycloak.client_secret }}"
@@ -27,7 +28,7 @@ data:
 {% if prosante_connect.enabled  %}
       - idp_id: psc
         idp_name: "Pro Santé Connect"
-        idp_icon: "{{ mxc.stdout }}"
+        idp_icon: "{{ mxc_psc.stdout }}"
         discover: false
         issuer: "{{ prosante_connect.issuer }}"
         authorization_endpoint: "{{ prosante_connect.authorization_endpoint }}"
