@@ -15,7 +15,7 @@
     - stunner
     - synapse
     - first-admin
-    - psc-button
+    - auth-buttons
     - discovery-rooms
     - synapse-extra-config
     - element-web
