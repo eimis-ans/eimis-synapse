@@ -14,7 +14,7 @@ external_dns:
   version: "v0.14.0"
   registry_id: ${ENVIRONMENT}
 keycloak:
-  server_name: idp.${ENV_IN_URL}.${DNS_ZONE}
+  server_name: ${KEYCLOAK_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
   operator_version : 23.0.3
   db_user: "keycloak"
   db_password: ${KEYCLOAK_DB_PASSWORD}
