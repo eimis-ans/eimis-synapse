@@ -169,7 +169,7 @@ spec:
             priority: 10
             requirement: REQUIRED
             userSetupAllowed: false
-          - authenticator: demo-email-code-form
+          - authenticator: email-authenticator
             authenticatorFlow: false
             autheticatorFlow: false
             priority: 21
