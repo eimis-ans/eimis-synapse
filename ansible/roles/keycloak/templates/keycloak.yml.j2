@@ -7,11 +7,14 @@ metadata:
     app: keycloak-eimis
 spec:
   instances: 1
-  image: eimisans/eimis-keycloak:21.1.1
+  image: eimisans/eimis-keycloak:23.0.3-3
   hostname:
     hostname: "{{ keycloak.server_name }}"
     strict: false
     strictBackchannel: false
+  additionalOptions:
+    - name: log-level
+      value: "INFO"
   ingress:
     enabled: false
   db:

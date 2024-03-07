@@ -10,9 +10,13 @@
     template: "ingress.yml"
 
 - name: Wait for the keycloak secrets to be ready and retrieve the information of the created secret
-  shell: kubectl get secrets -n keycloak keycloak-tls-secret -o jsonpath="{$.data}"
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: keycloak-tls-secret
+    namespace: keycloak
   register: pod_info
-  until: pod_info.stdout.find("tls.crt") != -1
+  until: "pod_info.resources[0]  is search('tls.crt')"
   retries: 30
   delay: 5
   when: absent_or_present=="present"
@@ -21,16 +25,12 @@
   kubernetes.core.k8s:
     state: "{{ absent_or_present }}"
     template: "keycloak.yml.j2"
-
-- name: Wait for the keycloak instance to be up and running
-  ansible.builtin.uri:
-    url: "https://{{ keycloak.server_name }}/health/started"
-    method: GET
-  register: keycloak_ping
-  until: keycloak_ping.status==200
-  retries: 30
-  delay: 5
-  when: absent_or_present=="present"
+    wait: yes
+    wait_condition:
+      type: Ready
+      status: True
+    wait_sleep: 5
+    wait_timeout: 150
 
 - name: Import realm into Keycloak
   kubernetes.core.k8s:
