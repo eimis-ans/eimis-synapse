@@ -16,7 +16,7 @@
     name: keycloak-tls-secret
     namespace: keycloak
   register: pod_info
-  until: "pod_info.resources[0]  is search('tls.crt')"
+  until: "pod_info.resources[0] is defined and pod_info.resources[0]  is search('tls.crt')"
   retries: 30
   delay: 5
   when: absent_or_present=="present"
