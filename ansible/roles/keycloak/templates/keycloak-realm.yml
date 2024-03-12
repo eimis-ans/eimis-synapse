@@ -25,7 +25,8 @@ spec:
         protocol: "openid-connect"
         attributes:
           login_theme: "keycloak"
-          post.logout.redirect.uris: "/_synapse/client/oidc/backchannel_logout"
+          post.logout.redirect.uris: "https://{{ matrix.server_name }}*"
+          backchannel.logout.url: "https://{{ matrix.server_name }}/_synapse/client/oidc/backchannel_logout"
     smtpServer:
       auth: "true"
       envelopeFrom: ""
