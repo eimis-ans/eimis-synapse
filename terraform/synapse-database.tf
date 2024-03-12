@@ -10,7 +10,7 @@ locals {
 resource "ovh_cloud_project_database" "pg_database" {
   depends_on   = [openstack_networking_subnet_v2.subnet]
   service_name = var.service_name
-  description  = "PostGreSQL database for ${var.env_name}"
+  description  = "PostGreSQL Synapse database for ${var.env_name}"
   engine       = "postgresql"
   version      = var.database_version
   plan         = var.database_plan
@@ -52,4 +52,3 @@ resource "ovh_cloud_project_database_postgresql_user" "avnadmin" {
   name           = "avnadmin"
   password_reset = "password-reset-on-18-01-2022"
 }
-

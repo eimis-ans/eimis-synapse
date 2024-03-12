@@ -20,4 +20,4 @@ ansible-galaxy collection install -r "requirements.yml"
 
 # Run ansible playbook
 echo "--- playbook configuration ---"
-ansible-playbook configuration.yml
+ansible-playbook configuration.yml "$@"

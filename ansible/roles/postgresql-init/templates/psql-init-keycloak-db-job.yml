@@ -1,0 +1,39 @@
+# kics-scan ignore
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: psql-init-keycloak-db-job
+  namespace: keycloak
+spec:
+  template:
+    spec:
+      containers:
+        - name: psql
+          image: governmentpaas/psql:pr-287
+          command: ["sh", "-c"]
+          args:
+            - "sh /scripts/initdb.sh"
+          volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+          env:
+            - name: PGUSER
+              value: avnadmin
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-avnadmin-db-secret
+                  key: password
+            - name: PGHOST
+              value: "{{ keycloak.db_host }}"
+            - name: PGPORT
+              value: "{{ keycloak.db_port }}"
+      restartPolicy: Never
+      volumes:
+        - name: script-volume
+          configMap:
+            name: psql-init-db
+            items:
+              - key: initdb.sh
+                path: initdb.sh
+  backoffLimit: 2

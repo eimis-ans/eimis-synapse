@@ -60,7 +60,8 @@ env:
   SMTP_HOST: ${{ vars.SMTP_HOST }}
   SMTP_USER: ${{ vars.SMTP_USER }}
   SMTP_PASS: ${{ secrets.SMTP_PASS }}
-  SMTP_NOTIFY_FROM: ${{ vars.SMTP_NOTIFY_FROM }}
+  SMTP_FROM: ${{ vars.SMTP_FROM }}
+  SMTP_DISPLAY_NAME: ${{ vars.SMTP_DISPLAY_NAME }}
   FIRST_EIMIS_USERNAME: ${{ secrets.FIRST_EIMIS_USERNAME }}
   FIRST_EIMIS_PASSWORD: ${{ secrets.FIRST_EIMIS_PASSWORD }}
   DUMMY_USERNAME: ${{ secrets.DUMMY_USERNAME }}
@@ -71,6 +72,7 @@ env:
   SYNAPSE_WELCOME_ROOM: ${{ vars.SYNAPSE_WELCOME_ROOM }}
   # variables used to connect to Pro Santé Connect.
   # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
+  PROSANTE_CONNECT_ENABLED: ${{ vars.PROSANTE_CONNECT_ENABLED }}
   PROSANTE_CONNECT_ISSUER: ${{ vars.PROSANTE_CONNECT_ISSUER }}
   PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT: ${{ vars.PROSANTE_CONNECT_AUTHORIZATION_ENDPOINT }}
   PROSANTE_CONNECT_TOKEN_ENDPOINT: ${{ vars.PROSANTE_CONNECT_TOKEN_ENDPOINT }}
@@ -82,6 +84,13 @@ env:
   MONITORING_SUBDOMAIN_NAME: ${{ vars.MONITORING_SUBDOMAIN_NAME }}
   MONITORING_GRAFANA_PASSWORD: ${{ secrets.MONITORING_GRAFANA_PASSWORD }}
   MONITORING_PROMETHEUS_VOLUME_SIZE: ${{ vars.MONITORING_PROMETHEUS_VOLUME_SIZE }}
+  # variables used by stun/turn server
+  STUNNER_ENABLED: ${{ vars.STUNNER_ENABLED }}
+  STUNNER_SHARED_SECRET: ${{ secrets.STUNNER_SHARED_SECRET }}
+  # variables used by matrix keycloak
+  KEYCLOAK_SUBDOMAIN_NAME: ${{ vars.KEYCLOAK_SUBDOMAIN_NAME }}
+  KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
+  KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
 
 jobs:
   set_environment:
@@ -150,7 +159,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.*
+          terraform_version: 1.7.*
+
+      # Generates a terraform.tfvars file from the environment variables
+      - name: Generate tfvars file
+        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_provisioning_var_files.sh
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -160,12 +173,8 @@ jobs:
       - name: "Generates kubeconfig file and group_vars/all files from the environment variables"
         run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_configuration_var_files.sh
 
-      # Generates a terraform.tfvars file from the environment variables
-      - name: Generate tfvars file
-        run: export ENVIRONMENT="${{ needs.set_environment.outputs.my_env }}" && sh scripts/generate_provisioning_var_files.sh
-
       # Run ansible_destroy.sh script
-      - name: ansible_configuration script
+      - name: ansible destroy script
         run: sh scripts/ansible_destroy.sh
 
         # On push to "main", build or change infrastructure according to Terraform configuration files

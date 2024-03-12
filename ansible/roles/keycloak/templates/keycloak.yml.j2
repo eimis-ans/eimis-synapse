@@ -1,0 +1,33 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak-eimis
+  namespace: keycloak
+  labels:
+    app: keycloak-eimis
+spec:
+  instances: 1
+  image: eimisans/eimis-keycloak:23.0.3-3
+  hostname:
+    hostname: "{{ keycloak.server_name }}"
+    strict: false
+    strictBackchannel: false
+  additionalOptions:
+    - name: log-level
+      value: "INFO"
+  ingress:
+    enabled: false
+  db:
+    vendor: postgres
+    host: {{ keycloak.db_host }}
+    port: {{ keycloak.db_port }}
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+    database: keycloak
+  http:
+    tlsSecret: keycloak-tls-secret
+    httpEnabled: true

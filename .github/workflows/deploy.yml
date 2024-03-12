@@ -65,7 +65,8 @@ env:
   SMTP_HOST: ${{ vars.SMTP_HOST }}
   SMTP_USER: ${{ vars.SMTP_USER }}
   SMTP_PASS: ${{ secrets.SMTP_PASS }}
-  SMTP_NOTIFY_FROM: ${{ vars.SMTP_NOTIFY_FROM }}
+  SMTP_FROM: ${{ vars.SMTP_FROM }}
+  SMTP_DISPLAY_NAME: ${{ vars.SMTP_DISPLAY_NAME }}
   FIRST_EIMIS_USERNAME: ${{ secrets.FIRST_EIMIS_USERNAME }}
   FIRST_EIMIS_PASSWORD: ${{ secrets.FIRST_EIMIS_PASSWORD }}
   DUMMY_USERNAME: ${{ secrets.DUMMY_USERNAME }}
@@ -93,6 +94,13 @@ env:
   MONITORING_SUBDOMAIN_NAME: ${{ vars.MONITORING_SUBDOMAIN_NAME }}
   MONITORING_GRAFANA_PASSWORD: ${{ secrets.MONITORING_GRAFANA_PASSWORD }}
   MONITORING_PROMETHEUS_VOLUME_SIZE: ${{ vars.MONITORING_PROMETHEUS_VOLUME_SIZE }}
+  # variables used by stun/turn server
+  STUNNER_ENABLED: ${{ vars.STUNNER_ENABLED }}
+  STUNNER_SHARED_SECRET: ${{ secrets.STUNNER_SHARED_SECRET }}
+  # variables used by matrix keycloak
+  KEYCLOAK_SUBDOMAIN_NAME: ${{ vars.KEYCLOAK_SUBDOMAIN_NAME }}
+  KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
+  KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
 
 jobs:
   set_environment:
@@ -161,7 +169,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.*
+          terraform_version: 1.7.*
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -211,7 +219,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: false
-          terraform_version: 1.6.*
+          terraform_version: 1.7.*
 
       - name: Terraform Init
         run: cd terraform && terraform init -backend-config="bucket=terraform-states-hp-${{ needs.set_environment.outputs.my_env }}"

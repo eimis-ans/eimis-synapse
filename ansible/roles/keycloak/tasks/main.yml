@@ -1,0 +1,39 @@
+---
+- name: Keycloak db password
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "keycloak-db-secret.yml"
+
+- name: Keycloak specific ingress
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "ingress.yml"
+
+- name: Wait for the keycloak secrets to be ready and retrieve the information of the created secret
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Secret
+    name: keycloak-tls-secret
+    namespace: keycloak
+  register: pod_info
+  until: "pod_info.resources[0] is defined and pod_info.resources[0]  is search('tls.crt')"
+  retries: 30
+  delay: 5
+  when: absent_or_present=="present"
+
+- name: Keycloak instance
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "keycloak.yml.j2"
+    wait: yes
+    wait_condition:
+      type: Ready
+      status: True
+    wait_sleep: 5
+    wait_timeout: 150
+
+- name: Import realm into Keycloak
+  kubernetes.core.k8s:
+    state: "{{ absent_or_present }}"
+    template: "keycloak-realm.yml"
+  when: absent_or_present=="present"

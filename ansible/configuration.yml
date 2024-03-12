@@ -8,11 +8,14 @@
     - ingress-controller
     - cert-manager
     - external-dns
+    - keycloak-operator
     - postgresql-init
+    - keycloak
     - teams-bridge
+    - stunner
     - synapse
     - first-admin
-    - psc-button
+    - auth-buttons
     - discovery-rooms
     - synapse-extra-config
     - element-web

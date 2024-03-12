@@ -66,5 +66,12 @@ This will lead to the installation of the following components in the cluster :
   - a certificate manager
   - a component that manage dns zone on OVH
 - components specific to our stack :
+  - a keycloak instance along with it's operator
   - the synapse stack and its customization
   - the element-web stack
+  - the stunner stack used to facilitate audio/video on element
+  - a prometheus/grafana stack for monitoring
+
+## Other credits
+
+- [Technology icons created by juicy_fish - Flaticon](https://www.flaticon.com/free-icons/technology)

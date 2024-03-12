@@ -69,6 +69,12 @@ extraConfig:
 {% if matrix.welcome_room is defined %}
       - "#{{ matrix.welcome_room }}:{{ matrix.server_name }}"
 {% endif %}
+{% if stunner.enabled %}
+  turn_uris: ["turn:{{ stunner_gateway_ip }}:3478?transport=udp" ]
+  turn_shared_secret: "{{ stunner.shared_secret }}"
+  turn_user_lifetime: 86400000
+  turn_allow_guests: True
+{% endif %}
 {% if msteams.enabled %}
   app_service_config_files:
     - /synapse/config/appservices/msteams-registration.yaml
