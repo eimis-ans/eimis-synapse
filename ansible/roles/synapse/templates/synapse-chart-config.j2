@@ -1,3 +1,6 @@
+image:
+  repository: eimisans/synapse
+  tag: {{ matrix.image_version }}
 synapse:
   strategy:
     type: Recreate
@@ -17,17 +20,12 @@ synapse:
         - key: "msteams-registration.yaml"
           path: "msteams-registration.yaml"
 {% endif %}
-  extraVolumeMounts:
-    - name: s3-media-repo-module
-      mountPath: /usr/local/lib/python3.11/site-packages/s3_media_repo_module
 {% if msteams.enabled %}
     - name: msteams-registration
       mountPath: /synapse/config/appservices
 {% endif %}
   extraCommands:
     - "cp /etc/matrix-synapse/conf.d/* /synapse/config/conf.d/"
-    - "pip install boto3" # for s3_storage_provider module
-    - "cp /usr/local/lib/python3.11/site-packages/s3_media_repo_module/s3_storage_provider.py /usr/local/lib/python3.11/site-packages/s3_storage_provider.py"
 serverName: "{{ matrix.server_name }}"
 config:
   enableRegistration: "{{ matrix.auto_registration }}"
