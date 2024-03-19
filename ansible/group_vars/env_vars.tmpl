@@ -15,7 +15,7 @@ external_dns:
   registry_id: ${ENVIRONMENT}
 keycloak:
   server_name: ${KEYCLOAK_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
-  operator_version : 23.0.3
+  operator_version: 23.0.3
   db_user: "keycloak"
   db_password: ${KEYCLOAK_DB_PASSWORD}
   db_avnadmin_password: ${KEYCLOAK_DB_AVNADMIN_PASSWORD}
@@ -36,8 +36,6 @@ matrix:
   chart_version: "3.7.14"
   server_name: ${SERVER_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
   smtp_host: ${SMTP_HOST}
-# FIXME smtp_port set with ansible variable is consider as string and not int
-#  smtp_port: ${SMTP_PORT}
   smtp_user: ${SMTP_USER}
   smtp_pass: ${SMTP_PASS}
   smtp_from: ${SMTP_FROM}

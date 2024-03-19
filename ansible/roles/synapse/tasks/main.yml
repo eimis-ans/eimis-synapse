@@ -13,7 +13,7 @@
     state: directory
     suffix: temp
   register: module_tmp_folder
-  
+
 - name: Is there a new s3 media repo module version?
   shell: |
     current_version=$(kubectl get configmap s3-media-repo-module -o "jsonpath={.data['module_version']}")
@@ -61,7 +61,7 @@
   when: new_psc_mapping_provider_version.stdout == "yes"
 
 - name: Create config map for psc mapping provider
-  shell: "kubectl create configmap psc-mapping-provider-module --from-file '{{ module_tmp_folder.path }}/psc-mapping-provider.py' --from-literal module_version={{ matrix.s3_media_repo.module_version }}"
+  shell: "kubectl create configmap psc-mapping-provider-module --from-file '{{ module_tmp_folder.path }}/psc-mapping-provider.py' --from-literal module_version={{ matrix.psc_mapping_provider.module_version }}"
   when: new_psc_mapping_provider_version.stdout == "yes"
 
 - name: matrix-synapse helm chart
