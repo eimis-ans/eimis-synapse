@@ -9,6 +9,14 @@ synapse:
     - name: s3-media-repo-module
       configMap:
         name: s3-media-repo-module
+{% if prosante_connect.enabled %}
+    - name: psc-mapping-provider-module
+      configMap:
+        name: psc-mapping-provider-module
+        items:
+        - key: "psc-mapping-provider.py"
+          path: "psc-mapping-provider.py"
+{% endif %}
 {% if msteams.enabled %}
     - name: msteams-registration
       configMap:
@@ -20,6 +28,11 @@ synapse:
   extraVolumeMounts:
     - name: s3-media-repo-module
       mountPath: /usr/local/lib/python3.11/site-packages/s3_media_repo_module
+{% if prosante_connect.enabled %}
+    - name: psc-mapping-provider-module
+      mountPath: /usr/local/lib/python3.11/site-packages/synapse/psc-mapping-provider.py
+      subPath: psc-mapping-provider.py
+{% endif %}
 {% if msteams.enabled %}
     - name: msteams-registration
       mountPath: /synapse/config/appservices
