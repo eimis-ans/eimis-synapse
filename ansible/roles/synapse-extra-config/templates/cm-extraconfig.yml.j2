@@ -39,6 +39,7 @@ data:
         client_secret: "{{ prosante_connect.client_secret }}"
         scopes: ["openid", "scope_all"]
         user_mapping_provider:
+          module: synapse.psc_mapping_provider.ProsanteConnectMappingProvider
           config:
             localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
             display_name_template: "{% raw %}{{ user.given_name }} {{ user.family_name }}{% endraw %}"
