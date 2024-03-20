@@ -11,6 +11,10 @@ data:
     exclude_rooms_from_sync:
     - "{{ discovery_room_id }}"
 {% endif %}
+    sso:
+      client_whitelist:
+        - https://{{ element.server_name }}/
+        - element://connect
     oidc_providers:
       - idp_id: keycloak
         idp_name: "EIMIS Connect"
@@ -38,6 +42,7 @@ data:
         client_id: "{{ prosante_connect.client_id }}"
         client_secret: "{{ prosante_connect.client_secret }}"
         scopes: ["openid", "scope_all"]
+        user_profile_method: userinfo_endpoint
         user_mapping_provider:
           module: synapse.psc-mapping-provider.ProsanteConnectMappingProvider
           config:
