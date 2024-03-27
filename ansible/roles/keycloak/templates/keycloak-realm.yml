@@ -10,6 +10,11 @@ spec:
     realm: eimis-realm
     displayName: "Eimis Connect"
     enabled: true
+    internationalizationEnabled: true
+    supportedLocales:
+      - "en"
+      - "fr"
+    defaultLocale: "fr"
     clients:
       - clientId: "{{ keycloak.client_id }}"
         name: "synapsecret"

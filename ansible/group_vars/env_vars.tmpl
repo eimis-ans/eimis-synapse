@@ -15,6 +15,7 @@ external_dns:
   registry_id: ${ENVIRONMENT}
 keycloak:
   server_name: ${KEYCLOAK_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
+  image_tag: ${KEYCLOAK_IMAGE_TAG}
   operator_version : 23.0.3
   db_user: "keycloak"
   db_password: ${KEYCLOAK_DB_PASSWORD}
@@ -34,7 +35,7 @@ prosante_connect:
   client_secret: ${PROSANTE_CONNECT_CLIENT_SECRET}
 matrix:
   chart_version: "3.7.14"
-  image_version: "1.98.0-1"
+  image_tag: ${SYNAPSE_IMAGE_TAG}
   server_name: ${SERVER_SUBDOMAIN_NAME}.${ENV_IN_URL}.${DNS_ZONE}
   smtp_host: ${SMTP_HOST}
 # FIXME smtp_port set with ansible variable is consider as string and not int
@@ -55,6 +56,7 @@ matrix:
   dummy_username: ${DUMMY_USERNAME}
   dummy_password: ${DUMMY_PASSWORD}
   auto_registration: ${SYNAPSE_AUTO_REGISTRATION}
+  password_config: ${SYNAPSE_ENABLE_PASSWORD_LOGIN}
   media_upload_max_size_mb: ${SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB}
   welcome_room: ${SYNAPSE_WELCOME_ROOM}
   servers_list: ${FEDERATION_SERVERS_LIST}

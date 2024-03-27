@@ -1,6 +1,6 @@
 image:
   repository: eimisans/synapse
-  tag: {{ matrix.image_version }}
+  tag: {{ matrix.image_tag }}
 synapse:
   strategy:
     type: Recreate
@@ -53,6 +53,8 @@ wellknown:
 extraConfig:
   allow_public_rooms_over_federation: true
   enable_registration_without_verification: false
+  password_config:
+    enabled: {{ matrix.password_config }}
   max_upload_size: {{ matrix.media_upload_max_size_mb }}M
   registrations_require_3pid:
     - email

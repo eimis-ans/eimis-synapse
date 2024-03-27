@@ -7,7 +7,7 @@ metadata:
     app: keycloak-eimis
 spec:
   instances: 1
-  image: eimisans/eimis-keycloak:23.0.3-3
+  image: eimisans/eimis-keycloak:{{ keycloak.image_tag }}
   hostname:
     hostname: "{{ keycloak.server_name }}"
     strict: false
