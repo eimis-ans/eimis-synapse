@@ -72,8 +72,10 @@ export DUMMY_USERNAME="<dummy user used with the discovery room mecanism>"
 export DUMMY_PASSWORD="<password for the dummy user>"
 export FEDERATION_SERVERS_LIST="<list of comma separated URI of synapse servers included in federation. Ex : ['preprod.eimis.incubateur.net','matrix.pandalab.fr']>"
 export SYNAPSE_AUTO_REGISTRATION="<if set to true, users can auto register. If set to false, they can only be registered by admin>"
+export SYNAPSE_ENABLE_PASSWORD_LOGIN="<`true`: users can login with password.`false`, they can only login with SSO>"
 export SYNAPSE_MEDIA_UPLOAD_MAX_SIZE_MB="<max size of media in MB>"
 export SYNAPSE_WELCOME_ROOM="<alias of a room that will be joined by default by every user. ex: 'welcome-room'. Optional>"
+export SYNAPSE_IMAGE_TAG="<docker image tag>"
 # variables used to connect to Pro Santé Connect.
 # see : https://industriels.esante.gouv.fr/produits-et-services/pro-sante-connect/documentation-technique
 export PROSANTE_CONNECT_ENABLED="<true to login with PSC>"
@@ -94,8 +96,10 @@ export MONITORING_SUBDOMAIN_NAME="<the grafana serverName will be : SERVER_SUBDO
 export MONITORING_GRAFANA_PASSWORD="<password for the grafana admin user>"
 export MONITORING_PROMETHEUS_VOLUME_SIZE="<Prometheus database size in a k8s format e.g. 10Gi>"
 # stunner
-STUNNER_ENABLED="<true or false>"
-STUNNER_SHARED_SECRET="<shared secret for stunner>"
+export STUNNER_ENABLED="<true or false>"
+export STUNNER_SHARED_SECRET="<shared secret for stunner>"
 # keycloak
+export KEYCLOAK_IMAGE_TAG="<docker image tag>"
+export KEYCLOAK_SUBDOMAIN_NAME="<keycloak url : KEYCLOAK_SUBDOMAIN_NAME.ENV_IN_URL.DNS_ZONE>"
 export KEYCLOAK_CLIENT_ID="<client ID used by keycloak to identify synapse client>"
 export KEYCLOAK_CLIENT_SECRET="<secret used in conjunction with client ID to identify synapse client>"
