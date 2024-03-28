@@ -1,6 +1,7 @@
 image:
   repository: eimisans/synapse
   tag: {{ matrix.image_tag }}
+  pullPolicy: IfNotPresent
 synapse:
   strategy:
     type: Recreate
